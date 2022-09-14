@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeableImageView.Round" parent="">
+        <item name="cornerSize">@dimen/corner_radius</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="TextView_H2" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/merriweather_bold</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="TextView_H1" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/merriweather_black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>
