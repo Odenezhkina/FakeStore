@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.databinding.ActivityMainBinding
 import com.example.fakestore.epoxy.ProductEpoxyController
+import com.example.fakestore.model.ui.UiProduct
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -30,8 +32,12 @@ class MainActivity : AppCompatActivity() {
         // setting an empty state for shimmer ??
         epoxyController.setData(emptyList())
 
-        viewModel.store.stateFlow.map {
-            it.products
+
+        combine(viewModel.store.stateFlow.map { it.products },
+            viewModel.store.stateFlow.map { it.favorites }) { listProducts, listFavorites ->
+            listProducts.map { product ->
+                UiProduct(product = product, isInFavorites = listFavorites.contains(product.id))
+            }
         }.distinctUntilChanged().asLiveData().observe(this@MainActivity) { products ->
             epoxyController.setData(products)
         }

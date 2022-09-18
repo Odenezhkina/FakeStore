@@ -1,17 +1,16 @@
 package com.example.fakestore.epoxy
 
-import android.util.Log
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
-import com.example.fakestore.model.domain.Product
+import com.example.fakestore.model.ui.UiProduct
 import java.text.NumberFormat
 import java.util.*
 
 data class ProductEpoxyModel(
-    val product: Product?,
+    val product: UiProduct?,
 //    val onFavoriteIconClicked: (Int) -> Unit,
 //    val onUiProductClicked: (Int) -> Unit,
 //    val onAddToCartClicked: (Int) -> Unit
@@ -27,12 +26,14 @@ data class ProductEpoxyModel(
         shimmerLayout.isVisible = product == null
         cardview.isInvisible = product == null
 
-        product?.let {
+        product?.run {
             shimmerLayout.stopShimmer()
 
             tvHeadline.text = product.title
             tvDescription.text = product.description
             tvPrice.text = currencyFormatter.format(product.price)
+
+            btnToFavorites.setIconResource(if (isInFavorites) R.drawable.ic_round_favorite_24 else R.drawable.ic_round_favorite_border_24)
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
