@@ -34,14 +34,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val epoxyController = ProductEpoxyController(resources)
+        // setting an empty state for shimmer
+        epoxyController.setData(emptyList())
 
         lifecycleScope.launchWhenStarted {
             val response = service.getAllProducts()
-            val domainProductList = response.body()?.let { listNetworkProducts ->
-                listNetworkProducts.map {
-                    productMapper.buildFrom(networkProduct = it)
-                }
-            }
+            val domainProductList = response.body()?.map {
+                productMapper.buildFrom(networkProduct = it)
+            } ?: emptyList()
             epoxyController.setData(domainProductList)
         }
 

@@ -1,11 +1,14 @@
 package com.example.fakestore.epoxy
 
+import android.util.Log
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.model.domain.Product
 import java.text.NumberFormat
+import java.util.*
 
 data class ProductEpoxyModel(
     val product: Product?,
@@ -14,10 +17,18 @@ data class ProductEpoxyModel(
 //    val onAddToCartClicked: (Int) -> Unit
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
 
-    private val currencyFormatter = NumberFormat.getCurrencyInstance()
+    private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
+        currency = Currency.getInstance("USD")
+    }
 
     override fun ProductItemBinding.bind() {
-        product?.let{
+        // product not null
+
+        shimmerLayout.isVisible = product == null
+        cardview.isInvisible = product == null
+
+        product?.let {
+            shimmerLayout.stopShimmer()
 
             tvHeadline.text = product.title
             tvDescription.text = product.description
@@ -29,8 +40,7 @@ data class ProductEpoxyModel(
                     pbLoadingImage.isVisible = false
                 }
             }
-
-        }
+        } ?: shimmerLayout.startShimmer()
     }
 
 }
