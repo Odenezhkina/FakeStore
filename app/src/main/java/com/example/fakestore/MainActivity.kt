@@ -1,32 +1,25 @@
 package com.example.fakestore
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Transformations.map
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fakestore.databinding.ActivityMainBinding
 import com.example.fakestore.epoxy.ProductEpoxyController
-import com.example.fakestore.model.domain.Product
-import com.example.fakestore.model.mapper.ProductMapper
-import com.example.fakestore.network.NetworkService
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import javax.inject.Inject
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding:ActivityMainBinding
-    @Inject
-    lateinit var service: NetworkService
-    @Inject
-    lateinit var productMapper: ProductMapper
+    private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,24 +27,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val epoxyController = ProductEpoxyController(resources)
-        // setting an empty state for shimmer
+        // setting an empty state for shimmer ??
         epoxyController.setData(emptyList())
 
-        lifecycleScope.launchWhenStarted {
-            val response = service.getAllProducts()
-            val domainProductList = response.body()?.map {
-                productMapper.buildFrom(networkProduct = it)
-            } ?: emptyList()
-            epoxyController.setData(domainProductList)
+        viewModel.store.stateFlow.map {
+            it.products
+        }.distinctUntilChanged().asLiveData().observe(this@MainActivity) { products ->
+            epoxyController.setData(products)
         }
+        viewModel.refreshProducts()
 
-        with(binding){
-            val itemDecorator = DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL)
+        with(binding) {
+            val itemDecorator =
+                DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL)
             rvProducts.addItemDecoration(itemDecorator)
             rvProducts.setController(epoxyController)
         }
-
-
 
 
         // ui click listener
@@ -59,4 +50,6 @@ class MainActivity : AppCompatActivity() {
         // btnAddToCart -> change icon(done) + change text(added) + change color
         // cardView -> open new fragment
     }
-}
+    }
+
+
