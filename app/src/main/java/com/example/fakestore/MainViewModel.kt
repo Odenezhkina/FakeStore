@@ -22,4 +22,23 @@ class MainViewModel
         }
     }
 
+    fun updateFavoriteSet(changedId: Int) {
+        viewModelScope.launch {
+            store.update { applicationState ->
+                // if contains -> remove
+                // it not -> add
+                var newSet: MutableSet<Int>
+                applicationState.favorites.run {
+                    newSet = this.toMutableSet()
+                    if (contains(changedId)) {
+                        newSet.remove(changedId)
+                    } else {
+                        newSet.add(changedId)
+                    }
+                }
+                applicationState.copy(favorites = newSet)
+            }
+        }
+    }
+
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.databinding.ActivityMainBinding
-import com.example.fakestore.epoxy.ProductEpoxyController
+import com.example.fakestore.epoxy.UiProductEpoxyController
 import com.example.fakestore.model.ui.UiProduct
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val epoxyController = ProductEpoxyController(resources)
+        val epoxyController = UiProductEpoxyController(resources, viewModel)
         // setting an empty state for shimmer ??
         epoxyController.setData(emptyList())
 
@@ -56,6 +56,6 @@ class MainActivity : AppCompatActivity() {
         // btnAddToCart -> change icon(done) + change text(added) + change color
         // cardView -> open new fragment
     }
-    }
+}
 
 

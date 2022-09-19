@@ -9,9 +9,9 @@ import com.example.fakestore.model.ui.UiProduct
 import java.text.NumberFormat
 import java.util.*
 
-data class ProductEpoxyModel(
+data class UiProductEpoxyModel(
     val product: UiProduct?,
-//    val onFavoriteIconClicked: (Int) -> Unit,
+    val onFavoriteIconClicked: (Int) -> Unit
 //    val onUiProductClicked: (Int) -> Unit,
 //    val onAddToCartClicked: (Int) -> Unit
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
@@ -33,7 +33,12 @@ data class ProductEpoxyModel(
             tvDescription.text = product.description
             tvPrice.text = currencyFormatter.format(product.price)
 
-            btnToFavorites.setIconResource(if (isInFavorites) R.drawable.ic_round_favorite_24 else R.drawable.ic_round_favorite_border_24)
+            btnToFavorites.setIconResource(checkFavorite(isInFavorites))
+            btnToFavorites.setOnClickListener {
+                onFavoriteIconClicked(product.id)
+            }
+
+
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
@@ -44,4 +49,11 @@ data class ProductEpoxyModel(
         } ?: shimmerLayout.startShimmer()
     }
 
+    private fun checkFavorite(isInFavorites: Boolean): Int {
+        return if (isInFavorites) {
+            R.drawable.ic_round_favorite_24
+        } else {
+            R.drawable.ic_round_favorite_border_24
+        }
+    }
 }
