@@ -2,6 +2,10 @@ package com.example.fakestore
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import com.example.fakestore.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -28,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
+        
         val epoxyController = UiProductEpoxyController(resources, viewModel)
         // setting an empty state for shimmer ??
         epoxyController.setData(emptyList())
