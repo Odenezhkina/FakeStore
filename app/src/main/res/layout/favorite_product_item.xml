@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/default_margin_10"
-    android:layout_marginEnd="@dimen/default_margin_10"
-    android:layout_marginBottom="7dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/corner_radius"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp">
 
@@ -25,8 +22,8 @@
                 android:id="@+id/iv_image"
                 style="@style/ShapeableImageView.Round"
                 android:layout_width="110dp"
-                android:layout_height="120dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="140dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,18 +41,18 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_to_favorites"
                 style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                android:layout_width="36dp"
-                app:iconTint="@color/dark_blue"
-                android:layout_height="36dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:insetLeft="0dp"
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
-                android:insetLeft="0dp"
-                app:iconPadding="0dp"
                 android:padding="0dp"
+                app:icon="@drawable/ic_round_favorite_24"
                 app:iconGravity="textStart"
-                app:icon="@drawable/ic_round_favorite_border_24"
-                app:iconSize="28dp"
+                app:iconPadding="0dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/orange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,51 +61,38 @@
                 style="@style/TextView_H2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:layout_marginEnd="10dp"
-                android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
-                app:layout_constraintEnd_toStartOf="@id/btn_to_favorites"
-                app:layout_constraintStart_toEndOf="@id/iv_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_category" />
-
-            <TextView
-                android:id="@+id/tv_category"
-                style="@style/TextView_H3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="Men's clothes"
-                android:textColor="@color/dark_blue"
-                app:layout_constraintEnd_toEndOf="@id/tv_headline"
-                app:layout_constraintStart_toStartOf="@id/tv_headline"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_image" />
 
             <TextView
                 android:id="@+id/tv_price"
-                style="@style/TextView_H1"
+                style="@style/TextView_H2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:maxLines="1"
-                android:gravity="end"
                 android:text="$1566.99"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/btn_to_favorites"
-                app:layout_constraintStart_toEndOf="@+id/iv_image" />
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:insetTop="10dp"
+                android:insetBottom="10dp"
+                android:text="to cart"
+                android:textSize="9sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </com.facebook.shimmer.ShimmerFrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

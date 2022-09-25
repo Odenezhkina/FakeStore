@@ -1,17 +1,14 @@
-package com.example.fakestore.fragments
+package com.example.fakestore.menu_fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import com.example.fakestore.MainActivity
 import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
@@ -50,7 +47,8 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val mainViewModel: MainViewModel by viewModels()
-        val epoxyController = UiProductEpoxyController(resources, mainViewModel)
+        ///////// nav controller /???
+        val epoxyController = UiProductEpoxyController(resources, mainViewModel, findNavController())
         // setting an empty state for shimmer ??
         epoxyController.setData(emptyList())
 
@@ -74,9 +72,9 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
 //        }
 
         with(binding) {
-            val itemDecorator =
-                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-            rvProducts.addItemDecoration(itemDecorator)
+//            val itemDecorator =
+//                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+//            rvProducts.addItemDecoration(itemDecorator)
             rvProducts.setController(epoxyController)
         }
     }

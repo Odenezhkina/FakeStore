@@ -6,12 +6,14 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.uicontrollers.UiController
 import java.text.NumberFormat
 import java.util.*
 
 data class UiProductEpoxyModel(
     val product: UiProduct?,
-    val onFavoriteIconClicked: (Int) -> Unit
+    val onFavoriteIconClicked: (Int) -> Unit,
+    val onCardClickListener: (Int) -> Unit
 //    val onUiProductClicked: (Int) -> Unit,
 //    val onAddToCartClicked: (Int) -> Unit
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
@@ -30,15 +32,9 @@ data class UiProductEpoxyModel(
             shimmerLayout.stopShimmer()
 
             tvHeadline.text = product.title
-            tvDescription.text = product.description
+            tvCategory.text = product.category
             tvPrice.text = currencyFormatter.format(product.price)
-
-            btnToFavorites.setIconResource(checkFavorite(isInFavorites))
-            btnToFavorites.setOnClickListener {
-                onFavoriteIconClicked(product.id)
-            }
-
-
+            btnToFavorites.setIconResource(UiController.resIdFavorite(isInFavorites))
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
@@ -46,14 +42,23 @@ data class UiProductEpoxyModel(
                     pbLoadingImage.isVisible = false
                 }
             }
+
+            // listeners
+            btnToFavorites.setOnClickListener {
+                onFavoriteIconClicked(product.id)
+            }
+            cardview.setOnClickListener{
+                onCardClickListener(product.id)
+            }
+
         } ?: shimmerLayout.startShimmer()
     }
 
-    private fun checkFavorite(isInFavorites: Boolean): Int {
-        return if (isInFavorites) {
-            R.drawable.ic_round_favorite_24
-        } else {
-            R.drawable.ic_round_favorite_border_24
-        }
-    }
+//    private fun checkFavorite(isInFavorites: Boolean): Int {
+//        return if (isInFavorites) {
+//            R.drawable.ic_round_favorite_24
+//        } else {
+//            R.drawable.ic_round_favorite_border_24
+//        }
+//    }
 }
