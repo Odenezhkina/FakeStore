@@ -18,4 +18,5 @@
     <string name="count_of_reviews">%1$d reviews</string>
 
     <string name="nav_label_details" />
+    <string name="btn_add_to_cart">Buy</string>
 </resources>

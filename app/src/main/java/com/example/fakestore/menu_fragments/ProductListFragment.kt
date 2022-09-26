@@ -1,6 +1,7 @@
 package com.example.fakestore.menu_fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
-import com.example.fakestore.MainActivity
 import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
@@ -47,9 +47,10 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val mainViewModel: MainViewModel by viewModels()
-        ///////// nav controller /???
-        val epoxyController = UiProductEpoxyController(resources, mainViewModel, findNavController())
-        // setting an empty state for shimmer ??
+        val epoxyController =
+            UiProductEpoxyController(resources, mainViewModel, findNavController())
+
+        // setting an empty state for shimmer ?? todo fix shimmer
         epoxyController.setData(emptyList())
 
         combine(mainViewModel.store.stateFlow.map { it.products },
@@ -61,20 +62,8 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
             epoxyController.setData(products)
         }
         mainViewModel.refreshProducts()
-//        lifecycleScope.launchWhenStarted {
-//            val response = service.getAllProducts()
-//            val domainProductList = response.body()?.let { listNetworkProducts ->
-//                listNetworkProducts.map {
-//                    productMapper.buildFrom(networkProduct = it)
-//                }
-//            }
-//            epoxyController.setData(domainProductList)
-//        }
 
         with(binding) {
-//            val itemDecorator =
-//                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-//            rvProducts.addItemDecoration(itemDecorator)
             rvProducts.setController(epoxyController)
         }
     }

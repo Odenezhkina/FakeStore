@@ -7,8 +7,9 @@
         <entry key="app/src/main/res/drawable/scrollable_bg.xml" value="0.182" />
         <entry key="app/src/main/res/drawable/white_rounded_rectangle.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.12213684082031251" />
+        <entry key="app/src/main/res/layout/cart_product_item.xml" value="0.5410345979439195" />
         <entry key="app/src/main/res/layout/details_content_scrolling.xml" value="0.34881591796875" />
-        <entry key="app/src/main/res/layout/favorite_product_item.xml" value="0.48864898681640634" />
+        <entry key="app/src/main/res/layout/favorite_product_item.xml" value="0.5238128662109376" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.15787353515625002" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_product_details.xml" value="0.19560546875000004" />

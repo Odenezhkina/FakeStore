@@ -53,12 +53,4 @@ data class UiProductEpoxyModel(
 
         } ?: shimmerLayout.startShimmer()
     }
-
-//    private fun checkFavorite(isInFavorites: Boolean): Int {
-//        return if (isInFavorites) {
-//            R.drawable.ic_round_favorite_24
-//        } else {
-//            R.drawable.ic_round_favorite_border_24
-//        }
-//    }
 }

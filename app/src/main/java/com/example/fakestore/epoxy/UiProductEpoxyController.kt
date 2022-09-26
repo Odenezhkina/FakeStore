@@ -41,7 +41,7 @@ class UiProductEpoxyController(
         // change icon(solid favorite) + change color
         // save changed state
 //        viewModel.updateFavoriteSet(productId)
-        UiController().onFavoriteClick(viewModel, productId)
+        UiController.onFavoriteClick(viewModel, productId)
     }
 
     //should we use nav controller

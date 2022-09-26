@@ -21,7 +21,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_image"
                 style="@style/ShapeableImageView.Round"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
+                android:src="@drawable/test_image"
                 android:layout_height="140dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,20 +78,27 @@
                 android:layout_marginTop="2dp"
                 android:maxLines="1"
                 android:text="$1566.99"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
+                app:layout_constraintStart_toEndOf="@id/btn_to_cart"
+                app:layout_constraintTop_toTopOf="@id/btn_to_cart"
+                app:layout_constraintBottom_toBottomOf="@id/btn_to_cart"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_to_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:insetLeft="15dp"
                 android:insetTop="10dp"
+                android:insetRight="15dp"
                 android:insetBottom="10dp"
-                android:text="to cart"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/btn_add_to_cart"
                 android:textSize="9sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_price"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_price" />
+                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

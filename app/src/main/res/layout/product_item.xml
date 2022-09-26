@@ -43,17 +43,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_to_favorites"
-                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                style="@style/MaterialButton.ElevatedButton.Icon.Round"
                 android:layout_width="36dp"
                 app:iconTint="@color/dark_blue"
                 android:layout_height="36dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                android:insetLeft="0dp"
-                app:iconPadding="0dp"
-                android:padding="0dp"
-                app:iconGravity="textStart"
                 app:icon="@drawable/ic_round_favorite_border_24"
                 app:iconSize="28dp"
                 app:layout_constraintEnd_toEndOf="parent"

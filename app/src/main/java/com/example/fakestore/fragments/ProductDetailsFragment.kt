@@ -1,6 +1,7 @@
 package com.example.fakestore.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.map
 class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
+
     private val viewModel: MainViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,11 +36,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             if (productId != -1) {
                 observeUiProduct(productId)
             }
-//                val product:Product = viewModel.store.stateFlow.value.products
-//                    .filter { product ->
-//                        Log.d("TAGTAG", "product id ${product.id}")
-//                        product.id == productId
-//                    }.first()
         }
     }
 
@@ -74,6 +71,8 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
         }
+        //
+        viewModel.refreshProducts()
     }
 
 
@@ -94,10 +93,11 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
 
-            // todo fix repeating
+            // todo fix btn click listener
             btnToFavorites.setIconResource(UiController.resIdFavorite(uiproduct.isInFavorites))
             btnToFavorites.setOnClickListener {
-                UiController().onFavoriteClick(viewModel, id)
+                viewModel.updateFavoriteSet(id)
+//                UiController.onFavoriteClick(viewModel, id)
             }
         }
         uiproduct.product.run {

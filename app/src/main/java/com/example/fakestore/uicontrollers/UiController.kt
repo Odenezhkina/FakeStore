@@ -13,12 +13,15 @@ companion object{
                 R.drawable.ic_round_favorite_border_24
             }
         }
-}
 
-    // move to companion
-    fun onFavoriteClick(viewModel: MainViewModel, productId: Int){
-        // change icon(solid favorite) + change color
-        // save changed state
-        viewModel.updateFavoriteSet(productId)
+        fun onFavoriteClick(viewModel: MainViewModel, productId: Int) {
+            // change icon(solid favorite) + change color
+            // save changed state
+            viewModel.updateFavoriteSet(productId)
+        }
+    }
+
+    private fun function(){
+
     }
 }

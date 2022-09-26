@@ -2,6 +2,7 @@ package com.example.fakestore
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
@@ -39,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         // todo fix toolbar color
-        val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.white))
-        actionBar?.setBackgroundDrawable(colorDrawable)
+        val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.beige))
+        supportActionBar?.setBackgroundDrawable(colorDrawable)
 
 
         setupActionBarWithNavController(navController, appBarConfiguration)
