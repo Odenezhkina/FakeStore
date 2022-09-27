@@ -1,9 +1,10 @@
-package com.example.fakestore.uicontrollers
+package com.example.fakestore.uimanager
 
+import android.util.Log
 import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 
-class UiController {
+class UiManager {
     // object because all fun is static
 companion object{
         fun resIdFavorite(isInFavorites: Boolean): Int {
@@ -12,12 +13,6 @@ companion object{
             } else {
                 R.drawable.ic_round_favorite_border_24
             }
-        }
-
-        fun onFavoriteClick(viewModel: MainViewModel, productId: Int) {
-            // change icon(solid favorite) + change color
-            // save changed state
-            viewModel.updateFavoriteSet(productId)
         }
     }
 

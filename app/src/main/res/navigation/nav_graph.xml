@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.fakestore.menu_fragments.ProfileFragment"
-        android:label="@string/nav_label_favorite"
+        android:label="@string/nav_label_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/cartFragment"
@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.fakestore.menu_fragments.FavoriteFragment"
-        android:label="@string/nav_label_profile"
+        android:label="@string/nav_label_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/productDetailsFragment"

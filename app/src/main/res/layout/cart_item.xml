@@ -17,7 +17,6 @@
             style="@style/ShapeableImageView.Round"
             android:layout_width="100dp"
             android:layout_height="110dp"
-            android:src="@drawable/test_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +39,6 @@
             android:layout_height="30dp"
             app:icon="@drawable/ic_round_favorite_border_24"
             app:iconSize="24dp"
-            app:iconTint="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,7 +73,6 @@
             android:layout_height="30dp"
             app:icon="@drawable/ic_outline_delete_24"
             app:iconSize="24dp"
-            app:iconTint="@color/red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -84,7 +81,7 @@
             style="@style/MaterialButton.ElevatedButton.Icon.Round"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:backgroundTint="@color/beige"
+            android:backgroundTint="@color/light_grey"
             app:icon="@drawable/ic_round_remove_24"
             app:iconSize="24dp"
             app:iconTint="@color/black"
@@ -108,7 +105,7 @@
             style="@style/MaterialButton.ElevatedButton.Icon.Round"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:backgroundTint="@color/beige"
+            android:backgroundTint="@color/light_grey"
             app:icon="@drawable/ic_round_add_24"
             app:iconSize="24dp"
             app:iconTint="@color/black"

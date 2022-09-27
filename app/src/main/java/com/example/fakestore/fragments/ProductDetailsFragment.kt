@@ -1,7 +1,6 @@
 package com.example.fakestore.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uicontrollers.UiController
+import com.example.fakestore.uimanager.UiManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -71,7 +70,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
         }
-        //
         viewModel.refreshProducts()
     }
 
@@ -82,26 +80,22 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 tvHeadline.text =  title
                 tvCategory.text =  category
                 tvDescription.text =  description
+                ratingBar.rating = rating.rate
                 tvReviews.text =
                     getString(R.string.count_of_reviews, rating.count)
 
                 pbLoadingImage.isVisible = true
-                ivExpanded.load(data =  image) {
+                ivExpanded.load(data = image) {
                     listener { _, _ ->
                         pbLoadingImage.isVisible = false
                     }
                 }
             }
 
-            // todo fix btn click listener
-            btnToFavorites.setIconResource(UiController.resIdFavorite(uiproduct.isInFavorites))
+            btnToFavorites.setIconResource(UiManager.resIdFavorite(uiproduct.isInFavorites))
             btnToFavorites.setOnClickListener {
-                viewModel.updateFavoriteSet(id)
-//                UiController.onFavoriteClick(viewModel, id)
+                viewModel.updateFavoriteSet(uiproduct.product.id)
             }
-        }
-        uiproduct.product.run {
-
         }
     }
 }

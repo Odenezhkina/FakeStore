@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/default_margin_10"
-    android:layout_marginEnd="@dimen/default_margin_10"
     android:layout_marginBottom="7dp">
 
     <com.google.android.material.card.MaterialCardView
@@ -45,10 +43,9 @@
                 android:id="@+id/btn_to_favorites"
                 style="@style/MaterialButton.ElevatedButton.Icon.Round"
                 android:layout_width="36dp"
-                app:iconTint="@color/dark_blue"
                 android:layout_height="36dp"
                 app:icon="@drawable/ic_round_favorite_border_24"
-                app:iconSize="28dp"
+                app:iconSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="3"
+                android:textSize="16sp"
                 android:layout_marginEnd="10dp"
                 android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
                 app:layout_constraintEnd_toStartOf="@id/btn_to_favorites"
@@ -74,8 +72,8 @@
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:textColor="@color/dark_grey"
                 android:text="Men's clothes"
-                android:textColor="@color/dark_blue"
                 app:layout_constraintEnd_toEndOf="@id/tv_headline"
                 app:layout_constraintStart_toStartOf="@id/tv_headline"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -89,10 +87,22 @@
                 android:maxLines="1"
                 android:gravity="end"
                 android:text="$1566.99"
+                app:layout_constraintTop_toTopOf="@id/btn_to_cart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/btn_to_favorites"
-                app:layout_constraintStart_toEndOf="@+id/iv_image" />
+                app:layout_constraintEnd_toEndOf="@id/tv_headline"
+                app:layout_constraintStart_toStartOf="@id/tv_headline"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_to_cart"
+                style="@style/MaterialButton.ElevatedButton.Icon.Round"
+                android:layout_width="36dp"
+                android:backgroundTint="@color/dark_blue"
+                app:iconTint="@color/white"
+                android:layout_height="36dp"
+                app:icon="@drawable/ic_baseline_add_shopping_cart_24"
+                app:iconSize="20dp"
+                app:layout_constraintEnd_toEndOf="@id/btn_to_favorites"
+                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

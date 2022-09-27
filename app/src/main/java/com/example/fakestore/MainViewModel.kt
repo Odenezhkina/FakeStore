@@ -1,5 +1,6 @@
 package com.example.fakestore
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakestore.model.domain.Product
@@ -36,6 +37,7 @@ class MainViewModel
                         newSet.add(changedId)
                     }
                 }
+               newSet.forEach {  Log.d("TAGTAG", "elem: $it") }
                 applicationState.copy(favorites = newSet)
             }
         }

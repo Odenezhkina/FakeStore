@@ -7,8 +7,8 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.MainActivity
 import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
+import com.example.fakestore.epoxy.model.UiProductEpoxyModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uicontrollers.UiController
 
 class UiProductEpoxyController(
     val res: Resources,
@@ -41,7 +41,7 @@ class UiProductEpoxyController(
         // change icon(solid favorite) + change color
         // save changed state
 //        viewModel.updateFavoriteSet(productId)
-        UiController.onFavoriteClick(viewModel, productId)
+        viewModel.updateFavoriteSet(productId)
     }
 
     //should we use nav controller

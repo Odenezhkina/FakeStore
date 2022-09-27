@@ -1,12 +1,13 @@
-package com.example.fakestore.epoxy
+package com.example.fakestore.epoxy.model
 
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
+import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uicontrollers.UiController
+import com.example.fakestore.uimanager.UiManager
 import java.text.NumberFormat
 import java.util.*
 
@@ -34,7 +35,7 @@ data class UiProductEpoxyModel(
             tvHeadline.text = product.title
             tvCategory.text = product.category
             tvPrice.text = currencyFormatter.format(product.price)
-            btnToFavorites.setIconResource(UiController.resIdFavorite(isInFavorites))
+            btnToFavorites.setIconResource(UiManager.resIdFavorite(isInFavorites))
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {

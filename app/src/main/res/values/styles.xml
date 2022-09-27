@@ -12,7 +12,7 @@
 
     <style name="TextView_H3" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/merriweather_bold</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextView_H1" parent="Widget.AppCompat.TextView">

@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="7dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="20dp"
+            android:paddingBottom="0dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_image"
                 style="@style/ShapeableImageView.Round"
-                android:layout_width="120dp"
-                android:src="@drawable/test_image"
-                android:layout_height="140dp"
+                android:layout_width="140dp"
+                android:layout_height="150dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -41,19 +43,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_to_favorites"
-                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                style="@style/MaterialButton.ElevatedButton.Icon.Round"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                android:padding="0dp"
                 app:icon="@drawable/ic_round_favorite_24"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconSize="24dp"
-                app:iconTint="@color/orange"
+                app:iconSize="20dp"
+                app:iconTint="@color/dark_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,7 +58,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="3"
+                android:maxLines="2"
+                android:layout_marginTop="5dp"
+                android:minLines="2"
                 android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,29 +72,38 @@
                 style="@style/TextView_H2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="7dp"
                 android:maxLines="1"
                 android:text="$1566.99"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_to_cart"
-                app:layout_constraintTop_toTopOf="@id/btn_to_cart"
-                app:layout_constraintBottom_toBottomOf="@id/btn_to_cart"/>
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar"
+                app:layout_constraintEnd_toStartOf="@id/btn_to_cart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_to_cart"
+                style="@style/MaterialButton.ElevatedButton.Icon.Round"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                app:icon="@drawable/ic_baseline_add_shopping_cart_24"
+                app:iconSize="20dp"
+                app:iconTint="@color/orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_price"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_price" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_marginTop="3dp"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:insetLeft="15dp"
-                android:insetTop="10dp"
-                android:insetRight="15dp"
-                android:insetBottom="10dp"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="@string/btn_add_to_cart"
-                android:textSize="9sp"
-                app:layout_constraintEnd_toStartOf="@id/tv_price"
-                app:layout_constraintStart_toStartOf="parent"
+                android:saveEnabled="false"
+                android:rating="4.5"
+                android:theme="@style/OrangeRatingBar"
+                app:layout_constraintStart_toStartOf="@id/tv_headline"
                 app:layout_constraintTop_toBottomOf="@id/tv_headline" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
