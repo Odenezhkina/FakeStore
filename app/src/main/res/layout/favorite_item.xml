@@ -7,9 +7,10 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,14 +18,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="20dp"
+            android:paddingBottom="0dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_image"
                 style="@style/ShapeableImageView.Round"
-                android:layout_width="110dp"
-                android:layout_height="120dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="140dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,10 +44,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_to_favorites"
                 style="@style/MaterialButton.ElevatedButton.Icon.Round"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:icon="@drawable/ic_round_favorite_border_24"
-                app:iconSize="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:icon="@drawable/ic_round_favorite_24"
+                app:iconSize="20dp"
+                app:iconTint="@color/dark_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,64 +57,56 @@
                 style="@style/TextView_H2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
                 android:ellipsize="end"
-                android:maxLines="3"
-                android:textSize="16sp"
-                android:layout_marginEnd="10dp"
+                android:maxLines="2"
+                android:layout_marginTop="5dp"
+                android:minLines="2"
                 android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
-                app:layout_constraintEnd_toStartOf="@id/btn_to_favorites"
-                app:layout_constraintStart_toEndOf="@id/iv_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_category" />
-
-            <TextView
-                android:id="@+id/tv_category"
-                style="@style/TextView_H3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:textColor="@color/dark_grey"
-                android:text="Men's clothes"
-                app:layout_constraintEnd_toEndOf="@id/tv_headline"
-                app:layout_constraintStart_toStartOf="@id/tv_headline"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_image" />
 
             <TextView
                 android:id="@+id/tv_price"
-                style="@style/TextView_H1"
+                style="@style/TextView_H2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
                 android:maxLines="1"
-                android:gravity="end"
                 android:text="$1566.99"
-                app:layout_constraintTop_toTopOf="@id/btn_to_cart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/tv_headline"
-                app:layout_constraintStart_toStartOf="@id/tv_headline"/>
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar"
+                app:layout_constraintEnd_toStartOf="@id/btn_to_cart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_to_cart"
                 style="@style/MaterialButton.ElevatedButton.Icon.Round"
-                android:layout_width="36dp"
-                android:backgroundTint="@color/dark_blue"
-                app:iconTint="@color/white"
-                android:layout_height="36dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
                 app:icon="@drawable/ic_baseline_add_shopping_cart_24"
                 app:iconSize="20dp"
-                app:layout_constraintEnd_toEndOf="@id/btn_to_favorites"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:iconTint="@color/orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_price"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_price" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_marginTop="3dp"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false"
+                android:rating="4.5"
+                android:theme="@style/OrangeRatingBar"
+                app:layout_constraintStart_toStartOf="@id/tv_headline"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </com.facebook.shimmer.ShimmerFrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

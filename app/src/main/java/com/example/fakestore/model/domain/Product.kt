@@ -1,5 +1,6 @@
 package com.example.fakestore.model.domain
 
+import com.example.fakestore.model.network.NetworkRating
 import java.math.BigDecimal
 
 
@@ -9,7 +10,7 @@ data class Product(
     val id: Int,
     val image: String,
     val price: BigDecimal,
-    val rating: Double,
+    val rating: NetworkRating,
     val title: String
 )
 

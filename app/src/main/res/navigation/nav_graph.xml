@@ -7,7 +7,31 @@
 
     <fragment
         android:id="@+id/productListFragment"
-        android:name="com.example.fakestore.fragments.ProductListFragment"
-        android:label="ProductListFragment"
-        tools:layout="@layout/fragment_product_list"/>
+        android:name="com.example.fakestore.menu_fragments.ProductListFragment"
+        android:label="@string/nav_label_home"
+        tools:layout="@layout/fragment_product_list">
+        <action
+            android:id="@+id/action_productListFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.fakestore.menu_fragments.ProfileFragment"
+        android:label="@string/nav_label_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.fakestore.menu_fragments.CartFragment"
+        android:label="@string/nav_label_cart"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.fakestore.menu_fragments.FavoriteFragment"
+        android:label="@string/nav_label_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.fakestore.fragments.ProductDetailsFragment"
+        android:label="@string/nav_label_details"
+        tools:layout="@layout/fragment_product_details" />
 </navigation>

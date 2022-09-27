@@ -6,5 +6,20 @@
         android:icon="@drawable/ic_round_home_24"
         android:title="@string/menu_home"/>
 
+    <item android:id="@+id/favoriteFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_round_favorite_24"
+        android:title="@string/menu_favorite"/>
+
+    <item android:id="@+id/cartFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_round_shopping_cart_24"
+        android:title="@string/menu_cart"/>
+
+    <item android:id="@+id/profileFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_round_person_24"
+        android:title="@string/menu_profile"/>
+
 
 </menu>
