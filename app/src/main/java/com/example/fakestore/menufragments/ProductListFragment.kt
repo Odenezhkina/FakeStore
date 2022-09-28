@@ -1,7 +1,6 @@
-package com.example.fakestore.menu_fragments
+package com.example.fakestore.menufragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
-import com.example.fakestore.epoxy.UiProductEpoxyController
+import com.example.fakestore.epoxy.UiProductListFragmentController
 import com.example.fakestore.model.mapper.ProductMapper
+import com.example.fakestore.model.ui.ProductListFragmentUiState
+import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.network.NetworkService
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,19 +49,49 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
 
         val mainViewModel: MainViewModel by viewModels()
         val epoxyController =
-            UiProductEpoxyController(resources, mainViewModel, findNavController())
+            UiProductListFragmentController(resources, mainViewModel, findNavController())
 
-        // setting an empty state for shimmer ?? todo fix shimmer
-        epoxyController.setData(emptyList())
+        // todo fix shimmer
 
         combine(mainViewModel.store.stateFlow.map { it.products },
-            mainViewModel.store.stateFlow.map { it.favorites }) { listProducts, listFavorites ->
-            listProducts.map { product ->
+            mainViewModel.store.stateFlow.map { it.favoriteProductsIds },
+            mainViewModel.store.stateFlow.map { it.productFilterInfo })
+        { listProducts, listFavorites, productFilterInfo ->
+
+            var products = listProducts.map { product ->
                 UiProduct(product = product, isInFavorites = listFavorites.contains(product.id))
             }
-        }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
-            epoxyController.setData(products)
-        }
+
+            val filters: Set<UiFilter> = productFilterInfo.filters.map { filter ->
+                // on default isSelected is false
+                return@map when {
+                    productFilterInfo.selectedFilter == null -> {
+                        UiFilter(filter = filter) // on default isSelected is false
+                    }
+                    productFilterInfo.selectedFilter.title != filter.title -> {
+                        UiFilter(filter = filter)
+                    }
+                    else -> {
+                        UiFilter(filter = filter, isSelected = true)
+                    }
+                }
+            }.toSet()
+
+            // todo fix filtration
+            val selectedFilter: UiFilter? = filters.find { it.isSelected }
+            selectedFilter?.let {
+                products = products.filter {
+                    it.product.category == selectedFilter.filter.title
+                }.toList()
+            }
+            // if there is selectedFilter -> filter data
+            // else -> do not filter
+
+            ProductListFragmentUiState(products = products, filters = filters)
+        }.distinctUntilChanged().asLiveData()
+            .observe(viewLifecycleOwner) { productListFragmentUiState ->
+                epoxyController.setData(productListFragmentUiState)
+            }
         mainViewModel.refreshProducts()
 
         with(binding) {

@@ -1,4 +1,4 @@
-package com.example.fakestore.menu_fragments
+package com.example.fakestore.menufragments
 
 import androidx.fragment.app.Fragment
 import com.example.fakestore.R

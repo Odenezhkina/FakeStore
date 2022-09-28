@@ -12,9 +12,10 @@
         <entry key="app/src/main/res/layout/details_content_scrolling.xml" value="0.34881591796875" />
         <entry key="app/src/main/res/layout/favorite_item.xml" value="0.4000177458515317" />
         <entry key="app/src/main/res/layout/favorite_product_item.xml" value="0.5238128662109376" />
+        <entry key="app/src/main/res/layout/filter.xml" value="0.5476699829101562" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.15787353515625002" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.24950103759765627" />
-        <entry key="app/src/main/res/layout/fragment_product_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_product_details.xml" value="0.2141693115234375" />
         <entry key="app/src/main/res/layout/fragment_product_list.xml" value="0.26419213973799127" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.22776489257812502" />
         <entry key="app/src/main/res/layout/product_item.xml" value="0.5004318237304688" />

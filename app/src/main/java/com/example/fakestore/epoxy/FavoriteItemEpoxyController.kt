@@ -1,11 +1,13 @@
 package com.example.fakestore.epoxy
 
 import com.airbnb.epoxy.TypedEpoxyController
+import com.example.fakestore.MainViewModel
 import com.example.fakestore.epoxy.model.FavoriteItemEpoxyModel
 import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.uimanager.ProductListUiManager
 
 
-class FavoriteItemEpoxyController : TypedEpoxyController<List<UiProduct>>() {
+class FavoriteItemEpoxyController(private val viewModel: MainViewModel) : TypedEpoxyController<List<UiProduct>>() {
 
     // todo maybe it is better to create another model FavProduct and use it instead of UiProduct
 
@@ -15,9 +17,12 @@ class FavoriteItemEpoxyController : TypedEpoxyController<List<UiProduct>>() {
         }
         data.forEach {
             FavoriteItemEpoxyModel(
-                it
-            ).id(it.product.id).addTo(this)
+                it, ::inFavoriteIconListener).id(it.product.id).addTo(this)
         }
+    }
+
+    private fun inFavoriteIconListener(favItemId: Int){
+        ProductListUiManager.onFavoriteIconListener(favItemId, viewModel)
     }
 
 }
