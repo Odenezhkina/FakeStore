@@ -1,4 +1,4 @@
-package com.example.fakestore.menu_fragments
+package com.example.fakestore.menufragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
 import com.example.fakestore.epoxy.FavoriteItemEpoxyController
-import com.example.fakestore.epoxy.UiProductEpoxyController
 import com.example.fakestore.model.ui.UiProduct
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
@@ -33,23 +31,21 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         val mainViewModel: MainViewModel by viewModels()
 
         val epoxyController =
-            FavoriteItemEpoxyController()
+            FavoriteItemEpoxyController(mainViewModel)
 
         // todo reaping combine here, in ProductListFragment and DetailProductFragment
 
         // maybe it is better to filter first and later combine them
         combine(mainViewModel.store.stateFlow.map { it.products },
-            mainViewModel.store.stateFlow.map { it.favorites }) { listProducts, listFavorites ->
+            mainViewModel.store.stateFlow.map { it.favoriteProductsIds }) { listProducts, listFavorites ->
             listProducts.map { product ->
                 UiProduct(product = product, isInFavorites = listFavorites.contains(product.id))
-            }.filter { it.isInFavorites  }
+            }.filter { it.isInFavorites }
         }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
             epoxyController.setData(products)
-            if(products.isNotEmpty()){
-                with(binding){
-                    tvGoToCatalog.isVisible = false
-                    tvNoProductTitle.isVisible = false
-                }
+            with(binding){
+                tvGoToCatalog.isVisible = products.isEmpty()
+                tvNoProductTitle.isVisible = products.isEmpty()
             }
         }
         mainViewModel.refreshProducts()

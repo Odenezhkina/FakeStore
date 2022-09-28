@@ -14,7 +14,7 @@ import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.UiManager
+import com.example.fakestore.uimanager.ProductListUiManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -31,7 +31,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val productId: Int = it.getInt(MainActivity.KEY_PRODUCT_ID, -1)
+            val productId: Int = it.getInt(ProductListUiManager.KEY_PRODUCT_ID, -1)
             if (productId != -1) {
                 observeUiProduct(productId)
             }
@@ -56,7 +56,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private fun observeUiProduct(productId: Int) {
         // todo fix repeating (combining here and in product list)
         combine(viewModel.store.stateFlow.map { it.products },
-            viewModel.store.stateFlow.map { it.favorites }) { listProducts, listFavorites ->
+            viewModel.store.stateFlow.map { it.favoriteProductsIds }) { listProducts, listFavorites ->
             listProducts.map { product ->
                 UiProduct(
                     product = product,
@@ -79,7 +79,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             uiproduct.product.run {
                 tvHeadline.text =  title
                 tvCategory.text =  category
-                tvDescription.text =  description
+                tvDescription.text =  "$description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description"
                 ratingBar.rating = rating.rate
                 tvReviews.text =
                     getString(R.string.count_of_reviews, rating.count)
@@ -92,7 +92,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
 
-            btnToFavorites.setIconResource(UiManager.resIdFavorite(uiproduct.isInFavorites))
+            btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(uiproduct.isInFavorites))
             btnToFavorites.setOnClickListener {
                 viewModel.updateFavoriteSet(uiproduct.product.id)
             }
