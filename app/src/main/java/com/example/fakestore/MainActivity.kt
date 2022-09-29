@@ -27,10 +27,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    companion object{
-        const val KEY_PRODUCT_ID = "product-id"
-    }
 }
 
 

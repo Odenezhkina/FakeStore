@@ -6,13 +6,17 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.FavoriteItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.UiManager
+import com.example.fakestore.uimanager.ProductListUiManager
 import java.text.NumberFormat
 import java.util.*
 
-class FavoriteItemEpoxyModel(private val favProduct: UiProduct) :
+class FavoriteItemEpoxyModel(
+    private val favProduct: UiProduct,
+    private val onFavoriteIconListener: (Int) -> Unit
+) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
     // todo fix repeating currencyFormatter in models
+
     private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
         currency = Currency.getInstance("USD")
     }
@@ -27,10 +31,11 @@ class FavoriteItemEpoxyModel(private val favProduct: UiProduct) :
             }
             tvPrice.text = currencyFormatter.format(price)
             ratingBar.rating = rating.rate
+            tvCategory.text = category
         }
-        btnToFavorites.setIconResource(UiManager.resIdFavorite(favProduct.isInFavorites))
+        btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(favProduct.isInFavorites))
         btnToFavorites.setOnClickListener {
-            //onFavoriteIconClicked(product.id)
+            onFavoriteIconListener(favProduct.product.id)
         }
         cardview.setOnClickListener{
             //onCardClickListener(product.id)

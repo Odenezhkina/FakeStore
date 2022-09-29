@@ -57,7 +57,7 @@
                 android:layout_marginStart="15dp"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginEnd="10dp"
                 android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
                 app:layout_constraintEnd_toStartOf="@id/btn_to_favorites"

@@ -1,6 +1,6 @@
 package com.example.fakestore.epoxy.model
 
-import android.util.Log
+
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FilterBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
@@ -16,6 +16,12 @@ class UiFilterEpoxyModel(
     override fun FilterBinding.bind() {
         uiFilter.run {
             tvTitle.text = filter.displayedTitle
+            cardview.cardBackgroundColor
+            cardview.setCardBackgroundColor(ProductListUiManager.getFilterBackgroundColorId(isSelected))
+            cardview.setOnClickListener {
+                onFilterClickListener(filter)
+            }
+
             cardview.setOnClickListener {
                 onFilterClickListener(filter)
             }

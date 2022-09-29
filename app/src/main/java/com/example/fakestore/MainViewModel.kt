@@ -3,6 +3,7 @@ package com.example.fakestore
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.domain.Product
 import com.example.fakestore.redux.ApplicationState
 import com.example.fakestore.redux.Store
@@ -19,7 +20,15 @@ class MainViewModel
     fun refreshProducts() = viewModelScope.launch {
         val products: List<Product> = productRepository.fetchAllProducts()
         store.update { applicationState ->
-            return@update applicationState.copy(products = products)
+            return@update applicationState.copy(
+                products = products,
+                productFilterInfo = ApplicationState.ProductFilterInfo(
+                    filters = products.map { product ->
+                        Filter(title = product.category, displayedTitle = product.category)
+                    }.toSet()
+                    //, selectedFilter = null
+                )
+            )
         }
     }
 
@@ -29,7 +38,7 @@ class MainViewModel
                 // if contains -> remove
                 // it not -> add
                 var newSet: MutableSet<Int>
-                applicationState.favorites.run {
+                applicationState.favoriteProductsIds.run {
                     newSet = this.toMutableSet()
                     if (contains(changedId)) {
                         newSet.remove(changedId)
@@ -37,8 +46,26 @@ class MainViewModel
                         newSet.add(changedId)
                     }
                 }
-               newSet.forEach {  Log.d("TAGTAG", "elem: $it") }
-                applicationState.copy(favorites = newSet)
+                applicationState.copy(favoriteProductsIds = newSet)
+            }
+        }
+    }
+
+    fun updateSelectedFilter(filter: Filter) {
+        viewModelScope.launch {
+            store.update { applicationState ->
+                var newFilter: Filter? = filter
+                if (applicationState.productFilterInfo.selectedFilter == filter) {
+                    // if it already selected -> remove
+                    newFilter = null
+                }
+                // if selected filter is already chosen or null -> replace
+                applicationState.copy(
+                    productFilterInfo = ApplicationState.ProductFilterInfo(
+                        filters = applicationState.productFilterInfo.filters,
+                        selectedFilter = newFilter
+                    )
+                )
             }
         }
     }

@@ -12,12 +12,12 @@
 
     <style name="TextView_H3" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/merriweather_bold</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="TextView_H1" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/merriweather_black</item>
-        <item name="android:textSize">23sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="OrangeRatingBar" parent="Theme.AppCompat">

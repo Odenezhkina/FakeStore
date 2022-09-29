@@ -1,24 +1,24 @@
 package com.example.fakestore.epoxy
 
 import android.content.res.Resources
-import android.os.Bundle
 import androidx.navigation.NavController
+import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
-import com.example.fakestore.MainActivity
 import com.example.fakestore.MainViewModel
-import com.example.fakestore.R
+import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
-import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.model.domain.Filter
+import com.example.fakestore.model.ui.ProductListFragmentUiState
+import com.example.fakestore.uimanager.ProductListUiManager
 
-class UiProductEpoxyController(
+class UiProductListFragmentController(
     val res: Resources,
     private val viewModel: MainViewModel,
     private val navController: NavController
-) : TypedEpoxyController<List<UiProduct>>() {
+) : TypedEpoxyController<ProductListFragmentUiState>() {
 
-    override fun buildModels(data: List<UiProduct>?) {
-        // if data is null or empty send empty
-        if (data.isNullOrEmpty()) {
+    override fun buildModels(data: ProductListFragmentUiState?) {
+        if (data == null) {
             repeat(7) {
                 val epoxyId = it + 1
                 // should or not pass if product is null
@@ -28,7 +28,17 @@ class UiProductEpoxyController(
             }
             return
         }
-        data.forEach {
+
+        // setting filters in carousel
+        val uiFilterModels = data.filters.map { uifilter ->
+            UiFilterEpoxyModel(
+                uiFilter = uifilter,
+                onFilterClickListener = ::onFilterClickListener
+            ).id(uifilter.filter.title)
+        }
+        CarouselModel_().models(uiFilterModels).id("").addTo(this)
+
+        data.products.forEach {
             UiProductEpoxyModel(
                 it,
                 ::onFavoriteBtnChangeListener,
@@ -40,14 +50,14 @@ class UiProductEpoxyController(
     private fun onFavoriteBtnChangeListener(productId: Int) {
         // change icon(solid favorite) + change color
         // save changed state
-//        viewModel.updateFavoriteSet(productId)
-        viewModel.updateFavoriteSet(productId)
+        ProductListUiManager.onFavoriteIconListener(productId, viewModel)
     }
 
-    //should we use nav controller
     private fun onCardClickListener(productId: Int) {
-        navController.navigate(
-            R.id.action_productListFragment_to_productDetailsFragment,
-            Bundle().apply { putInt(MainActivity.KEY_PRODUCT_ID, productId) })
+       ProductListUiManager.onProductClickListener(productId, navController)
+    }
+
+    private fun onFilterClickListener(filter: Filter) {
+        viewModel.updateSelectedFilter(filter)
     }
 }

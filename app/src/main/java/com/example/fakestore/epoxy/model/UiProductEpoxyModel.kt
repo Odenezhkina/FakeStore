@@ -7,7 +7,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.UiManager
+import com.example.fakestore.uimanager.ProductListUiManager
 import java.text.NumberFormat
 import java.util.*
 
@@ -35,7 +35,7 @@ data class UiProductEpoxyModel(
             tvHeadline.text = product.title
             tvCategory.text = product.category
             tvPrice.text = currencyFormatter.format(product.price)
-            btnToFavorites.setIconResource(UiManager.resIdFavorite(isInFavorites))
+            btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(isInFavorites))
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {

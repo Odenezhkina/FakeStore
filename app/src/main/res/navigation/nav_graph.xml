@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/productListFragment"
-        android:name="com.example.fakestore.menu_fragments.ProductListFragment"
+        android:name="com.example.fakestore.menufragments.ProductListFragment"
         android:label="@string/nav_label_home"
         tools:layout="@layout/fragment_product_list">
         <action
@@ -16,17 +16,17 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.fakestore.menu_fragments.ProfileFragment"
+        android:name="com.example.fakestore.menufragments.ProfileFragment"
         android:label="@string/nav_label_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.example.fakestore.menu_fragments.CartFragment"
+        android:name="com.example.fakestore.menufragments.CartFragment"
         android:label="@string/nav_label_cart"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.fakestore.menu_fragments.FavoriteFragment"
+        android:name="com.example.fakestore.menufragments.FavoriteFragment"
         android:label="@string/nav_label_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
