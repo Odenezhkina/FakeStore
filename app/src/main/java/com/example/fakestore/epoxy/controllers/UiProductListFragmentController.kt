@@ -1,15 +1,17 @@
-package com.example.fakestore.epoxy
+package com.example.fakestore.epoxy.controllers
 
 import android.content.res.Resources
+import android.os.Bundle
 import androidx.navigation.NavController
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
-import com.example.fakestore.MainViewModel
+import com.example.fakestore.R
 import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.uimanager.ProductListUiManager
+import com.example.fakestore.viewmodels.MainViewModel
 
 class UiProductListFragmentController(
     val res: Resources,
@@ -22,16 +24,22 @@ class UiProductListFragmentController(
             repeat(7) {
                 val epoxyId = it + 1
                 // should or not pass if product is null
-                UiProductEpoxyModel(null, ::onFavoriteBtnChangeListener, ::onCardClickListener).id(
+                UiProductEpoxyModel(
+                    res,
+                    null,
+                    ::onFavoriteBtnChangeListener,
+                    ::onCardClickListener,
+                    ::onAddToCartClickListener
+                ).id(
                     epoxyId
                 ).addTo(this)
             }
             return
         }
-
         // setting filters in carousel
         val uiFilterModels = data.filters.map { uifilter ->
             UiFilterEpoxyModel(
+                res,
                 uiFilter = uifilter,
                 onFilterClickListener = ::onFilterClickListener
             ).id(uifilter.filter.title)
@@ -40,9 +48,11 @@ class UiProductListFragmentController(
 
         data.products.forEach {
             UiProductEpoxyModel(
+                res,
                 it,
                 ::onFavoriteBtnChangeListener,
-                ::onCardClickListener
+                ::onCardClickListener,
+                ::onAddToCartClickListener
             ).id(it.product.id).addTo(this)
         }
     }
@@ -50,14 +60,20 @@ class UiProductListFragmentController(
     private fun onFavoriteBtnChangeListener(productId: Int) {
         // change icon(solid favorite) + change color
         // save changed state
-        ProductListUiManager.onFavoriteIconListener(productId, viewModel)
+        viewModel.updateFavoriteSet(productId)
     }
 
     private fun onCardClickListener(productId: Int) {
-       ProductListUiManager.onProductClickListener(productId, navController)
+        navController.navigate(
+            R.id.action_productListFragment_to_productDetailsFragment,
+            Bundle().apply { putInt(ProductListUiManager.KEY_PRODUCT_ID, productId) })
     }
 
     private fun onFilterClickListener(filter: Filter) {
         viewModel.updateSelectedFilter(filter)
+    }
+
+    private fun onAddToCartClickListener(productId: Int) {
+        viewModel.updateCartProductsId(productId)
     }
 }

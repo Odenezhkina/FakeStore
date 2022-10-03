@@ -9,9 +9,11 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
+        android:contentDescription="@string/add_to_cart"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
+        style="@style/MaterialButton.ElevatedButton.Icon.Round"
         android:src="@drawable/ic_baseline_add_shopping_cart_24" />
 
 
@@ -49,6 +51,7 @@
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:indeterminateTint="@color/orange"
                 android:layout_gravity="center"
                 android:indeterminateOnly="true" />
 
@@ -114,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:rating="3.5"
+                android:progressTint="@color/orange"
                 android:saveEnabled="false"
-                android:theme="@style/OrangeRatingBar"
                 app:layout_constraintStart_toStartOf="@id/tv_category"
                 app:layout_constraintTop_toBottomOf="@id/tv_headline" />
 
@@ -140,6 +143,7 @@ Stash your laptop (up to 15 inches) in the padded sleeve, your everydayYour perf
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_category"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

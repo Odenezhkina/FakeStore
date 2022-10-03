@@ -11,7 +11,7 @@
     <string name="nav_label_home">Home</string>
     <string name="nav_label_cart">Cart</string>
     <string name="nav_label_profile">Profile</string>
-    <string name="go_to_the_catalog"><u>Go to the catalog</u></string>
+    <string name="go_to_the_catalog"><u>Go shopping</u></string>
     <string name="there_are_no_products_yet">There are no products yet</string>
 
 <!--    todo make plural forms-->

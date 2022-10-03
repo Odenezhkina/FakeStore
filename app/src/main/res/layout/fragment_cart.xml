@@ -30,5 +30,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_go_to_catalog" />
 
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/rv_cart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/cart_item" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

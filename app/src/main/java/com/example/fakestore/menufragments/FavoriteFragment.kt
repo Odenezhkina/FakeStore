@@ -9,15 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.fakestore.MainViewModel
+import com.example.fakestore.viewmodels.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
-import com.example.fakestore.epoxy.FavoriteItemEpoxyController
-import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.epoxy.controllers.FavoriteItemEpoxyController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
@@ -28,38 +25,56 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainViewModel: MainViewModel by viewModels()
-
-        val epoxyController =
-            FavoriteItemEpoxyController(mainViewModel)
-
         // todo reaping combine here, in ProductListFragment and DetailProductFragment
+        initObservers()
+    }
 
-        // maybe it is better to filter first and later combine them
-        combine(mainViewModel.store.stateFlow.map { it.products },
-            mainViewModel.store.stateFlow.map { it.favoriteProductsIds }) { listProducts, listFavorites ->
-            listProducts.map { product ->
-                UiProduct(product = product, isInFavorites = listFavorites.contains(product.id))
-            }.filter { it.isInFavorites }
-        }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
-            epoxyController.setData(products)
-            with(binding){
-                tvGoToCatalog.isVisible = products.isEmpty()
-                tvNoProductTitle.isVisible = products.isEmpty()
+    private fun initObservers() {
+        val viewModel: MainViewModel by viewModels()
+        val epoxyController = FavoriteItemEpoxyController(resources, viewModel)
+
+        viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
+            .observe(viewLifecycleOwner) { listUiProducts ->
+                val filteredProducts = listUiProducts.filter { it.isInFavorites }
+
+                epoxyController.setData(filteredProducts)
+                manageUi(filteredProducts.isEmpty(), epoxyController)
             }
-        }
-        mainViewModel.refreshProducts()
+//        viewModel.store.stateFlow.run {
+//            combine(
+//                map { it.products },
+//                map { it.favoriteProductsIds },
+//                map { it.productCartInfo }
+//            ) { listProducts, listFavorites, productCartInfo ->
+//
+//                listProducts.map { product ->
+//                    UiProduct(
+//                        product = product,
+//                        isInFavorites = listFavorites.contains(product.id),
+//                        isInCart = productCartInfo.isInCart(product.id)
+//                    )
+//                }.filter { it.isInFavorites }
+//
+//            }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
+//                epoxyController.setData(products)
+//                manageUi(products.isEmpty(), epoxyController)
+//            }
+//            viewModel.refreshProducts()
+//        }
+    }
 
+    private fun manageUi(isProductsEmpty: Boolean, epoxyController: FavoriteItemEpoxyController) {
         with(binding) {
+            tvGoToCatalog.isVisible = isProductsEmpty
+            tvNoProductTitle.isVisible = isProductsEmpty
+
             rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
             rvFavorite.setController(epoxyController)
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root

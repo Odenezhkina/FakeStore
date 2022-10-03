@@ -5,7 +5,8 @@
     android:id="@+id/cardviw"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/corner_radius">
+    app:cardCornerRadius="@dimen/corner_radius"
+    android:layout_marginBottom="@dimen/product_item_margin_bottom">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,6 +28,7 @@
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:indeterminateOnly="true"
+            android:indeterminateTint="@color/orange"
             app:layout_constraintBottom_toBottomOf="@id/iv_image"
             app:layout_constraintEnd_toEndOf="@id/iv_image"
             app:layout_constraintStart_toStartOf="@id/iv_image"

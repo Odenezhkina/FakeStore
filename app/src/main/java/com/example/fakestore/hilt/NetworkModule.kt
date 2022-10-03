@@ -15,7 +15,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(): Retrofit{
+    fun providesRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://fakestoreapi.com/")
             .addConverterFactory(MoshiConverterFactory.create())

@@ -1,6 +1,7 @@
 package com.example.fakestore.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,24 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import coil.load
-import com.example.fakestore.MainActivity
-import com.example.fakestore.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
-import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.model.ui.detailed.UiProductDetailed
 import com.example.fakestore.uimanager.ProductListUiManager
+import com.example.fakestore.viewmodels.DetailsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: DetailsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,32 +56,48 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
     private fun observeUiProduct(productId: Int) {
-        // todo fix repeating (combining here and in product list)
-        combine(viewModel.store.stateFlow.map { it.products },
-            viewModel.store.stateFlow.map { it.favoriteProductsIds }) { listProducts, listFavorites ->
-            listProducts.map { product ->
-                UiProduct(
-                    product = product,
-                    isInFavorites = listFavorites.contains(product.id)
-                )
-            }
-        }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
-            products.forEach { uiproduct ->
-                if (uiproduct.product.id == productId) {
-                    displayUiProduct(uiproduct)
+        viewModel.uiProductDetailedReducer.reduce(viewModel.store)
+            .distinctUntilChanged()
+            .asLiveData()
+            .observe(viewLifecycleOwner) { products ->
+                products.forEach { uiproductDetailed ->
+                    if (uiproductDetailed.uiProduct.product.id == productId) {
+                        Log.d("TAGTAG", "$productId")
+                        displayUiProduct(uiproductDetailed)
+                    }
                 }
             }
-        }
-        viewModel.refreshProducts()
+//        viewModel.store.stateFlow.run {
+//            combine(
+//                map { it.products },
+//                map { it.favoriteProductsIds },
+//                map { it.productCartInfo }
+//            ) { listProducts, listFavorites, productCartInfo ->
+//                return@combine listProducts.map { product ->
+//                    return@map UiProduct(
+//                        product = product,
+//                        isInFavorites = listFavorites.contains(product.id),
+//                        isInCart = productCartInfo.isInCart(product.id)
+//                    )
+//                }
+//            }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
+//                products.forEach { uiproduct ->
+//                    if (uiproduct.product.id == productId) {
+//                        displayUiProduct(uiproduct)
+//                    }
+//                }
+//            }
+//        }
     }
 
 
-    private fun displayUiProduct(uiproduct: UiProduct) {
+    private fun displayUiProduct(uiProductDetailed: UiProductDetailed) {
         with(binding) {
-            uiproduct.product.run {
-                tvHeadline.text =  title
-                tvCategory.text =  category
-                tvDescription.text =  "$description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description"
+            uiProductDetailed.uiProduct.product.run {
+                tvHeadline.text = title
+                tvCategory.text = category
+                tvDescription.text =
+                    "$description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description"
                 ratingBar.rating = rating.rate
                 tvReviews.text =
                     getString(R.string.count_of_reviews, rating.count)
@@ -94,17 +108,23 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                         pbLoadingImage.isVisible = false
                     }
                 }
+                btnToFavorites.setOnClickListener {
+                    viewModel.updateFavoriteSet(id)
+                }
             }
+            btnToFavorites.setIconResource(
+                ProductListUiManager.getResFavoriteIconId(
+                    uiProductDetailed.uiProduct.isInFavorites
+                )
+            )
 
-            btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(uiproduct.isInFavorites))
-            btnToFavorites.setOnClickListener {
-                viewModel.updateFavoriteSet(uiproduct.product.id)
-            }
         }
     }
 
 
-    private fun bottomNavIsVisible(isVisible: Boolean){
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.isVisible = isVisible
+    private fun bottomNavIsVisible(isVisible: Boolean) {
+        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.isVisible =
+            isVisible
     }
+
 }
