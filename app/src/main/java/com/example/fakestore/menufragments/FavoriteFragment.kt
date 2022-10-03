@@ -40,27 +40,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 epoxyController.setData(filteredProducts)
                 manageUi(filteredProducts.isEmpty(), epoxyController)
             }
-//        viewModel.store.stateFlow.run {
-//            combine(
-//                map { it.products },
-//                map { it.favoriteProductsIds },
-//                map { it.productCartInfo }
-//            ) { listProducts, listFavorites, productCartInfo ->
-//
-//                listProducts.map { product ->
-//                    UiProduct(
-//                        product = product,
-//                        isInFavorites = listFavorites.contains(product.id),
-//                        isInCart = productCartInfo.isInCart(product.id)
-//                    )
-//                }.filter { it.isInFavorites }
-//
-//            }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
-//                epoxyController.setData(products)
-//                manageUi(products.isEmpty(), epoxyController)
-//            }
-//            viewModel.refreshProducts()
-//        }
+        viewModel.refreshProducts()
     }
 
     private fun manageUi(isProductsEmpty: Boolean, epoxyController: FavoriteItemEpoxyController) {

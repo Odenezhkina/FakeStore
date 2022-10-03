@@ -1,10 +1,11 @@
 package com.example.fakestore.fragments
 
+import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +25,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
+    // todo change view model because we don't need quantity here
     private val viewModel: DetailsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,32 +64,10 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             .observe(viewLifecycleOwner) { products ->
                 products.forEach { uiproductDetailed ->
                     if (uiproductDetailed.uiProduct.product.id == productId) {
-                        Log.d("TAGTAG", "$productId")
                         displayUiProduct(uiproductDetailed)
                     }
                 }
             }
-//        viewModel.store.stateFlow.run {
-//            combine(
-//                map { it.products },
-//                map { it.favoriteProductsIds },
-//                map { it.productCartInfo }
-//            ) { listProducts, listFavorites, productCartInfo ->
-//                return@combine listProducts.map { product ->
-//                    return@map UiProduct(
-//                        product = product,
-//                        isInFavorites = listFavorites.contains(product.id),
-//                        isInCart = productCartInfo.isInCart(product.id)
-//                    )
-//                }
-//            }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner) { products ->
-//                products.forEach { uiproduct ->
-//                    if (uiproduct.product.id == productId) {
-//                        displayUiProduct(uiproduct)
-//                    }
-//                }
-//            }
-//        }
     }
 
 
@@ -96,8 +76,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             uiProductDetailed.uiProduct.product.run {
                 tvHeadline.text = title
                 tvCategory.text = category
-                tvDescription.text =
-                    "$description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description $description"
+                tvDescription.text = "$description $description $description $description"
                 ratingBar.rating = rating.rate
                 tvReviews.text =
                     getString(R.string.count_of_reviews, rating.count)
@@ -108,10 +87,22 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                         pbLoadingImage.isVisible = false
                     }
                 }
+
                 btnToFavorites.setOnClickListener {
                     viewModel.updateFavoriteSet(id)
                 }
+                btnToCart.setOnClickListener {
+                    viewModel.updateCartProductsId(id)
+                }
             }
+
+            val backgroundColorIconIds: Pair<Int, Int> =
+                ProductListUiManager.getCartUi(uiProductDetailed.uiProduct.isInCart)
+            btnToCart.setImageResource(backgroundColorIconIds.second)
+            btnToCart.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(requireContext(), backgroundColorIconIds.first)
+            )
+
             btnToFavorites.setIconResource(
                 ProductListUiManager.getResFavoriteIconId(
                     uiProductDetailed.uiProduct.isInFavorites

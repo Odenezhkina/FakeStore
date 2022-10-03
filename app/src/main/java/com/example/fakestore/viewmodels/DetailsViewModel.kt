@@ -25,4 +25,11 @@ class DetailsViewModel @Inject constructor(
             return@update favUpdater.update(applicationState, productId)
         }
     }
+
+    fun updateCartProductsId(productId: Int) = viewModelScope.launch {
+        store.update { applicationState ->
+            return@update cartUpdater.update(applicationState, productId)
+        }
+    }
+
 }

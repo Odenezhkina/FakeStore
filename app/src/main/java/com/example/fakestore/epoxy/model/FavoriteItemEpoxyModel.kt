@@ -63,7 +63,5 @@ class FavoriteItemEpoxyModel(
             //onCardClickListener(product.id)
         }
 
-
     }
-
 }

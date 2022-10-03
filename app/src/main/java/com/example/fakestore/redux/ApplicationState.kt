@@ -50,6 +50,10 @@ data class ApplicationState(
             return mapProductIdQuantity[productId] ?: -1
         }
 
+        fun countProductsInCart(): Int{
+            return mapProductIdQuantity.size
+        }
+
         companion object {
             private const val QUANTITY_LOWER_BOUND = 1
         }
