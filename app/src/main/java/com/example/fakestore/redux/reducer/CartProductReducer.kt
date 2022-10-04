@@ -1,7 +1,7 @@
 package com.example.fakestore.redux.reducer
 
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.model.ui.detailed.UiProductDetailed
+import com.example.fakestore.model.ui.CartUiProduct
 import com.example.fakestore.redux.ApplicationState
 import com.example.fakestore.redux.Store
 import kotlinx.coroutines.flow.Flow
@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class UiProductDetailedReducer @Inject constructor() {
+class CartProductReducer @Inject constructor() {
 
-    fun reduce(store: Store<ApplicationState>): Flow<List<UiProductDetailed>> {
+    fun reduce(store: Store<ApplicationState>): Flow<List<CartUiProduct>> {
         return store.stateFlow.run {
             combine(map { it.products },
                 map { it.favoriteProductsIds },
@@ -19,7 +19,7 @@ class UiProductDetailedReducer @Inject constructor() {
             { listProducts, listFavorites, productCartInfo ->
 
                 if (listProducts.isEmpty()) {
-                    return@combine emptyList<UiProductDetailed>()
+                    return@combine emptyList<CartUiProduct>()
                 }
 
                 listProducts.map { product ->
@@ -28,7 +28,7 @@ class UiProductDetailedReducer @Inject constructor() {
                         isInFavorites = listFavorites.contains(product.id),
                         isInCart = productCartInfo.isInCart(product.id)
                     )
-                }.map { UiProductDetailed(it, productCartInfo.getQuantity(it.product.id)) }
+                }.map { CartUiProduct(it, productCartInfo.getQuantity(it.product.id)) }
             }
         }
 

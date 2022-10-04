@@ -1,6 +1,11 @@
 package com.example.fakestore.model.ui
 
-data class ProductListFragmentUiState(
-    val filters: Set<UiFilter>,
-    val products: List<UiProduct>
-)
+sealed interface ProductListFragmentUiState {
+    // todo understand all of this...
+    data class Success(
+        val filters: Set<UiFilter>,
+        val products: List<UiProduct>
+    ) : ProductListFragmentUiState
+
+    object Loading
+}

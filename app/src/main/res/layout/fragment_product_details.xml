@@ -87,17 +87,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="40dp"
-            android:paddingTop="50dp"
-            android:paddingEnd="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="50dp">
 
             <TextView
-                android:id="@+id/tv_category"
-                style="@style/TextView_H3"
+                android:id="@+id/tv_price"
+                style="@style/TextView_H1"
+                android:textColor="@color/dark_grey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Men’s clothes"
-                android:textSize="14sp"
+                android:text="$1342"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -107,12 +107,24 @@
                 style="@style/TextView_H1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginVertical="10dp"
                 android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tv_category"
-                app:layout_constraintTop_toBottomOf="@id/tv_category" />
+                app:layout_constraintStart_toStartOf="@id/tv_price"
+                app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Men's clothing"
+                android:layout_marginVertical="10dp"
+                style="@style/TextView_H2"
+                android:textColor="@color/dark_grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline"/>
 
             <RatingBar
                 android:id="@+id/ratingBar"
@@ -122,14 +134,15 @@
                 android:rating="3.5"
                 android:progressTint="@color/orange"
                 android:saveEnabled="false"
-                app:layout_constraintStart_toStartOf="@id/tv_category"
-                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
+                app:layout_constraintStart_toStartOf="@id/tv_price"
+                app:layout_constraintTop_toBottomOf="@id/tv_category" />
 
             <TextView
                 android:id="@+id/tv_reviews"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="24 reviews"
+                android:textColor="@color/dark_grey"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ratingBar"
@@ -144,11 +157,12 @@
 Stash your laptop (up to 15 inches) in the padded sleeve, your everydayYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, y"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tv_category"
+                app:layout_constraintStart_toStartOf="@id/tv_price"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

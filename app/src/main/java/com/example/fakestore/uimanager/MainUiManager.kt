@@ -1,11 +1,8 @@
 package com.example.fakestore.uimanager
 
-import android.os.Bundle
-import androidx.navigation.NavController
-import com.example.fakestore.viewmodels.MainViewModel
 import com.example.fakestore.R
 
-object ProductListUiManager {
+object MainUiManager {
     // object because all fun is static
     const val KEY_PRODUCT_ID = "product-id"
 
@@ -20,16 +17,6 @@ object ProductListUiManager {
     fun getFilterBackgroundColorId(isSelected: Boolean): Int {
         return if (isSelected) R.color.orange else R.color.dark_blue
     }
-
-//    fun onProductClickListener(productId: Int, navController: NavController) {
-//        navController.navigate(
-//            R.id.action_productListFragment_to_productDetailsFragment,
-//            Bundle().apply { putInt(KEY_PRODUCT_ID, productId) })
-//    }
-
-//    fun onFavoriteIconListener(productId: Int, viewModel: MainViewModel) {
-//        viewModel.updateFavoriteSet(productId)
-//    }
 
     fun getCartUi(isInCart: Boolean): Pair<Int, Int>{
         // background color to icon id

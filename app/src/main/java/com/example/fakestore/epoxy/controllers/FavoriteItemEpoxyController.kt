@@ -12,8 +12,6 @@ class FavoriteItemEpoxyController(
     private val viewModel: MainViewModel
 ) : TypedEpoxyController<List<UiProduct>>() {
 
-    // todo maybe it is better to create another model FavProduct and use it instead of UiProduct
-
     override fun buildModels(data: List<UiProduct>?) {
         if (data.isNullOrEmpty()) {
             return

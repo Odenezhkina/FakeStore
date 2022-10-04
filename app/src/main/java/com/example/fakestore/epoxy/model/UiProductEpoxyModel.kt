@@ -9,7 +9,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.ProductListUiManager
+import com.example.fakestore.uimanager.MainUiManager
 import java.text.NumberFormat
 import java.util.*
 
@@ -39,7 +39,7 @@ data class UiProductEpoxyModel(
             tvHeadline.text = product.title
             tvCategory.text = product.category
             tvPrice.text = currencyFormatter.format(product.price)
-            btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(isInFavorites))
+            btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(isInFavorites))
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
@@ -48,7 +48,7 @@ data class UiProductEpoxyModel(
                 }
             }
 
-            val backgroundColorIconIds: Pair<Int, Int> = ProductListUiManager.getCartUi(isInCart)
+            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(isInCart)
             btnToCart.setIconResource(backgroundColorIconIds.second)
             btnToCart.setBackgroundColor(
                 ResourcesCompat.getColor(

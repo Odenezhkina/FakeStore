@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.fakestore.viewmodels.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
 import com.example.fakestore.epoxy.controllers.FavoriteItemEpoxyController
+import com.example.fakestore.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -25,7 +25,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // todo reaping combine here, in ProductListFragment and DetailProductFragment
         initObservers()
     }
 
@@ -40,7 +39,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 epoxyController.setData(filteredProducts)
                 manageUi(filteredProducts.isEmpty(), epoxyController)
             }
-        viewModel.refreshProducts()
+//        viewModel.refreshProducts()
     }
 
     private fun manageUi(isProductsEmpty: Boolean, epoxyController: FavoriteItemEpoxyController) {

@@ -10,8 +10,9 @@ import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.ProductListFragmentUiState
-import com.example.fakestore.uimanager.ProductListUiManager
+import com.example.fakestore.uimanager.MainUiManager
 import com.example.fakestore.viewmodels.MainViewModel
+import java.util.UUID
 
 class UiProductListFragmentController(
     val res: Resources,
@@ -22,7 +23,6 @@ class UiProductListFragmentController(
     override fun buildModels(data: ProductListFragmentUiState?) {
         if (data == null) {
             repeat(7) {
-                val epoxyId = it + 1
                 // should or not pass if product is null
                 UiProductEpoxyModel(
                     res,
@@ -31,7 +31,8 @@ class UiProductListFragmentController(
                     ::onCardClickListener,
                     ::onAddToCartClickListener
                 ).id(
-                    epoxyId
+                    // todo check if uuid is everywhere
+                    UUID.randomUUID().toString()
                 ).addTo(this)
             }
             return
@@ -66,7 +67,7 @@ class UiProductListFragmentController(
     private fun onCardClickListener(productId: Int) {
         navController.navigate(
             R.id.action_productListFragment_to_productDetailsFragment,
-            Bundle().apply { putInt(ProductListUiManager.KEY_PRODUCT_ID, productId) })
+            Bundle().apply { putInt(MainUiManager.KEY_PRODUCT_ID, productId) })
     }
 
     private fun onFilterClickListener(filter: Filter) {

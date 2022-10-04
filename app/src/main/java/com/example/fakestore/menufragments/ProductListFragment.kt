@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
-import com.example.fakestore.viewmodels.MainViewModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
@@ -16,6 +15,7 @@ import com.example.fakestore.model.mapper.ProductMapper
 import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
+import com.example.fakestore.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -86,48 +86,6 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
             rvProducts.setController(epoxyController)
         }
     }
-
-
-//    viewModel.store.stateFlow.run
-//    {
-//        combine(map { it.products },
-//            map { it.favoriteProductsIds },
-//            map { it.productCartInfo },
-//            map { it.productFilterInfo }) { listProducts, listFavorites, productCartInfo, productFilterInfo ->
-//
-//            var uiProducts: List<UiProduct> = listProducts.map { product ->
-//                UiProduct(
-//                    product = product,
-//                    isInFavorites = listFavorites.contains(product.id),
-//                    isInCart = productCartInfo.isInCart(product.id)
-//                )
-//            }
-//
-//            val selectedFilter: Filter? = productFilterInfo.selectedFilter
-//            val uiFilters: Set<UiFilter> =
-//                productFilterInfo.filters.map {
-//                    UiFilter(
-//                        filter = it,
-//                        isSelected = selectedFilter?.title == it.title
-//                    )
-//                }
-//                    .toSet()
-//            selectedFilter?.let { selectedFilter ->
-//                uiProducts =
-//                    uiProducts.filter { uiProduct ->
-//                        uiProduct.product.category == selectedFilter.title
-//                    }
-//                        .toList()
-//            }
-//
-//            ProductListFragmentUiState(products = uiProducts, filters = uiFilters)
-//        }.distinctUntilChanged().asLiveData()
-//            .observe(viewLifecycleOwner) { productListFragmentUiState ->
-//                epoxyController.setData(productListFragmentUiState)
-//            }
-//
-//        viewModel.refreshProducts()
-
 
     override fun onDestroyView() {
         super.onDestroyView()

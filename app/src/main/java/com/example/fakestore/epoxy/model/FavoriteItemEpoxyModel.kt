@@ -8,7 +8,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.FavoriteItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.ProductListUiManager
+import com.example.fakestore.uimanager.MainUiManager
 import java.text.NumberFormat
 import java.util.*
 
@@ -19,7 +19,6 @@ class FavoriteItemEpoxyModel(
     private val onAddToCartClickListener: (Int) -> Unit
 ) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
-    // todo fix repeating currencyFormatter in models
 
     private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
         currency = Currency.getInstance("USD")
@@ -40,7 +39,7 @@ class FavoriteItemEpoxyModel(
         }
 
         val backgroundColorIconIds: Pair<Int, Int> =
-            ProductListUiManager.getCartUi(favProduct.isInCart)
+            MainUiManager.getCartUi(favProduct.isInCart)
         btnToCart.setIconResource(backgroundColorIconIds.second)
         btnToCart.setBackgroundColor(
             ResourcesCompat.getColor(
@@ -50,7 +49,7 @@ class FavoriteItemEpoxyModel(
             )
         )
 
-        btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(favProduct.isInFavorites))
+        btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(favProduct.isInFavorites))
 
         btnToFavorites.setOnClickListener {
             onFavoriteIconListener(favProduct.product.id)

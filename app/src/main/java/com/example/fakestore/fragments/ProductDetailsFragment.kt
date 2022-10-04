@@ -13,26 +13,27 @@ import androidx.lifecycle.asLiveData
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
-import com.example.fakestore.model.ui.detailed.UiProductDetailed
-import com.example.fakestore.uimanager.ProductListUiManager
-import com.example.fakestore.viewmodels.DetailsViewModel
+import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.uimanager.MainUiManager
+import com.example.fakestore.viewmodels.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
+import java.text.NumberFormat
+import java.util.*
 
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
-    // todo change view model because we don't need quantity here
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val productId: Int = it.getInt(ProductListUiManager.KEY_PRODUCT_ID, -1)
+            val productId: Int = it.getInt(MainUiManager.KEY_PRODUCT_ID, -1)
             if (productId != -1) {
                 observeUiProduct(productId)
             }
@@ -58,28 +59,31 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
     private fun observeUiProduct(productId: Int) {
-        viewModel.uiProductDetailedReducer.reduce(viewModel.store)
+        viewModel.uiProductReducer.reduce(viewModel.store)
             .distinctUntilChanged()
             .asLiveData()
             .observe(viewLifecycleOwner) { products ->
-                products.forEach { uiproductDetailed ->
-                    if (uiproductDetailed.uiProduct.product.id == productId) {
-                        displayUiProduct(uiproductDetailed)
+                products.forEach { uiproduct ->
+                    if (uiproduct.product.id == productId) {
+                        displayUiProduct(uiproduct)
                     }
                 }
             }
     }
 
 
-    private fun displayUiProduct(uiProductDetailed: UiProductDetailed) {
+    private fun displayUiProduct(uiProduct: UiProduct) {
+        val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
+            currency = Currency.getInstance("USD")
+        }
         with(binding) {
-            uiProductDetailed.uiProduct.product.run {
+            uiProduct.product.run {
                 tvHeadline.text = title
                 tvCategory.text = category
                 tvDescription.text = "$description $description $description $description"
                 ratingBar.rating = rating.rate
-                tvReviews.text =
-                    getString(R.string.count_of_reviews, rating.count)
+                tvReviews.text = getString(R.string.count_of_reviews, rating.count)
+                tvPrice.text = currencyFormatter.format(price)
 
                 pbLoadingImage.isVisible = true
                 ivExpanded.load(data = image) {
@@ -96,22 +100,20 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
 
-            val backgroundColorIconIds: Pair<Int, Int> =
-                ProductListUiManager.getCartUi(uiProductDetailed.uiProduct.isInCart)
+            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(uiProduct.isInCart)
             btnToCart.setImageResource(backgroundColorIconIds.second)
             btnToCart.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(requireContext(), backgroundColorIconIds.first)
             )
 
             btnToFavorites.setIconResource(
-                ProductListUiManager.getResFavoriteIconId(
-                    uiProductDetailed.uiProduct.isInFavorites
+                MainUiManager.getResFavoriteIconId(
+                    uiProduct.isInFavorites
                 )
             )
 
         }
     }
-
 
     private fun bottomNavIsVisible(isVisible: Boolean) {
         activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.isVisible =
