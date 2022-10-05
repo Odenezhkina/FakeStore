@@ -22,14 +22,15 @@ data class ApplicationState(
         // here we control if quantity is greater than 0?
         private val mapProductIdQuantity: MutableMap<Int, Int> = mutableMapOf()
     ) {
-//        fun update(productId: Int, quantity: Int): ProductCartInfo {
+        fun update(productId: Int, quantity: Int): ProductCartInfo {
 //            if (quantity < QUANTITY_LOWER_BOUND) {
 //                mapProductIdQuantity.remove(productId)
 //            } else {
 //                mapProductIdQuantity[productId] = quantity
 //            }
-//            return ProductCartInfo(mapProductIdQuantity)
-//        }
+            mapProductIdQuantity[productId] = quantity
+            return ProductCartInfo(mapProductIdQuantity)
+        }
 
         fun update(productId: Int): ProductCartInfo {
             // if already in cart -> remove

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentCartBinding
 import com.example.fakestore.epoxy.controllers.CartProductEpoxyController
+import com.example.fakestore.model.ui.CartUiProduct
 import com.example.fakestore.viewmodels.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -29,21 +30,23 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun initObservers() {
         val viewModel: CartViewModel by viewModels()
-        val epoxyController = CartProductEpoxyController()
+        val epoxyController = CartProductEpoxyController(viewModel)
         viewModel.uiProductDetailedReducer.reduce(viewModel.store)
             .distinctUntilChanged()
             .asLiveData()
             .observe(viewLifecycleOwner) { cartUiProductList ->
-                manageUi(cartUiProductList.isEmpty(), epoxyController)
+                manageUi(cartUiProductList, epoxyController)
             }
 
     }
 
-    private fun manageUi(isProductsEmpty: Boolean, epoxyController: CartProductEpoxyController) {
+    private fun manageUi(cartUiProductList: List<CartUiProduct>, epoxyController: CartProductEpoxyController) {
         with(binding) {
-            tvGoToCatalog.isVisible = isProductsEmpty
-            tvNoProductTitle.isVisible = isProductsEmpty
+            // todo fix logic
+            tvGoToCatalog.isVisible = cartUiProductList.isEmpty()
+            tvNoProductTitle.isVisible =  cartUiProductList.isEmpty()
 
+            epoxyController.setData(cartUiProductList)
             rvCart.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             rvCart.setController(epoxyController)

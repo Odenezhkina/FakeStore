@@ -51,13 +51,14 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
             UiProductListFragmentController(resources, viewModel, findNavController())
 
         // todo fix shimmer
-        // todo fix filtering
-
 
         combine(
             viewModel.uiProductReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo }
         ) { uiProducts, productFilterInfo ->
+            if (uiProducts.isEmpty()) {
+                return@combine ProductListFragmentUiState.Loading
+            }
 
             val uiFilters: Set<UiFilter> =
                 productFilterInfo.filters.map { filter ->
@@ -75,7 +76,10 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
                 }
             }
 
-            ProductListFragmentUiState(products = filteredProducts, filters = uiFilters)
+            return@combine ProductListFragmentUiState.Success(
+                products = filteredProducts,
+                filters = uiFilters
+            )
         }.distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { productListFragmentUiState ->
                 epoxyController.setData(productListFragmentUiState)

@@ -7,5 +7,5 @@ sealed interface ProductListFragmentUiState {
         val products: List<UiProduct>
     ) : ProductListFragmentUiState
 
-    object Loading
+    object Loading: ProductListFragmentUiState
 }

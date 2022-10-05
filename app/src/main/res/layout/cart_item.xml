@@ -91,7 +91,7 @@
             app:layout_constraintStart_toStartOf="@id/tv_headline" />
 
         <TextView
-            android:id="@+id/tv_count"
+            android:id="@+id/tv_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="10dp"
@@ -112,7 +112,7 @@
             app:iconSize="24dp"
             app:iconTint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_count" />
+            app:layout_constraintStart_toEndOf="@id/tv_quantity" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

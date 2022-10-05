@@ -73,9 +73,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
 
     private fun displayUiProduct(uiProduct: UiProduct) {
-        val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
-            currency = Currency.getInstance("USD")
-        }
         with(binding) {
             uiProduct.product.run {
                 tvHeadline.text = title
@@ -83,7 +80,8 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 tvDescription.text = "$description $description $description $description"
                 ratingBar.rating = rating.rate
                 tvReviews.text = getString(R.string.count_of_reviews, rating.count)
-                tvPrice.text = currencyFormatter.format(price)
+
+                tvPrice.text = MainUiManager.formatPrice(price)
 
                 pbLoadingImage.isVisible = true
                 ivExpanded.load(data = image) {

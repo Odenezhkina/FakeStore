@@ -11,7 +11,19 @@ class CartUpdater @Inject constructor() {
     ): ApplicationState {
         return applicationState.copy(
             productCartInfo = applicationState.productCartInfo.update(
-                productId,
+                productId
+            )
+        )
+    }
+
+    fun update(
+        applicationState: ApplicationState,
+        productId: Int,
+        updatedQuantity: Int
+    ): ApplicationState {
+        return applicationState.copy(
+            productCartInfo = applicationState.productCartInfo.update(
+                productId, updatedQuantity
             )
         )
     }

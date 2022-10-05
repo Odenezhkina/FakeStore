@@ -1,6 +1,9 @@
 package com.example.fakestore.uimanager
 
 import com.example.fakestore.R
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.util.*
 
 object MainUiManager {
     // object because all fun is static
@@ -25,7 +28,12 @@ object MainUiManager {
         } else{
             R.color.dark_blue to R.drawable.ic_baseline_add_shopping_cart_24
         }
+    }
 
+    fun formatPrice(price: BigDecimal): String? {
+        return NumberFormat.getCurrencyInstance().apply {
+            currency = Currency.getInstance("USD")
+        }.format(price)
     }
 }
 

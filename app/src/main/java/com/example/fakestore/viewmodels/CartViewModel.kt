@@ -32,4 +32,10 @@ class CartViewModel @Inject constructor(
         }
     }
 
+    fun updateCartQuantity(productId: Int, updatedQuantity: Int) = viewModelScope.launch {
+        store.update { applicationState ->
+            return@update cartUpdater.update(applicationState, productId, updatedQuantity)
+        }
+    }
+
 }

@@ -9,20 +9,15 @@ import com.example.fakestore.databinding.FavoriteItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.uimanager.MainUiManager
-import java.text.NumberFormat
-import java.util.*
 
 class FavoriteItemEpoxyModel(
     private val res: Resources,
     private val favProduct: UiProduct,
     private val onFavoriteIconListener: (Int) -> Unit,
-    private val onAddToCartClickListener: (Int) -> Unit
+    private val onAddToCartClickListener: (Int) -> Unit,
+    private val onFavItemClickListener: (Int) -> Unit
 ) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
-
-    private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
-        currency = Currency.getInstance("USD")
-    }
 
     override fun FavoriteItemBinding.bind() {
         favProduct.product.run {
@@ -32,7 +27,7 @@ class FavoriteItemEpoxyModel(
                     pbLoadingImage.isVisible = false
                 }
             }
-            tvPrice.text = currencyFormatter.format(price)
+            tvPrice.text = MainUiManager.formatPrice(price)
             ratingBar.rating = rating.rate
             tvCategory.text = category
             tvCountOfReviews.text = res.getString(R.string.count_of_reviews, rating.count)
@@ -59,7 +54,7 @@ class FavoriteItemEpoxyModel(
         }
 
         cardview.setOnClickListener {
-            //onCardClickListener(product.id)
+            onFavItemClickListener(favProduct.product.id)
         }
 
     }

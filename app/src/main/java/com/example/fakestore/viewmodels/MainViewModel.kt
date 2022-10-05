@@ -19,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel
 @Inject constructor(
+    // todo fix error
     val store: Store<ApplicationState>,
     private val productRepository: ProductRepository,
     val uiProductReducer: UiProductReducer,

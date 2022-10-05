@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
@@ -30,7 +31,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private fun initObservers() {
         val viewModel: MainViewModel by viewModels()
-        val epoxyController = FavoriteItemEpoxyController(resources, viewModel)
+        val epoxyController = FavoriteItemEpoxyController(resources, viewModel, findNavController())
 
         viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { listUiProducts ->
