@@ -28,7 +28,11 @@
         android:id="@+id/favoriteFragment"
         android:name="com.example.fakestore.menufragments.FavoriteFragment"
         android:label="@string/nav_label_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.example.fakestore.fragments.ProductDetailsFragment"

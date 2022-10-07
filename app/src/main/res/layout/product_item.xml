@@ -65,6 +65,15 @@
                 app:layout_constraintStart_toEndOf="@id/iv_image"
                 app:layout_constraintTop_toBottomOf="@id/tv_category" />
 
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/ratingBar"
+                style="@style/OrangeRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="3.5"
+                app:layout_constraintStart_toStartOf="@id/tv_headline"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
+
             <TextView
                 android:id="@+id/tv_category"
                 style="@style/TextView_H3"

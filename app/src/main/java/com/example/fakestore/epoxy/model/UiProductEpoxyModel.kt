@@ -9,9 +9,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.ProductListUiManager
-import java.text.NumberFormat
-import java.util.*
+import com.example.fakestore.uimanager.MainUiManager
 
 data class UiProductEpoxyModel(
     private val res: Resources,
@@ -19,17 +17,10 @@ data class UiProductEpoxyModel(
     private val onFavoriteIconClicked: (Int) -> Unit,
     private val onCardClickListener: (Int) -> Unit,
     private val onCartClickListener: (Int) -> Unit
-//    val onUiProductClicked: (Int) -> Unit,
-//    val onAddToCartClicked: (Int) -> Unit
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
-
-    private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
-        currency = Currency.getInstance("USD")
-    }
 
     override fun ProductItemBinding.bind() {
         // product not null
-
         shimmerLayout.isVisible = product == null
         cardview.isInvisible = product == null
 
@@ -38,8 +29,9 @@ data class UiProductEpoxyModel(
 
             tvHeadline.text = product.title
             tvCategory.text = product.category
-            tvPrice.text = currencyFormatter.format(product.price)
-            btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(isInFavorites))
+            tvPrice.text = MainUiManager.formatPrice(product.price)
+            btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(isInFavorites))
+            ratingBar.rating = product.rating.rate
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
@@ -48,7 +40,7 @@ data class UiProductEpoxyModel(
                 }
             }
 
-            val backgroundColorIconIds: Pair<Int, Int> = ProductListUiManager.getCartUi(isInCart)
+            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(isInCart)
             btnToCart.setIconResource(backgroundColorIconIds.second)
             btnToCart.setBackgroundColor(
                 ResourcesCompat.getColor(

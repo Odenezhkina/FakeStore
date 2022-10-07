@@ -8,22 +8,16 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.FavoriteItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.ProductListUiManager
-import java.text.NumberFormat
-import java.util.*
+import com.example.fakestore.uimanager.MainUiManager
 
 class FavoriteItemEpoxyModel(
     private val res: Resources,
     private val favProduct: UiProduct,
     private val onFavoriteIconListener: (Int) -> Unit,
-    private val onAddToCartClickListener: (Int) -> Unit
+    private val onAddToCartClickListener: (Int) -> Unit,
+    private val onFavItemClickListener: (Int) -> Unit
 ) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
-    // todo fix repeating currencyFormatter in models
-
-    private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
-        currency = Currency.getInstance("USD")
-    }
 
     override fun FavoriteItemBinding.bind() {
         favProduct.product.run {
@@ -33,14 +27,14 @@ class FavoriteItemEpoxyModel(
                     pbLoadingImage.isVisible = false
                 }
             }
-            tvPrice.text = currencyFormatter.format(price)
+            tvPrice.text = MainUiManager.formatPrice(price)
             ratingBar.rating = rating.rate
             tvCategory.text = category
             tvCountOfReviews.text = res.getString(R.string.count_of_reviews, rating.count)
         }
 
         val backgroundColorIconIds: Pair<Int, Int> =
-            ProductListUiManager.getCartUi(favProduct.isInCart)
+            MainUiManager.getCartUi(favProduct.isInCart)
         btnToCart.setIconResource(backgroundColorIconIds.second)
         btnToCart.setBackgroundColor(
             ResourcesCompat.getColor(
@@ -50,7 +44,7 @@ class FavoriteItemEpoxyModel(
             )
         )
 
-        btnToFavorites.setIconResource(ProductListUiManager.getResFavoriteIconId(favProduct.isInFavorites))
+        btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(favProduct.isInFavorites))
 
         btnToFavorites.setOnClickListener {
             onFavoriteIconListener(favProduct.product.id)
@@ -60,10 +54,8 @@ class FavoriteItemEpoxyModel(
         }
 
         cardview.setOnClickListener {
-            //onCardClickListener(product.id)
+            onFavItemClickListener(favProduct.product.id)
         }
 
-
     }
-
 }
