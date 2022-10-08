@@ -22,10 +22,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding: FragmentFavoriteBinding by lazy { _binding!! }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initObservers()
     }
 
@@ -35,21 +33,20 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
         viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { listUiProducts ->
-                val filteredProducts = listUiProducts.filter { it.isInFavorites }
 
-                epoxyController.setData(filteredProducts)
-                manageUi(filteredProducts.isEmpty(), epoxyController)
+                val favProducts = listUiProducts.filter { it.isInFavorites }
+                epoxyController.setData(favProducts)
+                manageUi(favProducts.isEmpty(), epoxyController)
             }
-//        viewModel.refreshProducts()
     }
 
     private fun manageUi(isProductsEmpty: Boolean, epoxyController: FavoriteItemEpoxyController) {
         with(binding) {
-            tvGoToCatalog.isVisible = isProductsEmpty
-            tvNoProductTitle.isVisible = isProductsEmpty
-
             rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
             rvFavorite.setController(epoxyController)
+
+            tvGoToCatalog.isVisible = isProductsEmpty
+            tvNoProductTitle.isVisible = isProductsEmpty
         }
     }
 

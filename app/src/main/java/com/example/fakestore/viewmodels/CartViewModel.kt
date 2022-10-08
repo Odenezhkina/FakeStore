@@ -14,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     val store: Store<ApplicationState>,
-//    private val productRepository: ProductRepository, ????
     private val favUpdater: FavUpdater,
     private val cartUpdater: CartUpdater,
     val uiProductDetailedReducer: CartProductReducer
@@ -34,7 +33,7 @@ class CartViewModel @Inject constructor(
 
     fun updateCartQuantity(productId: Int, updatedQuantity: Int) = viewModelScope.launch {
         store.update { applicationState ->
-            return@update cartUpdater.update(applicationState, productId, updatedQuantity)
+            return@update cartUpdater.updateWithQuantity(applicationState, productId, updatedQuantity)
         }
     }
 

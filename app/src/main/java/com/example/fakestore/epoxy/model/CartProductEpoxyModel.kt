@@ -30,6 +30,8 @@ class CartProductEpoxyModel(
 
         cartProduct.run {
             tvQuantity.text = quantityInCart.toString()
+            btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(uiProduct.isInFavorites))
+
             btnToFavorites.setOnClickListener {
                 favOnClickListener(uiProduct.product.id)
             }

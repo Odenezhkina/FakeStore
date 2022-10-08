@@ -20,28 +20,8 @@ data class ApplicationState(
         //todo maybe it is better to use hashmap instead of map
         // we should remove elements with quantity equals 0?
         // here we control if quantity is greater than 0?
-        private val mapProductIdQuantity: MutableMap<Int, Int> = mutableMapOf()
+        private val mapProductIdQuantity: Map<Int, Int> = mapOf()
     ) {
-        fun update(productId: Int, quantity: Int): ProductCartInfo {
-//            if (quantity < QUANTITY_LOWER_BOUND) {
-//                mapProductIdQuantity.remove(productId)
-//            } else {
-//                mapProductIdQuantity[productId] = quantity
-//            }
-            mapProductIdQuantity[productId] = quantity
-            return ProductCartInfo(mapProductIdQuantity)
-        }
-
-        fun update(productId: Int): ProductCartInfo {
-            // if already in cart -> remove
-            // not in cart yet -> add
-            if (mapProductIdQuantity.contains(productId)) {
-                mapProductIdQuantity.remove(productId)
-            } else {
-                mapProductIdQuantity.put(productId, QUANTITY_LOWER_BOUND)
-            }
-            return ProductCartInfo(mapProductIdQuantity)
-        }
 
         fun isInCart(productId: Int): Boolean {
             return mapProductIdQuantity.contains(productId)
@@ -51,12 +31,12 @@ data class ApplicationState(
             return mapProductIdQuantity[productId] ?: -1
         }
 
-        fun countProductsInCart(): Int{
+        fun countProductsInCart(): Int {
             return mapProductIdQuantity.size
         }
 
-        companion object {
-            private const val QUANTITY_LOWER_BOUND = 1
+        fun getMap(): MutableMap<Int, Int> {
+            return mapProductIdQuantity.toMutableMap()
         }
     }
 }

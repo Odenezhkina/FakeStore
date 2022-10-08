@@ -1,7 +1,7 @@
 package com.example.fakestore.redux.reducer
 
-import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.model.ui.CartUiProduct
+import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.redux.ApplicationState
 import com.example.fakestore.redux.Store
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +28,8 @@ class CartProductReducer @Inject constructor() {
                         isInFavorites = listFavorites.contains(product.id),
                         isInCart = productCartInfo.isInCart(product.id)
                     )
-                }.map { CartUiProduct(it, productCartInfo.getQuantity(it.product.id)) }
+                }.filter { it.isInCart }
+                    .map { CartUiProduct(it, productCartInfo.getQuantity(it.product.id)) }
             }
         }
 

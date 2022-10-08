@@ -64,8 +64,6 @@ class UiProductListFragmentController(
     }
 
     private fun onFavoriteBtnChangeListener(productId: Int) {
-        // change icon(solid favorite) + change color
-        // save changed state
         viewModel.updateFavoriteSet(productId)
     }
 

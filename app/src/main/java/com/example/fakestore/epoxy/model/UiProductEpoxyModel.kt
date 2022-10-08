@@ -31,6 +31,7 @@ data class UiProductEpoxyModel(
             tvCategory.text = product.category
             tvPrice.text = MainUiManager.formatPrice(product.price)
             btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(isInFavorites))
+            ratingBar.rating = product.rating.rate
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
