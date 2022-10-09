@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -16,6 +17,7 @@ import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
 import com.example.fakestore.viewmodels.MainViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -23,7 +25,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProductListFragment : Fragment(R.layout.fragment_product_list) {
+class ProductListFragment : Fragment(R.layout.product_list_layout) {
     private var _binding: FragmentProductListBinding? = null
     private val binding: FragmentProductListBinding by lazy { _binding!! }
 
@@ -45,6 +47,17 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        with(binding){
+            val bottomSheetBehavior = BottomSheetBehavior.from(productListLayout.root).apply {
+                isFitToContents = false
+                isHideable = false //prevents the bottom sheet from completely hiding off the screen
+                setState(BottomSheetBehavior.STATE_EXPANDED) //initially state to fully expanded
+            }
+            productListLayout.btnShowFilters.setOnClickListener {
+                toggleFilters(bottomSheetBehavior)
+            }
+        }
 
         val viewModel: MainViewModel by viewModels()
         val epoxyController =
@@ -87,13 +100,21 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
 
         viewModel.refreshProducts()
         with(binding) {
-            rvProducts.setController(epoxyController)
+            productListLayout.rvProducts.setController(epoxyController)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun toggleFilters(bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>) {
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED)
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+        }
     }
 
 }

@@ -18,4 +18,20 @@
 
     <string name="nav_label_details" />
     <string name="btn_add_to_cart">Buy</string>
+    <string name="sort">Sort</string>
+    <string name="most_popular">Most popular</string>
+    <string name="cheapest">cheapest</string>
+    <string name="most_expensive">most expensive</string>
+    <string name="cost">Cost</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="category">Category</string>
+    <string name="products">Products</string>
+    <string name="filter_icon">filter icon</string>
+
+
+    <string-array name="cost_initial_slider_values">
+        <item>0</item>
+        <item>20</item>
+    </string-array>
 </resources>

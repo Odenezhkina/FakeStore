@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/beige"
-    tools:context=".menufragments.ProductListFragment">
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.airbnb.epoxy.EpoxyRecyclerView
-        android:id="@+id/rv_products"
-        android:layout_width="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_height="0dp"
-        android:padding="10dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/product_item" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/product_list_filters_layout"
+        layout="@layout/product_list_filters_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/product_list_layout"
+        layout="@layout/product_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_skipCollapsed="true"
+        app:behavior_peekHeight="80dp"
+        app:layout_behavior=".menufragments.GestureLockedBottomSheetBehavior"/>
+<!--        app:behavior_peekHeight="70dp"-->
+<!--        app:behavior_skipCollapsed="true"-->
+<!--        app:layout_behavior=".menufragments.GestureLockedBottomSheetBehavior"-->
+
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:id="@+id/toolbar"-->
+<!--        app:menu="@menu/bottom_navigation_menu"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/dark_blue"-->
+<!--        android:fitsSystemWindows="false" />-->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
