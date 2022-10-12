@@ -1,20 +1,18 @@
 package com.example.fakestore.epoxy.controllers
 
-import android.content.res.Resources
 import androidx.navigation.NavController
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
+import com.example.fakestore.managers.uimanager.MainNavigator
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.ProductListFragmentUiState
-import com.example.fakestore.uimanager.MainNavigator
 import com.example.fakestore.viewmodels.MainViewModel
 import java.util.*
 
 class UiProductListFragmentController(
-    val res: Resources,
     private val viewModel: MainViewModel,
     private val navController: NavController
 ) : TypedEpoxyController<ProductListFragmentUiState>() {
@@ -25,7 +23,6 @@ class UiProductListFragmentController(
                 repeat(7) {
                     // should or not pass if product is null
                     UiProductEpoxyModel(
-                        res,
                         null,
                         ::onFavoriteBtnChangeListener,
                         ::onCardClickListener,
@@ -40,16 +37,13 @@ class UiProductListFragmentController(
             is ProductListFragmentUiState.Success -> {
                 val uiFilterModels = data.filters.map { uifilter ->
                     UiFilterEpoxyModel(
-                        res,
                         uiFilter = uifilter,
-                        onFilterClickListener = ::onFilterClickListener
-                    ).id(uifilter.filter.title)
+                        onFilterClickListener = ::onFilterClickListener).id(uifilter.filter.title)
                 }
                 CarouselModel_().models(uiFilterModels).id("").addTo(this)
 
                 data.products.forEach {
                     UiProductEpoxyModel(
-                        res,
                         it,
                         ::onFavoriteBtnChangeListener,
                         ::onCardClickListener,

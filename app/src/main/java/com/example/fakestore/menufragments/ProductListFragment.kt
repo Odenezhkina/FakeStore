@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
@@ -59,9 +59,9 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             }
         }
 
-        val viewModel: MainViewModel by viewModels()
+        val viewModel: MainViewModel by activityViewModels()
         val epoxyController =
-            UiProductListFragmentController(resources, viewModel, findNavController())
+            UiProductListFragmentController(viewModel, findNavController())
 
         // todo fix shimmer
 
@@ -73,6 +73,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 return@combine ProductListFragmentUiState.Loading
             }
 
+            // FILTERING
             val uiFilters: Set<UiFilter> =
                 productFilterInfo.filters.map { filter ->
                     UiFilter(

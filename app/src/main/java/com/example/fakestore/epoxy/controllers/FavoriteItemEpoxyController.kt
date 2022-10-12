@@ -6,12 +6,11 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.epoxy.model.FavoriteItemEpoxyModel
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.MainNavigator
+import com.example.fakestore.managers.uimanager.MainNavigator
 import com.example.fakestore.viewmodels.MainViewModel
 
 
 class FavoriteItemEpoxyController(
-    private val res: Resources,
     private val viewModel: MainViewModel,
     private val navController: NavController
 ) : TypedEpoxyController<List<UiProduct>>() {
@@ -22,7 +21,6 @@ class FavoriteItemEpoxyController(
         }
         data.forEach {
             FavoriteItemEpoxyModel(
-                res,
                 it,
                 ::onFavClickListener,
                 ::onToCartClickListener,

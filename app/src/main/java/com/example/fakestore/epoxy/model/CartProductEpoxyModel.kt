@@ -6,7 +6,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.CartItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.model.ui.CartUiProduct
-import com.example.fakestore.uimanager.MainUiManager
+import com.example.fakestore.managers.uimanager.MainUiManager
 
 class CartProductEpoxyModel(
     private val cartProduct: CartUiProduct,

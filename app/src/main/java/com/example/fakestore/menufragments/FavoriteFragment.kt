@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
@@ -28,8 +29,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     }
 
     private fun initObservers() {
-        val viewModel: MainViewModel by viewModels()
-        val epoxyController = FavoriteItemEpoxyController(resources, viewModel, findNavController())
+        val viewModel: MainViewModel by activityViewModels()
+        val epoxyController = FavoriteItemEpoxyController(viewModel, findNavController())
 
         viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { listUiProducts ->
