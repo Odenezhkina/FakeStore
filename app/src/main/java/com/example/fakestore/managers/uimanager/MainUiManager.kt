@@ -30,7 +30,7 @@ object MainUiManager {
         }
     }
 
-    fun formatPrice(price: BigDecimal): String? {
+    fun formatPrice(price: BigDecimal): String {
         return NumberFormat.getCurrencyInstance().apply {
             currency = Currency.getInstance("USD")
         }.format(price)

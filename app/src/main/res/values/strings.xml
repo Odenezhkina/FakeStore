@@ -29,9 +29,4 @@
     <string name="products">Products</string>
     <string name="filter_icon">filter icon</string>
 
-
-    <string-array name="cost_initial_slider_values">
-        <item>0</item>
-        <item>20</item>
-    </string-array>
 </resources>

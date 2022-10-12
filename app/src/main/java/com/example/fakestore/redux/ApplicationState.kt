@@ -2,6 +2,7 @@ package com.example.fakestore.redux
 
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.domain.Product
+import java.math.BigDecimal
 
 data class ApplicationState(
     val products: List<Product> = emptyList(),
@@ -12,9 +13,42 @@ data class ApplicationState(
     // separate class because we want to store filters (which will be displayed in the carousel)
     // and filter which is selected
     data class ProductFilterInfo(
-        val filters: Set<Filter> = emptySet(),
-        val selectedFilter: Filter? = null
-    )
+        val filterCategory: FilterCategory = FilterCategory(),
+        val rangeSort: RangeSort = RangeSort(),
+        val sortType: SortType = SortType()
+//        val filters: Set<Filter> = emptySet(),
+//        val selectedFilter: Filter? = null,
+//
+//        val isSortActive: Boolean = false,
+//        val sortType: Int? = null,
+//
+//        val isRangeSortActive: Boolean = false,
+//        val fromCost: Double = 0.0,
+//        val toCost: Double = 0.0,
+    ) {
+
+        data class FilterCategory(
+            val filters: Set<Filter> = emptySet(),
+            val selectedFilter: Filter? = null,
+        )
+
+        data class SortType(
+            val isSortActive: Boolean = false,
+            val sortType: Int? = null
+        ) {
+            companion object {
+                const val SORT_TYPE_MOST_POPULAR = 1
+                const val SORT_TYPE_CHEAPEST_FIRST = 2
+                const val SORT_TYPE_MOST_EXPENSIVE_FIRST = 3
+            }
+        }
+
+        data class RangeSort(
+            // todo initialize toCost with max cost in product list
+            val fromCost: BigDecimal = BigDecimal(0.0),
+            val toCost: BigDecimal? = null
+        )
+    }
 
     class ProductCartInfo(
         //todo maybe it is better to use hashmap instead of map

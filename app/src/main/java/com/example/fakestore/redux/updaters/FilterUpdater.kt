@@ -10,13 +10,13 @@ class FilterUpdater @Inject constructor() {
         // if it already selected -> remove
         // else -> replace
         var newFilter: Filter? = filter
-        if (applicationState.productFilterInfo.selectedFilter == filter) {
+        if (applicationState.productFilterInfo.filterCategory.selectedFilter == filter) {
             newFilter = null
         }
         return applicationState.copy(
             productFilterInfo = ApplicationState.ProductFilterInfo(
-                filters = applicationState.productFilterInfo.filters,
-                selectedFilter = newFilter
+                filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(filters = applicationState.productFilterInfo.filterCategory.filters,
+                    selectedFilter = newFilter)
             )
         )
     }

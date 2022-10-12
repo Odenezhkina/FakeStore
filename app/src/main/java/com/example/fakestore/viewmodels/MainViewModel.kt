@@ -14,6 +14,8 @@ import com.example.fakestore.redux.updaters.FavUpdater
 import com.example.fakestore.redux.updaters.FilterUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.util.Collections.max
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,12 +35,18 @@ class MainViewModel
         val products: List<Product> = productRepository.fetchAllProducts()
         val filters: Set<Filter> = filterGenerator.generateFilters(products)
         store.update { applicationState ->
+
+            val maxCost: BigDecimal = max(products.map { it.price })
             return@update applicationState.copy(
                 products = products,
                 // updating productFilterInfo here too because we want to
                 // write filters too
                 productFilterInfo = ApplicationState.ProductFilterInfo(
-                    filters = filters, selectedFilter = applicationState.productFilterInfo.selectedFilter
+                    filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(
+                        filters = filters,
+                        selectedFilter = applicationState.productFilterInfo.filterCategory.selectedFilter
+                    ),
+                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(toCost = maxCost)
                 )
             )
         }
@@ -60,5 +68,13 @@ class MainViewModel
         store.update { applicationState ->
             return@update cartUpdater.update(applicationState, productId)
         }
+    }
+
+    fun updateSortType(sortType: Int) =viewModelScope.launch {
+        // todo
+    }
+
+    fun updateRangeSort(newFromCost: BigDecimal, newToCost: BigDecimal) = viewModelScope.launch {
+        // todo
     }
 }

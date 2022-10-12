@@ -1,8 +1,6 @@
 package com.example.fakestore.epoxy.model
 
 
-import android.content.res.ColorStateList
-import androidx.core.content.res.ResourcesCompat
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FilterItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
@@ -11,7 +9,6 @@ import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.UiFilter
 
 class UiFilterEpoxyModel(
-
     private val uiFilter: UiFilter,
     private val onFilterClickListener: (Filter) -> Unit
 ) :
@@ -26,9 +23,6 @@ class UiFilterEpoxyModel(
 
             val colorId = MainUiManager.getFilterBackgroundColorId(isSelected)
             chipFilter.setChipBackgroundColorResource(colorId)
-            chipFilter.backgroundTintList = ColorStateList.valueOf(
-                ResourcesCompat.getColor(this@bind.root.context.resources, colorId, null)
-            )
         }
     }
 }

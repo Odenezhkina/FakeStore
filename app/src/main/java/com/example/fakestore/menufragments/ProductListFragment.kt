@@ -75,18 +75,18 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
             // FILTERING
             val uiFilters: Set<UiFilter> =
-                productFilterInfo.filters.map { filter ->
+                productFilterInfo.filterCategory.filters.map { filter ->
                     UiFilter(
                         filter = filter,
-                        isSelected = productFilterInfo.selectedFilter?.equals(filter) == true
+                        isSelected = productFilterInfo.filterCategory.selectedFilter?.equals(filter) == true
                     )
                 }.toSet()
 
-            val filteredProducts = if (productFilterInfo.selectedFilter == null) {
+            val filteredProducts = if (productFilterInfo.filterCategory.selectedFilter == null) {
                 uiProducts
             } else {
                 uiProducts.filter { uiProduct ->
-                    uiProduct.product.category == productFilterInfo.selectedFilter.title
+                    uiProduct.product.category == productFilterInfo.filterCategory.selectedFilter.title
                 }
             }
 
