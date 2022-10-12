@@ -12,11 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
+import com.example.fakestore.managers.SortManager
 import com.example.fakestore.model.mapper.ProductMapper
 import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
-import com.example.fakestore.viewmodels.MainViewModel
+import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
@@ -59,7 +60,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             }
         }
 
-        val viewModel: MainViewModel by activityViewModels()
+        val viewModel: ProductListViewModel by activityViewModels()
         val epoxyController =
             UiProductListFragmentController(viewModel, findNavController())
 
@@ -69,11 +70,12 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             viewModel.uiProductReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo }
         ) { uiProducts, productFilterInfo ->
+
             if (uiProducts.isEmpty()) {
                 return@combine ProductListFragmentUiState.Loading
             }
 
-            // FILTERING
+
             val uiFilters: Set<UiFilter> =
                 productFilterInfo.filterCategory.filters.map { filter ->
                     UiFilter(
@@ -82,13 +84,15 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                     )
                 }.toSet()
 
-            val filteredProducts = if (productFilterInfo.filterCategory.selectedFilter == null) {
-                uiProducts
-            } else {
-                uiProducts.filter { uiProduct ->
-                    uiProduct.product.category == productFilterInfo.filterCategory.selectedFilter.title
-                }
-            }
+            // FILTERING
+            var filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
+            // by category
+//            var filteredProducts = if (productFilterInfo.filterCategory.selectedFilter == null) {
+//                uiProducts
+//            } else {
+//                SortManager.sortByCategory(uiProducts, productFilterInfo.filterCategory.selectedFilter.title)
+//            }
+
 
             return@combine ProductListFragmentUiState.Success(
                 products = filteredProducts,

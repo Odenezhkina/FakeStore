@@ -9,11 +9,11 @@ import com.example.fakestore.epoxy.model.UiProductEpoxyModel
 import com.example.fakestore.managers.uimanager.MainNavigator
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.ProductListFragmentUiState
-import com.example.fakestore.viewmodels.MainViewModel
+import com.example.fakestore.viewmodels.ProductListViewModel
 import java.util.*
 
 class UiProductListFragmentController(
-    private val viewModel: MainViewModel,
+    private val viewModel: ProductListViewModel,
     private val navController: NavController
 ) : TypedEpoxyController<ProductListFragmentUiState>() {
 

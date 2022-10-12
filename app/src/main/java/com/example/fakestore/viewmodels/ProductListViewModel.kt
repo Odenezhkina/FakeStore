@@ -19,7 +19,7 @@ import java.util.Collections.max
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel
+class ProductListViewModel
 @Inject constructor(
     // todo fix error
     val store: Store<ApplicationState>,
@@ -60,7 +60,7 @@ class MainViewModel
 
     fun updateSelectedFilter(filter: Filter) = viewModelScope.launch {
         store.update { applicationState ->
-            return@update filterUpdater.update(applicationState, filter)
+            return@update filterUpdater.updateSelectedCategory(applicationState, filter)
         }
     }
 
@@ -71,10 +71,14 @@ class MainViewModel
     }
 
     fun updateSortType(sortType: Int) =viewModelScope.launch {
-        // todo
+        store.update { applicationState ->
+            return@update filterUpdater.updateSortType(applicationState, sortType)
+        }
     }
 
     fun updateRangeSort(newFromCost: BigDecimal, newToCost: BigDecimal) = viewModelScope.launch {
-        // todo
+        store.update { applicationState ->
+            return@update filterUpdater.updateRangeSort(applicationState, newFromCost, newToCost)
+        }
     }
 }

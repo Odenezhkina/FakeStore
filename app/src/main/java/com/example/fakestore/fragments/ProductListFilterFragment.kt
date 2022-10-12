@@ -13,7 +13,7 @@ import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_CHEAPEST_FIRST
 import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_MOST_EXPENSIVE_FIRST
 import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_MOST_POPULAR
-import com.example.fakestore.viewmodels.MainViewModel
+import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.slider.RangeSlider
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -27,7 +27,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
         _binding = ProductListFiltersLayoutBinding.bind(view)
 
         with(binding) {
-            val viewModel: MainViewModel by activityViewModels()
+            val viewModel: ProductListViewModel by activityViewModels()
             val epoxyController =
                 UiFilterItemController(viewModel)
             filtersEpoxyCarousel.setController(epoxyController)
@@ -94,13 +94,13 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                             }
 
                             override fun onStopTrackingTouch(slider: RangeSlider) {
+                                etFrom.setText(slider.values[0].toString())
+                                etTo.setText(slider.values[1].toString())
+
                                 viewModel.updateRangeSort(
                                     slider.values[0].toBigDecimal(),
                                     slider.values[1].toBigDecimal()
                                 )
-
-                                etFrom.setText(slider.values[0].toString())
-                                etTo.setText(slider.values[1].toString())
                             }
                         }
                         )

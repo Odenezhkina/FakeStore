@@ -16,15 +16,6 @@ data class ApplicationState(
         val filterCategory: FilterCategory = FilterCategory(),
         val rangeSort: RangeSort = RangeSort(),
         val sortType: SortType = SortType()
-//        val filters: Set<Filter> = emptySet(),
-//        val selectedFilter: Filter? = null,
-//
-//        val isSortActive: Boolean = false,
-//        val sortType: Int? = null,
-//
-//        val isRangeSortActive: Boolean = false,
-//        val fromCost: Double = 0.0,
-//        val toCost: Double = 0.0,
     ) {
 
         data class FilterCategory(
@@ -45,7 +36,8 @@ data class ApplicationState(
 
         data class RangeSort(
             // todo initialize toCost with max cost in product list
-            val fromCost: BigDecimal = BigDecimal(0.0),
+            val isSortActive: Boolean = false,
+            val fromCost: BigDecimal = BigDecimal(0),
             val toCost: BigDecimal? = null
         )
     }
