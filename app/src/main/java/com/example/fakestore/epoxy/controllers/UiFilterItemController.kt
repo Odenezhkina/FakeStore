@@ -7,10 +7,10 @@ import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.viewmodels.MainViewModel
 
-class FilterItemController(private val viewModel: MainViewModel) :
-    TypedEpoxyController<List<UiFilter>>() {
+class UiFilterItemController(private val viewModel: MainViewModel) :
+    TypedEpoxyController<Set<UiFilter>>() {
 
-    override fun buildModels(data: List<UiFilter>?) {
+    override fun buildModels(data: Set<UiFilter>?) {
         // todo  handle empty state
         data?.let {
             val uiFilterModels = data.map { uifilter ->

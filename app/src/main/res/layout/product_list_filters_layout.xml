@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/range_slider_cost" />
 
-    <com.airbnb.epoxy.Carousel
+    <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/filters_epoxy_carousel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

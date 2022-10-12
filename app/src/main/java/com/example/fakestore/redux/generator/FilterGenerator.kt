@@ -5,7 +5,6 @@ import com.example.fakestore.model.domain.Product
 import javax.inject.Inject
 
 class FilterGenerator @Inject constructor() {
-
     fun generateFilters(productList: List<Product>): Set<Filter> {
         return productList
             .groupBy { it.category }
