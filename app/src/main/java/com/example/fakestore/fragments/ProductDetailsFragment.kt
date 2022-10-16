@@ -8,29 +8,28 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.MainUiManager
-import com.example.fakestore.viewmodels.MainViewModel
+import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
-import java.text.NumberFormat
-import java.util.*
 
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: ProductListViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentProductDetailsBinding.bind(view)
 
         arguments?.let {
             val productId: Int = it.getInt(MainUiManager.KEY_PRODUCT_ID, -1)
@@ -40,16 +39,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         }
 
         bottomNavIsVisible(false)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-
     }
 
     override fun onDestroyView() {

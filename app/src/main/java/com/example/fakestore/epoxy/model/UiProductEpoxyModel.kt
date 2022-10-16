@@ -1,6 +1,5 @@
 package com.example.fakestore.epoxy.model
 
-import android.content.res.Resources
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -8,11 +7,10 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
+import com.example.fakestore.managers.uimanager.MainUiManager
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.uimanager.MainUiManager
 
 data class UiProductEpoxyModel(
-    private val res: Resources,
     private val product: UiProduct?,
     private val onFavoriteIconClicked: (Int) -> Unit,
     private val onCardClickListener: (Int) -> Unit,
@@ -44,7 +42,7 @@ data class UiProductEpoxyModel(
             btnToCart.setIconResource(backgroundColorIconIds.second)
             btnToCart.setBackgroundColor(
                 ResourcesCompat.getColor(
-                    res,
+                    this@bind.root.context.resources,
                     backgroundColorIconIds.first,
                     null
                 )

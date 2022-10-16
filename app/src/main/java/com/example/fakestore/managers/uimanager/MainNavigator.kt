@@ -1,4 +1,4 @@
-package com.example.fakestore.uimanager
+package com.example.fakestore.managers.uimanager
 
 import android.os.Bundle
 import androidx.annotation.IdRes

@@ -1,4 +1,4 @@
-package com.example.fakestore.uimanager
+package com.example.fakestore.managers.uimanager
 
 import com.example.fakestore.R
 import java.math.BigDecimal
@@ -30,7 +30,7 @@ object MainUiManager {
         }
     }
 
-    fun formatPrice(price: BigDecimal): String? {
+    fun formatPrice(price: BigDecimal): String {
         return NumberFormat.getCurrencyInstance().apply {
             currency = Currency.getInstance("USD")
         }.format(price)

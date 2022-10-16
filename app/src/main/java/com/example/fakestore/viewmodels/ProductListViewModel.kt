@@ -14,10 +14,12 @@ import com.example.fakestore.redux.updaters.FavUpdater
 import com.example.fakestore.redux.updaters.FilterUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.util.Collections.max
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel
+class ProductListViewModel
 @Inject constructor(
     // todo fix error
     val store: Store<ApplicationState>,
@@ -33,12 +35,18 @@ class MainViewModel
         val products: List<Product> = productRepository.fetchAllProducts()
         val filters: Set<Filter> = filterGenerator.generateFilters(products)
         store.update { applicationState ->
+
+            val maxCost: BigDecimal = max(products.map { it.price })
             return@update applicationState.copy(
                 products = products,
                 // updating productFilterInfo here too because we want to
                 // write filters too
                 productFilterInfo = ApplicationState.ProductFilterInfo(
-                    filters = filters, selectedFilter = applicationState.productFilterInfo.selectedFilter
+                    filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(
+                        filters = filters,
+                        selectedFilter = applicationState.productFilterInfo.filterCategory.selectedFilter
+                    ),
+                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(toCost = maxCost)
                 )
             )
         }
@@ -52,13 +60,25 @@ class MainViewModel
 
     fun updateSelectedFilter(filter: Filter) = viewModelScope.launch {
         store.update { applicationState ->
-            return@update filterUpdater.update(applicationState, filter)
+            return@update filterUpdater.updateSelectedCategory(applicationState, filter)
         }
     }
 
     fun updateCartProductsId(productId: Int) = viewModelScope.launch {
         store.update { applicationState ->
             return@update cartUpdater.update(applicationState, productId)
+        }
+    }
+
+    fun updateSortType(sortType: Int) = viewModelScope.launch {
+        store.update { applicationState ->
+            return@update filterUpdater.updateSortType(applicationState, sortType)
+        }
+    }
+
+    fun updateRangeSort(newFromCost: BigDecimal, newToCost: BigDecimal) = viewModelScope.launch {
+        store.update { applicationState ->
+            return@update filterUpdater.updateRangeSort(applicationState, newFromCost, newToCost)
         }
     }
 }

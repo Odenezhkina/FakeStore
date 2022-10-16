@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/beige_rounded_rectangle"
+    android:padding="15dp"
+    tools:context=".menufragments.ProductListFragment">
+
+    <TextView
+        android:id="@+id/tv_products_title"
+        style="@style/TextView_H2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/products"
+        app:layout_constraintEnd_toEndOf="@id/btn_show_filters"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        app:icon="@drawable/ic_round_tune_24"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        style="button.icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content" todo button or image view-->
+<!--        app:layout_constraintBaseline_toBaselineOf="@id/tv_products_title" />-->
+    <ImageView
+        android:contentDescription="@string/filter_icon"
+        android:id="@+id/btn_show_filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_round_tune_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_products_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_products_title"/>
+
+
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/rv_products"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_products_title"
+        tools:itemCount="5"
+        tools:listitem="@layout/product_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
