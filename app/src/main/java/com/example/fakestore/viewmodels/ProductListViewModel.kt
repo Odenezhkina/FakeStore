@@ -70,7 +70,7 @@ class ProductListViewModel
         }
     }
 
-    fun updateSortType(sortType: Int) =viewModelScope.launch {
+    fun updateSortType(sortType: Int) = viewModelScope.launch {
         store.update { applicationState ->
             return@update filterUpdater.updateSortType(applicationState, sortType)
         }

@@ -24,6 +24,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCartBinding.bind(view)
 
         initObservers()
     }
@@ -53,14 +54,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCartBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

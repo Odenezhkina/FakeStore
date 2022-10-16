@@ -24,6 +24,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         _binding = ProductListFiltersLayoutBinding.bind(view)
 
         with(binding) {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "980585845839",
+    "project_id": "better-4f6e1",
+    "storage_bucket": "better-4f6e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980585845839:android:aef09c16bad775a57e863a",
+        "android_client_info": {
+          "package_name": "com.example.fakestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980585845839-m7ucgkedpv221lhrp3d057vo3qfjcnqt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZkagsz4DyCvEgnXy09TvkMKpzP7WiTLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980585845839-m7ucgkedpv221lhrp3d057vo3qfjcnqt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

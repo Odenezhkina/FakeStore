@@ -11,18 +11,18 @@ class SortManager(
 
     fun sort(): List<UiProduct> {
         filtersInfo.run {
-            if(filterCategory.selectedFilter != null){
-                sortByCategory(filterCategory.selectedFilter.title)
-            }
-
-            if (sortType.isSortActive){
-                sortType.sortType?.let { sortByType(it) }
-            }
-
-            if(rangeSort.isSortActive){
-                // todo what if toCost is null
-                rangeSort.toCost?.let { sortByCostRange(rangeSort.fromCost, it)}
-            }
+//            if(filterCategory.selectedFilter != null){
+//                sortByCategory(filterCategory.selectedFilter.title)
+//            }
+//
+//            if (sortType.isSortActive){
+//                sortType.sortType?.let { sortByType(it) }
+//            }
+//
+//            if(rangeSort.isSortActive){
+//                // todo what if toCost is null
+//                rangeSort.toCost?.let { sortByCostRange(rangeSort.fromCost, it)}
+//            }
         }
         return uiProducts
     }
@@ -44,13 +44,12 @@ class SortManager(
     }
 
     private fun sortCheapestFirst(): List<UiProduct> {
-        return uiProducts
-            .sortedBy { it.product.price}
+        return uiProducts.sortedBy { it.product.price }
     }
 
     private fun sortMostExpensiveFirst(): List<UiProduct> {
         return uiProducts
-            .sortedByDescending { it.product.price}
+            .sortedByDescending { it.product.price }
     }
 
     private fun sortByCostRange(from: BigDecimal, to: BigDecimal): List<UiProduct> {
@@ -64,5 +63,4 @@ class SortManager(
                 uiProduct.product.category == category
             }
     }
-
 }

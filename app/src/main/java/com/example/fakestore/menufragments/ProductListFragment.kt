@@ -75,7 +75,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 return@combine ProductListFragmentUiState.Loading
             }
 
-
             val uiFilters: Set<UiFilter> =
                 productFilterInfo.filterCategory.filters.map { filter ->
                     UiFilter(
@@ -86,12 +85,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
             // FILTERING
             var filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
-            // by category
-//            var filteredProducts = if (productFilterInfo.filterCategory.selectedFilter == null) {
-//                uiProducts
-//            } else {
-//                SortManager.sortByCategory(uiProducts, productFilterInfo.filterCategory.selectedFilter.title)
-//            }
 
 
             return@combine ProductListFragmentUiState.Success(

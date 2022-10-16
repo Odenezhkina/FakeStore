@@ -29,6 +29,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentProductDetailsBinding.bind(view)
 
         arguments?.let {
             val productId: Int = it.getInt(MainUiManager.KEY_PRODUCT_ID, -1)
@@ -38,16 +39,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         }
 
         bottomNavIsVisible(false)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-
     }
 
     override fun onDestroyView() {
