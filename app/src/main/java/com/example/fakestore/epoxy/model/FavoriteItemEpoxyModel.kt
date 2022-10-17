@@ -6,14 +6,13 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FavoriteItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
+import com.example.fakestore.epoxy.controllers.OnFavProductListener
 import com.example.fakestore.managers.uimanager.MainUiManager
 import com.example.fakestore.model.ui.UiProduct
 
 class FavoriteItemEpoxyModel(
     private val favProduct: UiProduct,
-    private val onFavoriteIconListener: (Int) -> Unit,
-    private val onAddToCartClickListener: (Int) -> Unit,
-    private val onFavItemClickListener: (Int) -> Unit
+    private val listener: OnFavProductListener? = null
 ) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
 
@@ -41,15 +40,17 @@ class FavoriteItemEpoxyModel(
 
         btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(favProduct.isInFavorites))
 
-        btnToFavorites.setOnClickListener {
-            onFavoriteIconListener(favProduct.product.id)
-        }
-        btnToCart.setOnClickListener {
-            onAddToCartClickListener(favProduct.product.id)
-        }
+        favProduct.product.run {
+            btnToFavorites.setOnClickListener {
+                listener?.onFavoriteIconListener(id)
+            }
+            btnToCart.setOnClickListener {
+                listener?.onAddToCartClickListener(id)
+            }
 
-        cardview.setOnClickListener {
-            onFavItemClickListener(favProduct.product.id)
+            cardview.setOnClickListener {
+                listener?.onFavItemClickListener(id)
+            }
         }
 
     }

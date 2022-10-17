@@ -12,6 +12,12 @@ import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import java.util.*
 
+interface OnUiProductListener{
+    fun onFavoriteBtnChangeListener(productId: Int)
+    fun onCardClickListener(productId: Int)
+    fun onAddToCartClickListener(productId: Int)
+}
+
 class UiProductListFragmentController(
     private val viewModel: ProductListViewModel,
     private val navController: NavController
@@ -23,11 +29,7 @@ class UiProductListFragmentController(
                 repeat(7) {
                     // should or not pass if product is null
                     UiProductEpoxyModel(
-                        null,
-                        ::onFavoriteBtnChangeListener,
-                        ::onCardClickListener,
-                        ::onAddToCartClickListener
-                    ).id(
+                        null).id(
                         // todo check if uuid is everywhere
                         UUID.randomUUID().toString()
                     ).addTo(this)
@@ -45,9 +47,24 @@ class UiProductListFragmentController(
                 data.products.forEach {
                     UiProductEpoxyModel(
                         it,
-                        ::onFavoriteBtnChangeListener,
-                        ::onCardClickListener,
-                        ::onAddToCartClickListener
+                        object : OnUiProductListener{
+                            override fun onFavoriteBtnChangeListener(productId: Int) {
+                                viewModel.updateFavoriteSet(productId)
+                            }
+
+                            override fun onCardClickListener(productId: Int) {
+                                MainNavigator.navigateToProductDetailsFragment(
+                                    navController = navController,
+                                    productId =  productId,
+                                    actionId = R.id.action_productListFragment_to_productDetailsFragment
+                                )
+                            }
+
+                            override fun onAddToCartClickListener(productId: Int) {
+                                viewModel.updateCartProductsId(productId)
+                            }
+
+                        }
                     ).id(it.product.id).addTo(this)
                 }
             }
@@ -57,23 +74,7 @@ class UiProductListFragmentController(
         }
     }
 
-    private fun onFavoriteBtnChangeListener(productId: Int) {
-        viewModel.updateFavoriteSet(productId)
-    }
-
-    private fun onCardClickListener(productId: Int) {
-        MainNavigator.navigateToProductDetailsFragment(
-            navController = navController,
-            productId =  productId,
-            actionId = R.id.action_productListFragment_to_productDetailsFragment
-        )
-    }
-
     private fun onFilterClickListener(filter: Filter) {
         viewModel.updateSelectedFilter(filter)
-    }
-
-    private fun onAddToCartClickListener(productId: Int) {
-        viewModel.updateCartProductsId(productId)
     }
 }

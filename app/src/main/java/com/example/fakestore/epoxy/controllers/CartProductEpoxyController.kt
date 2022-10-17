@@ -5,6 +5,12 @@ import com.example.fakestore.epoxy.model.CartProductEpoxyModel
 import com.example.fakestore.model.ui.CartUiProduct
 import com.example.fakestore.viewmodels.CartViewModel
 
+interface OnCardProductlistener{
+    fun onFavClickListener(productId: Int)
+    fun delOnClickListener(productId: Int)
+    fun quantityChangeListener(productId: Int, updatedQuantity: Int)
+}
+
 class CartProductEpoxyController(private val viewModel: CartViewModel) :
     TypedEpoxyController<List<CartUiProduct>>() {
 
@@ -15,25 +21,22 @@ class CartProductEpoxyController(private val viewModel: CartViewModel) :
         data.forEach {
             CartProductEpoxyModel(
                 cartProduct = it,
-                ::onFavClickListener,
-                ::delOnClickListener,
-                ::quantityChangeListener
+                object : OnCardProductlistener{
+                    override fun onFavClickListener(productId: Int) {
+                        viewModel.updateFavoriteSet(productId)
+                    }
+
+                    override fun delOnClickListener(productId: Int) {
+                        viewModel.updateCartProductsId(productId)
+                    }
+
+                    override fun quantityChangeListener(productId: Int, updatedQuantity: Int) {
+                        viewModel.updateCartQuantity(productId, updatedQuantity)
+                    }
+
+                }
             ).id(it.uiProduct.product.id).addTo(this)
         }
-    }
-
-    private fun onFavClickListener(productId: Int) {
-        viewModel.updateFavoriteSet(productId)
-    }
-
-    private fun delOnClickListener(productId: Int) {
-        // todo check if this works correct
-        viewModel.updateCartProductsId(productId)
-    }
-
-    private fun quantityChangeListener(productId: Int, updatedQuantity: Int) {
-        // todo check if this is ok or not
-        viewModel.updateCartQuantity(productId, updatedQuantity)
     }
 
 }

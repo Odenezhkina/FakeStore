@@ -7,14 +7,13 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
+import com.example.fakestore.epoxy.controllers.OnUiProductListener
 import com.example.fakestore.managers.uimanager.MainUiManager
 import com.example.fakestore.model.ui.UiProduct
 
 data class UiProductEpoxyModel(
     private val product: UiProduct?,
-    private val onFavoriteIconClicked: (Int) -> Unit,
-    private val onCardClickListener: (Int) -> Unit,
-    private val onCartClickListener: (Int) -> Unit
+    private val listener: OnUiProductListener? = null
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
 
     override fun ProductItemBinding.bind() {
@@ -50,15 +49,15 @@ data class UiProductEpoxyModel(
 
             // listeners
             btnToFavorites.setOnClickListener {
-                onFavoriteIconClicked(product.id)
+                listener?.onFavoriteBtnChangeListener(productId = product.id)
             }
 
             btnToCart.setOnClickListener {
-                onCartClickListener(product.id)
+                listener?.onAddToCartClickListener(productId = product.id)
             }
 
             cardview.setOnClickListener {
-                onCardClickListener(product.id)
+                listener?.onCardClickListener(productId = product.id)
             }
 
         } ?: shimmerLayout.startShimmer()

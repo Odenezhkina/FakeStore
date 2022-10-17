@@ -5,14 +5,13 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.CartItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.model.ui.CartUiProduct
+import com.example.fakestore.epoxy.controllers.OnCardProductlistener
 import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.model.ui.CartUiProduct
 
 class CartProductEpoxyModel(
     private val cartProduct: CartUiProduct,
-    private val favOnClickListener: (Int) -> Unit,
-    private val delOnClickListener: (Int) -> Unit,
-    private val quantityChangeListener: (Int, Int) -> Unit
+    private val listener: OnCardProductlistener? = null
 ) :
     ViewBindingKotlinModel<CartItemBinding>(R.layout.cart_item) {
 
@@ -32,17 +31,19 @@ class CartProductEpoxyModel(
             tvQuantity.text = quantityInCart.toString()
             btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(uiProduct.isInFavorites))
 
-            btnToFavorites.setOnClickListener {
-                favOnClickListener(uiProduct.product.id)
-            }
-            btnDelete.setOnClickListener {
-                delOnClickListener(uiProduct.product.id)
-            }
-            btnMinus.setOnClickListener {
-                quantityChangeListener(uiProduct.product.id, quantityInCart - 1)
-            }
-            btnPlus.setOnClickListener {
-                quantityChangeListener(uiProduct.product.id, quantityInCart + 1)
+            uiProduct.product.run {
+                btnToFavorites.setOnClickListener {
+                    listener?.onFavClickListener(id)
+                }
+                btnDelete.setOnClickListener {
+                    listener?.delOnClickListener(id)
+                }
+                btnMinus.setOnClickListener {
+                    listener?.quantityChangeListener(id, quantityInCart - 1)
+                }
+                btnPlus.setOnClickListener {
+                    listener?.quantityChangeListener(id, quantityInCart + 1)
+                }
             }
         }
     }
