@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
 import com.example.fakestore.epoxy.controllers.FavoriteItemEpoxyController
+import com.example.fakestore.states.FavFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -35,19 +36,18 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             .observe(viewLifecycleOwner) { listUiProducts ->
 
                 val favProducts = listUiProducts.filter { it.isInFavorites }
-                epoxyController.setData(favProducts)
-                manageUi(favProducts.isEmpty(), epoxyController)
+
+                epoxyController.setData(
+                    if (favProducts.isEmpty()) FavFragmentUiState.Empty else FavFragmentUiState.NonEmpty(
+                        favProducts
+                    )
+                )
+
+                with(binding) {
+                    rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
+                    rvFavorite.setController(epoxyController)
+                }
             }
-    }
-
-    private fun manageUi(isProductsEmpty: Boolean, epoxyController: FavoriteItemEpoxyController) {
-        with(binding) {
-            rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
-            rvFavorite.setController(epoxyController)
-
-            tvGoToCatalog.isVisible = isProductsEmpty
-            tvNoProductTitle.isVisible = isProductsEmpty
-        }
     }
 
     override fun onCreateView(

@@ -1,7 +1,6 @@
 package com.example.fakestore.menufragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,21 +12,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
-import com.example.fakestore.managers.SortManager
 import com.example.fakestore.model.mapper.ProductMapper
-import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
+import com.example.fakestore.states.ProductListFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -76,7 +70,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             viewModel.uiProductReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo }
         ) { uiProducts, productFilterInfo ->
-            Log.d("TAGTAG", "combine")
 
             if (uiProducts.isEmpty()) {
                 return@combine ProductListFragmentUiState.Loading
@@ -92,12 +85,11 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 }.toSet()
 
             var filteredProducts = uiProducts
-            synchronized(uiProducts){
-                synchronized(productFilterInfo){
-                    filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
-                }
-            }
-            Log.d("TAGTAG", "sorting")
+//            synchronized(uiProducts){
+//                synchronized(productFilterInfo){
+//                    filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
+//                }
+//            }
 
 
             return@combine ProductListFragmentUiState.Success(

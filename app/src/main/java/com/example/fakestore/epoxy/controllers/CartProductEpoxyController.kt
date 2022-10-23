@@ -3,9 +3,10 @@ package com.example.fakestore.epoxy.controllers
 import androidx.navigation.NavController
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
+import com.example.fakestore.epoxy.model.EmptyListEpoxyModel
 import com.example.fakestore.epoxy.model.CartProductEpoxyModel
 import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
-import com.example.fakestore.model.ui.CartUiProduct
+import com.example.fakestore.states.CartFragmentUiState
 import com.example.fakestore.viewmodels.CartViewModel
 
 interface OnCardProductListener{
@@ -15,38 +16,51 @@ interface OnCardProductListener{
     fun onCardProductItemListener(productId: Int)
 }
 
-class CartProductEpoxyController(private val viewModel: CartViewModel, private val navController: NavController) :
-    TypedEpoxyController<List<CartUiProduct>>() {
+class CartProductEpoxyController(
+    private val viewModel: CartViewModel,
+    private val navController: NavController
+) :
+    TypedEpoxyController<CartFragmentUiState>() {
 
-    override fun buildModels(data: List<CartUiProduct>?) {
-        if (data.isNullOrEmpty()) {
-            return
-        }
-        data.forEach {
-            CartProductEpoxyModel(
-                cartProduct = it,
-                object : OnCardProductListener{
-                    override fun onFavClickListener(productId: Int) {
-                        viewModel.updateFavoriteSet(productId)
-                    }
+    override fun buildModels(data: CartFragmentUiState?) {
+        when (data) {
+            null, is CartFragmentUiState.Empty -> EmptyListEpoxyModel(::goToCatalog).id(1).addTo(this)
+            is CartFragmentUiState.NonEmpty ->
+                data.products.forEach {
+                    CartProductEpoxyModel(
+                        cartProduct = it,
+                        object : OnCardProductListener {
+                            override fun onFavClickListener(productId: Int) {
+                                viewModel.updateFavoriteSet(productId)
+                            }
 
-                    override fun delOnClickListener(productId: Int) {
-                        viewModel.updateCartProductsId(productId)
-                    }
+                            override fun delOnClickListener(productId: Int) {
+                                viewModel.updateCartProductsId(productId)
+                            }
 
-                    override fun quantityChangeListener(productId: Int, updatedQuantity: Int) {
-                        viewModel.updateCartQuantity(productId, updatedQuantity)
-                    }
+                            override fun quantityChangeListener(
+                                productId: Int,
+                                updatedQuantity: Int
+                            ) {
+                                viewModel.updateCartQuantity(productId, updatedQuantity)
+                            }
 
-                    override fun onCardProductItemListener(productId: Int) {
-                        navController.navigateToProductDetailsFragment(
-                            productId,
-                            R.id.action_cartFragment_to_productDetailsFragment)
-                    }
+                            override fun onCardProductItemListener(productId: Int) {
+                                navController.navigateToProductDetailsFragment(
+                                    productId,
+                                    R.id.action_cartFragment_to_productDetailsFragment
+                                )
+                            }
 
+                        }
+                    ).id(it.uiProduct.product.id).addTo(this)
                 }
-            ).id(it.uiProduct.product.id).addTo(this)
+
         }
+    }
+
+    private fun goToCatalog() {
+        navController.navigate(R.id.action_cartFragment_to_productListFragment)
     }
 
 }

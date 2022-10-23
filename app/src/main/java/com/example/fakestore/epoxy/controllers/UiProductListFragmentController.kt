@@ -8,7 +8,7 @@ import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
 import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.model.domain.Filter
-import com.example.fakestore.model.ui.ProductListFragmentUiState
+import com.example.fakestore.states.ProductListFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import java.util.*
 
