@@ -9,11 +9,9 @@ import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.states.CartFragmentUiState
 import com.example.fakestore.viewmodels.CartViewModel
 
-interface OnCardProductListener{
-    fun onFavClickListener(productId: Int)
+interface OnCartProductListener{
     fun delOnClickListener(productId: Int)
     fun quantityChangeListener(productId: Int, updatedQuantity: Int)
-    fun onCardProductItemListener(productId: Int)
 }
 
 class CartProductEpoxyController(
@@ -29,9 +27,20 @@ class CartProductEpoxyController(
                 data.products.forEach {
                     CartProductEpoxyModel(
                         cartProduct = it,
-                        object : OnCardProductListener {
+                        object : OnCartProductListener, GeneralProductClickListener {
                             override fun onFavClickListener(productId: Int) {
                                 viewModel.updateFavoriteSet(productId)
+                            }
+
+                            override fun onToCardListener(productId: Int) {
+                                // todo
+                            }
+
+                            override fun onCardClickListener(productId: Int) {
+                                navController.navigateToProductDetailsFragment(
+                                    productId,
+                                    R.id.action_cartFragment_to_productDetailsFragment
+                                )
                             }
 
                             override fun delOnClickListener(productId: Int) {
@@ -44,14 +53,6 @@ class CartProductEpoxyController(
                             ) {
                                 viewModel.updateCartQuantity(productId, updatedQuantity)
                             }
-
-                            override fun onCardProductItemListener(productId: Int) {
-                                navController.navigateToProductDetailsFragment(
-                                    productId,
-                                    R.id.action_cartFragment_to_productDetailsFragment
-                                )
-                            }
-
                         }
                     ).id(it.uiProduct.product.id).addTo(this)
                 }

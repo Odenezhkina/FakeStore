@@ -5,7 +5,7 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FavoriteItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.epoxy.controllers.OnFavProductListener
+import com.example.fakestore.epoxy.controllers.GeneralProductClickListener
 import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle
@@ -13,7 +13,7 @@ import com.example.fakestore.model.ui.UiProduct
 
 class FavoriteItemEpoxyModel(
     private val favProduct: UiProduct,
-    private val listener: OnFavProductListener? = null
+    private val listener: GeneralProductClickListener = null
 ) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
 

@@ -5,14 +5,14 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.CartItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.epoxy.controllers.OnCardProductListener
+import com.example.fakestore.epoxy.controllers.OnCartProductListener
 import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.model.ui.CartUiProduct
 
 class CartProductEpoxyModel(
     private val cartProduct: CartUiProduct,
-    private val listener: OnCardProductListener? = null
+    private val listener: OnCartProductListener? = null
 ) :
     ViewBindingKotlinModel<CartItemBinding>(R.layout.cart_item) {
 

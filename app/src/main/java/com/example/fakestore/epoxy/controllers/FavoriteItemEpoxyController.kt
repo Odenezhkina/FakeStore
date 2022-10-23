@@ -9,12 +9,6 @@ import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.states.FavFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 
-interface OnFavProductListener {
-    fun onFavoriteIconListener(productId: Int)
-    fun onAddToCartClickListener(productId: Int)
-    fun onFavItemClickListener(productId: Int)
-}
-
 class FavoriteItemEpoxyController(
     private val viewModel: ProductListViewModel, private val navController: NavController
 ) : TypedEpoxyController<FavFragmentUiState>() {
@@ -25,16 +19,16 @@ class FavoriteItemEpoxyController(
                 .addTo(this)
             is FavFragmentUiState.NonEmpty -> {
                 data.products.forEach {
-                    FavoriteItemEpoxyModel(it, object : OnFavProductListener {
-                        override fun onFavoriteIconListener(productId: Int) {
+                    FavoriteItemEpoxyModel(it, object : GeneralProductClickListener {
+                        override fun onFavClickListener(productId: Int) {
                             viewModel.updateFavoriteSet(productId)
                         }
 
-                        override fun onAddToCartClickListener(productId: Int) {
+                        override fun onToCardListener(productId: Int) {
                             viewModel.updateCartProductsId(productId)
                         }
 
-                        override fun onFavItemClickListener(productId: Int) {
+                        override fun onCardClickListener(productId: Int) {
                             navController.navigateToProductDetailsFragment(
                                 productId = productId,
                                 actionId = R.id.action_favoriteFragment_to_productDetailsFragment

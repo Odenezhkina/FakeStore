@@ -12,11 +12,6 @@ import com.example.fakestore.states.ProductListFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import java.util.*
 
-interface OnUiProductListener{
-    fun onFavoriteBtnChangeListener(productId: Int)
-    fun onCardClickListener(productId: Int)
-    fun onAddToCartClickListener(productId: Int)
-}
 
 class UiProductListFragmentController(
     private val viewModel: ProductListViewModel,
@@ -47,9 +42,13 @@ class UiProductListFragmentController(
                 data.products.forEach {
                     UiProductEpoxyModel(
                         it,
-                        object : OnUiProductListener{
-                            override fun onFavoriteBtnChangeListener(productId: Int) {
+                        object : GeneralProductClickListener {
+                            override fun onFavClickListener(productId: Int) {
                                 viewModel.updateFavoriteSet(productId)
+                            }
+
+                            override fun onToCardListener(productId: Int) {
+                                viewModel.updateCartProductsId(productId)
                             }
 
                             override fun onCardClickListener(productId: Int) {
@@ -58,11 +57,6 @@ class UiProductListFragmentController(
                                     actionId = R.id.action_productListFragment_to_productDetailsFragment
                                 )
                             }
-
-                            override fun onAddToCartClickListener(productId: Int) {
-                                viewModel.updateCartProductsId(productId)
-                            }
-
                         }
                     ).id(it.product.id).addTo(this)
                 }
