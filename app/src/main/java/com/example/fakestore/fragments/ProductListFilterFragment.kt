@@ -9,6 +9,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductListFiltersLayoutBinding
 import com.example.fakestore.epoxy.controllers.UiFilterItemController
 import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_CHEAPEST_FIRST
 import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_MOST_EXPENSIVE_FIRST
@@ -40,8 +41,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
 
                     // set up sort type
                     productFilterInfo.sortType.run {
-                        if (isSortActive) {
-                            when (sortType) {
+                        when (sortType) {
                                 SORT_TYPE_MOST_POPULAR -> {
                                     btnMostPopular.isActivated = true
                                 }
@@ -55,7 +55,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                                     // some error
                                 }
                             }
-                        }
+
 
                         toggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
                             when (checkedId) {
@@ -83,7 +83,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                         }
 
                         rangeSliderCost.setLabelFormatter { value: Float ->
-                            MainUiManager.formatPrice(value.toBigDecimal())
+                            value.toBigDecimal().formatToPrice()
                         }
 
                         rangeSliderCost.addOnSliderTouchListener(object :

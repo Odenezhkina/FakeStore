@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentCartBinding
@@ -31,7 +32,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun initObservers() {
         val viewModel: CartViewModel by viewModels()
-        val epoxyController = CartProductEpoxyController(viewModel)
+        val epoxyController = CartProductEpoxyController(viewModel, findNavController())
         viewModel.uiProductDetailedReducer.reduce(viewModel.store)
             .distinctUntilChanged()
             .asLiveData()

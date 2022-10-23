@@ -1,6 +1,5 @@
 package com.example.fakestore.epoxy.model
 
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.load
@@ -8,7 +7,9 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.epoxy.controllers.OnUiProductListener
-import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
+import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle
 import com.example.fakestore.model.ui.UiProduct
 
 data class UiProductEpoxyModel(
@@ -26,8 +27,10 @@ data class UiProductEpoxyModel(
 
             tvHeadline.text = product.title
             tvCategory.text = product.category
-            tvPrice.text = MainUiManager.formatPrice(product.price)
-            btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(isInFavorites))
+            tvPrice.text = product.price.formatToPrice()
+
+            btnToFavorites.setFavoriteIcon(isInFavorites)
+
             ratingBar.rating = product.rating.rate
 
             pbLoadingImage.isVisible = true
@@ -37,15 +40,7 @@ data class UiProductEpoxyModel(
                 }
             }
 
-            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(isInCart)
-            btnToCart.setIconResource(backgroundColorIconIds.second)
-            btnToCart.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    this@bind.root.context.resources,
-                    backgroundColorIconIds.first,
-                    null
-                )
-            )
+            btnToCart.setInCartStyle(isInCart, root.context)
 
             // listeners
             btnToFavorites.setOnClickListener {

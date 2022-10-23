@@ -1,6 +1,7 @@
 package com.example.fakestore.menufragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +21,13 @@ import com.example.fakestore.network.NetworkService
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,14 +71,17 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
         // todo fix shimmer
 
+
         combine(
             viewModel.uiProductReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo }
         ) { uiProducts, productFilterInfo ->
+            Log.d("TAGTAG", "combine")
 
             if (uiProducts.isEmpty()) {
                 return@combine ProductListFragmentUiState.Loading
             }
+
 
             val uiFilters: Set<UiFilter> =
                 productFilterInfo.filterCategory.filters.map { filter ->
@@ -83,8 +91,13 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                     )
                 }.toSet()
 
-            // FILTERING
-            var filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
+            var filteredProducts = uiProducts
+            synchronized(uiProducts){
+                synchronized(productFilterInfo){
+                    filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
+                }
+            }
+            Log.d("TAGTAG", "sorting")
 
 
             return@combine ProductListFragmentUiState.Success(

@@ -22,7 +22,7 @@
         app:behavior_skipCollapsed="true"
         app:behavior_peekHeight="80dp"
         android:name="com.example.fakestore.fragments.ProductListMainFragment"
-        app:layout_behavior=".menufragments.GestureLockedBottomSheetBehavior"
+        app:layout_behavior=".GestureLockedBottomSheetBehavior"
         tools:layout="@layout/product_list_layout" />
 
 

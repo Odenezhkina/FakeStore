@@ -5,20 +5,21 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.CartItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.epoxy.controllers.OnCardProductlistener
-import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.epoxy.controllers.OnCardProductListener
+import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.model.ui.CartUiProduct
 
 class CartProductEpoxyModel(
     private val cartProduct: CartUiProduct,
-    private val listener: OnCardProductlistener? = null
+    private val listener: OnCardProductListener? = null
 ) :
     ViewBindingKotlinModel<CartItemBinding>(R.layout.cart_item) {
 
     override fun CartItemBinding.bind() {
         cartProduct.uiProduct.product.run {
             tvHeadline.text = title
-            tvPrice.text = MainUiManager.formatPrice(price)
+            tvPrice.text = price.formatToPrice()
 
             ivImage.load(image){
                 listener { _, _ ->
@@ -29,7 +30,7 @@ class CartProductEpoxyModel(
 
         cartProduct.run {
             tvQuantity.text = quantityInCart.toString()
-            btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(uiProduct.isInFavorites))
+            btnToFavorites.setFavoriteIcon(uiProduct.isInFavorites)
 
             uiProduct.product.run {
                 btnToFavorites.setOnClickListener {

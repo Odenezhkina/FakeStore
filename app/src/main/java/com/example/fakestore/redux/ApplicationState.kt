@@ -10,8 +10,7 @@ data class ApplicationState(
     val productCartInfo: ProductCartInfo = ProductCartInfo(),
     val productFilterInfo: ProductFilterInfo = ProductFilterInfo()
 ) {
-    // separate class because we want to store filters (which will be displayed in the carousel)
-    // and filter which is selected
+
     data class ProductFilterInfo(
         val filterCategory: FilterCategory = FilterCategory(),
         val rangeSort: RangeSort = RangeSort(),
@@ -24,7 +23,6 @@ data class ApplicationState(
         )
 
         data class SortType(
-            val isSortActive: Boolean = false,
             val sortType: Int? = null
         ) {
             companion object {
@@ -35,7 +33,6 @@ data class ApplicationState(
         }
 
         data class RangeSort(
-            // todo initialize toCost with max cost in product list
             val isSortActive: Boolean = false,
             val fromCost: BigDecimal = BigDecimal(0),
             val toCost: BigDecimal? = null
@@ -43,10 +40,7 @@ data class ApplicationState(
     }
 
     class ProductCartInfo(
-        //todo maybe it is better to use hashmap instead of map
-        // we should remove elements with quantity equals 0?
-        // here we control if quantity is greater than 0?
-        private val mapProductIdQuantity: Map<Int, Int> = mapOf()
+        private val mapProductIdQuantity: Map<Int, Int> = hashMapOf()
     ) {
 
         fun isInCart(productId: Int): Boolean {

@@ -1,17 +1,21 @@
 package com.example.fakestore.epoxy.controllers
 
+import androidx.navigation.NavController
 import com.airbnb.epoxy.TypedEpoxyController
+import com.example.fakestore.R
 import com.example.fakestore.epoxy.model.CartProductEpoxyModel
+import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.model.ui.CartUiProduct
 import com.example.fakestore.viewmodels.CartViewModel
 
-interface OnCardProductlistener{
+interface OnCardProductListener{
     fun onFavClickListener(productId: Int)
     fun delOnClickListener(productId: Int)
     fun quantityChangeListener(productId: Int, updatedQuantity: Int)
+    fun onCardProductItemListener(productId: Int)
 }
 
-class CartProductEpoxyController(private val viewModel: CartViewModel) :
+class CartProductEpoxyController(private val viewModel: CartViewModel, private val navController: NavController) :
     TypedEpoxyController<List<CartUiProduct>>() {
 
     override fun buildModels(data: List<CartUiProduct>?) {
@@ -21,7 +25,7 @@ class CartProductEpoxyController(private val viewModel: CartViewModel) :
         data.forEach {
             CartProductEpoxyModel(
                 cartProduct = it,
-                object : OnCardProductlistener{
+                object : OnCardProductListener{
                     override fun onFavClickListener(productId: Int) {
                         viewModel.updateFavoriteSet(productId)
                     }
@@ -32,6 +36,12 @@ class CartProductEpoxyController(private val viewModel: CartViewModel) :
 
                     override fun quantityChangeListener(productId: Int, updatedQuantity: Int) {
                         viewModel.updateCartQuantity(productId, updatedQuantity)
+                    }
+
+                    override fun onCardProductItemListener(productId: Int) {
+                        navController.navigateToProductDetailsFragment(
+                            productId,
+                            R.id.action_cartFragment_to_productDetailsFragment)
                     }
 
                 }

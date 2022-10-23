@@ -2,9 +2,7 @@ package com.example.fakestore.fragments
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -15,6 +13,9 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
 import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
+import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +71,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 ratingBar.rating = rating.rate
                 tvReviews.text = getString(R.string.count_of_reviews, rating.count)
 
-                tvPrice.text = MainUiManager.formatPrice(price)
+                tvPrice.text = price.formatToPrice()
 
                 pbLoadingImage.isVisible = true
                 ivExpanded.load(data = image) {
@@ -87,18 +88,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
 
-            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(uiProduct.isInCart)
-            btnToCart.setImageResource(backgroundColorIconIds.second)
-            btnToCart.backgroundTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(requireContext(), backgroundColorIconIds.first)
-            )
+            btnToCart.setInCartStyle(uiProduct.isInCart, root.context)
+//            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(uiProduct.isInCart)
+//            btnToCart.setImageResource(backgroundColorIconIds.second)
+//            btnToCart.backgroundTintList = ColorStateList.valueOf(
+//                ContextCompat.getColor(requireContext(), backgroundColorIconIds.first)
+//            )
 
-            btnToFavorites.setIconResource(
-                MainUiManager.getResFavoriteIconId(
-                    uiProduct.isInFavorites
-                )
-            )
-
+            btnToFavorites.setFavoriteIcon(uiProduct.isInFavorites)
         }
     }
 

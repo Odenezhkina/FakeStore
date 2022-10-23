@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.epoxy.model.FavoriteItemEpoxyModel
-import com.example.fakestore.managers.uimanager.MainNavigator
+import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.viewmodels.ProductListViewModel
 
@@ -37,8 +37,7 @@ class FavoriteItemEpoxyController(
                     }
 
                     override fun onFavItemClickListener(productId: Int) {
-                        MainNavigator.navigateToProductDetailsFragment(
-                            navController = navController,
+                       navController.navigateToProductDetailsFragment(
                             productId = productId,
                             actionId = R.id.action_favoriteFragment_to_productDetailsFragment
                         )

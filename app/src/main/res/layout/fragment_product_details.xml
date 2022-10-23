@@ -7,17 +7,30 @@
     android:background="@color/white"
     tools:context=".fragments.ProductDetailsFragment">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/btn_to_cart"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:contentDescription="@string/add_to_cart"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|end"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:tint="@color/white"-->
+<!--        app:backgroundTint="@color/dark_blue"-->
+<!--        style="@style/MaterialButton.ElevatedButton.Icon.Round"-->
+<!--        android:src="@drawable/ic_baseline_add_shopping_cart_24" />-->
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_to_cart"
-        android:layout_width="wrap_content"
+        style="@style/MaterialButton.ElevatedButton.Icon.Round"
+        android:backgroundTint="@color/dark_blue"
+        app:iconTint="@color/white"
+        app:icon="@drawable/ic_baseline_add_shopping_cart_24"
+        android:layout_width="52dp"
         android:contentDescription="@string/add_to_cart"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:tint="@color/white"
-        app:backgroundTint="@color/dark_blue"
-        style="@style/MaterialButton.ElevatedButton.Icon.Round"
-        android:src="@drawable/ic_baseline_add_shopping_cart_24" />
+        android:layout_margin="20dp" />
+
 
 
     <com.google.android.material.appbar.AppBarLayout

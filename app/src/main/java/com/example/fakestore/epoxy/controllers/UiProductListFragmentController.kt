@@ -6,7 +6,7 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
-import com.example.fakestore.managers.uimanager.MainNavigator
+import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
@@ -53,9 +53,8 @@ class UiProductListFragmentController(
                             }
 
                             override fun onCardClickListener(productId: Int) {
-                                MainNavigator.navigateToProductDetailsFragment(
-                                    navController = navController,
-                                    productId =  productId,
+                                navController.navigateToProductDetailsFragment(
+                                    productId = productId,
                                     actionId = R.id.action_productListFragment_to_productDetailsFragment
                                 )
                             }

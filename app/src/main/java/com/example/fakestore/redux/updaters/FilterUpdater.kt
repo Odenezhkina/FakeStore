@@ -40,11 +40,14 @@ class FilterUpdater @Inject constructor() {
     fun updateSortType(applicationState: ApplicationState, sortType: Int): ApplicationState {
         // if sort type is already selected -> set isActive as false
         // else -> set sortType
-        val isActive = applicationState.productFilterInfo.sortType.sortType != sortType
-        val newSortType = if (isActive) sortType else null
+        val newSortType = if(applicationState.productFilterInfo.sortType.sortType == sortType){
+            null
+        }else{
+            sortType
+        }
         return applicationState.copy(
             productFilterInfo = ApplicationState.ProductFilterInfo(
-                sortType =  ApplicationState.ProductFilterInfo.SortType(isActive, newSortType)
+                sortType =  ApplicationState.ProductFilterInfo.SortType(newSortType)
             )
         )
     }
