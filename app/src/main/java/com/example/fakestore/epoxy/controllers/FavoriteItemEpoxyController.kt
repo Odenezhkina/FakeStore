@@ -15,7 +15,7 @@ class FavoriteItemEpoxyController(
 
     override fun buildModels(data: FavFragmentUiState?) {
         when (data) {
-            null, is FavFragmentUiState.Empty -> EmptyListEpoxyModel(::goToCatalog).id(1)
+            null, is FavFragmentUiState.Empty -> EmptyListEpoxyModel(::goToCatalog).id(2)
                 .addTo(this)
             is FavFragmentUiState.NonEmpty -> {
                 data.products.forEach {
@@ -24,7 +24,7 @@ class FavoriteItemEpoxyController(
                             viewModel.updateFavoriteSet(productId)
                         }
 
-                        override fun onToCardListener(productId: Int) {
+                        override fun onToCartListener(productId: Int) {
                             viewModel.updateCartProductsId(productId)
                         }
 

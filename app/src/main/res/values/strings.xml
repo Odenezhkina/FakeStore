@@ -28,5 +28,7 @@
     <string name="category">Category</string>
     <string name="products">Products</string>
     <string name="filter_icon">filter icon</string>
+    <string name="btn_buy_text_not_added">to cart</string>
+    <string name="btn_buy_text_added">added</string>
 
 </resources>

@@ -13,7 +13,7 @@ import com.example.fakestore.model.ui.UiProduct
 
 class FavoriteItemEpoxyModel(
     private val favProduct: UiProduct,
-    private val listener: GeneralProductClickListener = null
+    private val listener: GeneralProductClickListener? = null
 ) :
     ViewBindingKotlinModel<FavoriteItemBinding>(R.layout.favorite_item) {
 
@@ -37,14 +37,14 @@ class FavoriteItemEpoxyModel(
 
         favProduct.product.run {
             btnToFavorites.setOnClickListener {
-                listener?.onFavoriteIconListener(id)
+                listener?.onFavClickListener(id)
             }
             btnToCart.setOnClickListener {
-                listener?.onAddToCartClickListener(id)
+                listener?.onToCartListener(id)
             }
 
             cardview.setOnClickListener {
-                listener?.onFavItemClickListener(id)
+                listener?.onCardClickListener(id)
             }
         }
 

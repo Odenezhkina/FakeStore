@@ -6,7 +6,7 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.epoxy.controllers.OnUiProductListener
+import com.example.fakestore.epoxy.controllers.GeneralProductClickListener
 import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle
@@ -14,8 +14,9 @@ import com.example.fakestore.model.ui.UiProduct
 
 data class UiProductEpoxyModel(
     private val product: UiProduct?,
-    private val listener: OnUiProductListener? = null
+    private val listener: GeneralProductClickListener? = null
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
+
 
     override fun ProductItemBinding.bind() {
         // product not null
@@ -32,6 +33,8 @@ data class UiProductEpoxyModel(
             btnToFavorites.setFavoriteIcon(isInFavorites)
 
             ratingBar.rating = product.rating.rate
+            tvCountOfReviews.text =
+                this@bind.root.context.getString(R.string.count_of_reviews, product.rating.count)
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
@@ -42,17 +45,16 @@ data class UiProductEpoxyModel(
 
             btnToCart.setInCartStyle(isInCart, root.context)
 
-            // listeners
             btnToFavorites.setOnClickListener {
-                listener?.onFavoriteBtnChangeListener(productId = product.id)
+                listener?.onFavClickListener(product.id)
             }
 
             btnToCart.setOnClickListener {
-                listener?.onAddToCartClickListener(productId = product.id)
+                listener?.onToCartListener(product.id)
             }
 
             cardview.setOnClickListener {
-                listener?.onCardClickListener(productId = product.id)
+                listener?.onCardClickListener(product.id)
             }
 
         } ?: shimmerLayout.startShimmer()

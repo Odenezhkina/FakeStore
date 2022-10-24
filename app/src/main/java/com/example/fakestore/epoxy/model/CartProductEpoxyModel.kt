@@ -26,6 +26,7 @@ class CartProductEpoxyModel(
                     pbLoadingImage.isVisible = false
                 }
             }
+            ratingBar.rating = rating.rate
         }
 
         cartProduct.run {

@@ -34,6 +34,17 @@ object MainUiManager {
         this.setBackgroundColor(ContextCompat.getColor(context, colorId))
     }
 
+    fun MaterialButton.setBtnToCartStyle(isInCart: Boolean, context: Context) {
+        val colorId = if (isInCart) {
+            this.text = context.getString(R.string.btn_buy_text_added)
+            R.color.orange
+        } else {
+            this.text = context.getString(R.string.btn_buy_text_not_added)
+            R.color.dark_blue
+        }
+        this.setBackgroundColor(ContextCompat.getColor(context, colorId))
+    }
+
 
     fun BigDecimal.formatToPrice(): String {
         return NumberFormat.getCurrencyInstance().apply {

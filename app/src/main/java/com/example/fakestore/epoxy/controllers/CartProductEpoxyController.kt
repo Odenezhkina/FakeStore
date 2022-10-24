@@ -9,7 +9,7 @@ import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.states.CartFragmentUiState
 import com.example.fakestore.viewmodels.CartViewModel
 
-interface OnCartProductListener{
+interface OnCartProductListener : GeneralProductClickListener{
     fun delOnClickListener(productId: Int)
     fun quantityChangeListener(productId: Int, updatedQuantity: Int)
 }
@@ -27,12 +27,12 @@ class CartProductEpoxyController(
                 data.products.forEach {
                     CartProductEpoxyModel(
                         cartProduct = it,
-                        object : OnCartProductListener, GeneralProductClickListener {
+                        object : OnCartProductListener {
                             override fun onFavClickListener(productId: Int) {
                                 viewModel.updateFavoriteSet(productId)
                             }
 
-                            override fun onToCardListener(productId: Int) {
+                            override fun onToCartListener(productId: Int) {
                                 // todo
                             }
 

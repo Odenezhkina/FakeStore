@@ -1,9 +1,7 @@
 package com.example.fakestore.fragments
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -11,11 +9,12 @@ import androidx.lifecycle.asLiveData
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
-import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.managers.uimanager.MainUiManager
 import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.managers.uimanager.MainUiManager.setBtnToCartStyle
 import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle
+import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +65,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         with(binding) {
             uiProduct.product.run {
                 tvHeadline.text = title
-                tvCategory.text = category
                 tvDescription.text = "$description $description $description $description"
                 ratingBar.rating = rating.rate
                 tvReviews.text = getString(R.string.count_of_reviews, rating.count)
@@ -88,12 +86,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
 
-            btnToCart.setInCartStyle(uiProduct.isInCart, root.context)
-//            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(uiProduct.isInCart)
-//            btnToCart.setImageResource(backgroundColorIconIds.second)
-//            btnToCart.backgroundTintList = ColorStateList.valueOf(
-//                ContextCompat.getColor(requireContext(), backgroundColorIconIds.first)
-//            )
+            btnToCart.setBtnToCartStyle(uiProduct.isInCart, root.context)
 
             btnToFavorites.setFavoriteIcon(uiProduct.isInFavorites)
         }

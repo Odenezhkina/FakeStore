@@ -47,7 +47,7 @@ class UiProductListFragmentController(
                                 viewModel.updateFavoriteSet(productId)
                             }
 
-                            override fun onToCardListener(productId: Int) {
+                            override fun onToCartListener(productId: Int) {
                                 viewModel.updateCartProductsId(productId)
                             }
 

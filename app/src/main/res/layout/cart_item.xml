@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardviw"
@@ -67,6 +66,18 @@
             android:text="$1566.99"
             app:layout_constraintStart_toStartOf="@+id/tv_headline"
             app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:saveEnabled="false"
+            style="@style/OrangeRatingBar"
+            android:rating="3.5"
+            app:layout_constraintStart_toStartOf="@id/tv_headline"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
+            app:layout_constraintBottom_toTopOf="@id/btn_minus"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete"
