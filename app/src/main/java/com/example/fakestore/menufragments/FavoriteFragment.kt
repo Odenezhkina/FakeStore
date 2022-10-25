@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
 import com.example.fakestore.epoxy.controllers.FavoriteItemEpoxyController
+import com.example.fakestore.epoxy.decorators.SimpleGridDividerItemDecorator
 import com.example.fakestore.states.FavFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,8 +44,14 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 )
 
                 with(binding) {
-                    rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
-                    rvFavorite.setController(epoxyController)
+                    rvFavorite.run {
+                        if (!isDirty) {
+                            addItemDecoration(SimpleGridDividerItemDecorator(
+                                MARGIN_RECYCLER_VIEW_ITEM, 2))
+                        }
+                        layoutManager = GridLayoutManager(requireContext(), 2)
+                        setController(epoxyController)
+                    }
                 }
             }
     }
@@ -60,5 +66,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object{
+        private const val MARGIN_RECYCLER_VIEW_ITEM = 16
     }
 }

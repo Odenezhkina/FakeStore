@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentCartBinding
+import com.example.fakestore.epoxy.decorators.SimpleVerticalDividerItemDecorator
 import com.example.fakestore.epoxy.controllers.CartProductEpoxyController
 import com.example.fakestore.states.CartFragmentUiState
 import com.example.fakestore.viewmodels.CartViewModel
@@ -40,18 +41,34 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     )
                 )
                 with(binding) {
-                    rvCart.layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                    rvCart.setController(epoxyController)
+                    rvCart.run {
+                        if(!isDirty){
+                            addItemDecoration(
+                                SimpleVerticalDividerItemDecorator(
+                                    MARGIN_BOTTOM_RECYCLER_VIEW_ITEM
+                                )
+                            )
+                        }
+                        layoutManager =
+                            LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                        rvCart.setController(epoxyController)
+                    }
                 }
 
             }
 
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object{
+        private const val MARGIN_BOTTOM_RECYCLER_VIEW_ITEM = 16
     }
 }

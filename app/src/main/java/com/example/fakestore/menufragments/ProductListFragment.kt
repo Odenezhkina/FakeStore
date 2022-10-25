@@ -1,6 +1,7 @@
 package com.example.fakestore.menufragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
+import com.example.fakestore.epoxy.decorators.SimpleVerticalDividerItemDecorator
 import com.example.fakestore.model.mapper.ProductMapper
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
@@ -85,12 +87,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 }.toSet()
 
             var filteredProducts = uiProducts
-//            synchronized(uiProducts){
-//                synchronized(productFilterInfo){
-//                    filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
-//                }
-//            }
-
 
             return@combine ProductListFragmentUiState.Success(
                 products = filteredProducts,
@@ -102,14 +98,28 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             }
 
         viewModel.refreshProducts()
-        with(binding) {
-            productListLayout.rvProducts.setController(epoxyController)
-        }
+
+        setUpRecycle(epoxyController)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setUpRecycle(epoxyController: UiProductListFragmentController) {
+        with(binding) {
+            productListLayout.rvProducts.run {
+                if(!isDirty){
+                    addItemDecoration(
+                        SimpleVerticalDividerItemDecorator(
+                            MARGIN_BOTTOM_RECYCLER_VIEW_ITEM
+                        )
+                    )
+                }
+                setController(epoxyController)
+            }
+        }
     }
 
     private fun toggleFilters(bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>) {
@@ -120,4 +130,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         }
     }
 
+    companion object {
+        private const val MARGIN_BOTTOM_RECYCLER_VIEW_ITEM = 16
+    }
 }
