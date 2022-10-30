@@ -5,10 +5,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.EpoxyRecyclerView
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductListFiltersLayoutBinding
 import com.example.fakestore.epoxy.controllers.UiFilterItemController
-import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
 import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_CHEAPEST_FIRST
@@ -32,6 +36,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
             val viewModel: ProductListViewModel by activityViewModels()
             val epoxyController =
                 UiFilterItemController(viewModel)
+            val epoxyControllerSecond = UiProductListFragmentController(viewModel, findNavController())
             filtersEpoxyCarousel.setController(epoxyController)
 
             viewModel.store.stateFlow.map { it.productFilterInfo }
@@ -99,9 +104,13 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                                 etTo.setText(slider.values[1].toString())
 
                                 viewModel.updateRangeSort(
+                                    viewLifecycleOwner,
+                                    epoxyControllerSecond,
                                     slider.values[0].toBigDecimal(),
                                     slider.values[1].toBigDecimal()
                                 )
+                                val recyclerView = activity?.findViewById<EpoxyRecyclerView>(R.id.rv_products)
+                                recyclerView?.setController(epoxyControllerSecond)
                             }
                         }
                         )
@@ -119,8 +128,6 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                         }.toSet()
                         epoxyController.setData(uifilters)
                     }
-
-
                 }
 
         }

@@ -1,8 +1,11 @@
 package com.example.fakestore.viewmodels
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakestore.ProductRepository
+import com.example.fakestore.epoxy.controllers.UiFilterItemController
+import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.domain.Product
 import com.example.fakestore.redux.ApplicationState
@@ -76,9 +79,7 @@ class ProductListViewModel
         }
     }
 
-    fun updateRangeSort(newFromCost: BigDecimal, newToCost: BigDecimal) = viewModelScope.launch {
-        store.update { applicationState ->
-            return@update filterUpdater.updateRangeSort(applicationState, newFromCost, newToCost)
-        }
+    fun updateRangeSort(lifecycleOwner: LifecycleOwner, controller: UiProductListFragmentController, newFromCost: BigDecimal, newToCost: BigDecimal){
+        filterUpdater.rangeSort(lifecycleOwner, controller, this@ProductListViewModel, newFromCost, newToCost)
     }
 }

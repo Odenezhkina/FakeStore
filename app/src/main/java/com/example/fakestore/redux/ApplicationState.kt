@@ -13,6 +13,7 @@ data class ApplicationState(
 
     data class ProductFilterInfo(
         val filterCategory: FilterCategory = FilterCategory(),
+        val filterRange: FilterRange = FilterRange(),
         val rangeSort: RangeSort = RangeSort(),
         val sortType: SortType = SortType()
     ) {
@@ -20,6 +21,11 @@ data class ApplicationState(
         data class FilterCategory(
             val filters: Set<Filter> = emptySet(),
             val selectedFilter: Filter? = null,
+        )
+
+        data class  FilterRange(
+            val filters: Set<Filter> = emptySet(),
+            val isInRangeFilter: Filter? = null,
         )
 
         data class SortType(
