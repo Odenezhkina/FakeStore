@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
+import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
 import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
@@ -21,14 +22,7 @@ class UiProductListFragmentController(
     override fun buildModels(data: ProductListFragmentUiState?) {
         when (data) {
             is ProductListFragmentUiState.Loading -> {
-                repeat(7) {
-                    // should or not pass if product is null
-                    UiProductEpoxyModel(
-                        null).id(
-                        // todo check if uuid is everywhere
-                        UUID.randomUUID().toString()
-                    ).addTo(this)
-                }
+                UiProductEpoxyModel(null).id(UUID.randomUUID().toString()).addTo(this)
                 return
             }
             is ProductListFragmentUiState.Success -> {

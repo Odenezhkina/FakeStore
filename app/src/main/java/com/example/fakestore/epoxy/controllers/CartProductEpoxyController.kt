@@ -3,16 +3,13 @@ package com.example.fakestore.epoxy.controllers
 import androidx.navigation.NavController
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
-import com.example.fakestore.epoxy.model.EmptyListEpoxyModel
+import com.example.fakestore.epoxy.listeners.OnCartProductListener
 import com.example.fakestore.epoxy.model.CartProductEpoxyModel
+import com.example.fakestore.epoxy.model.EmptyListEpoxyModel
 import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.states.CartFragmentUiState
 import com.example.fakestore.viewmodels.CartViewModel
-
-interface OnCartProductListener : GeneralProductClickListener{
-    fun delOnClickListener(productId: Int)
-    fun quantityChangeListener(productId: Int, updatedQuantity: Int)
-}
+import java.util.*
 
 class CartProductEpoxyController(
     private val viewModel: CartViewModel,
@@ -22,12 +19,14 @@ class CartProductEpoxyController(
 
     override fun buildModels(data: CartFragmentUiState?) {
         when (data) {
-            null, is CartFragmentUiState.Empty -> EmptyListEpoxyModel(::goToCatalog).id(1).addTo(this)
+            null, is CartFragmentUiState.Empty -> EmptyListEpoxyModel(::goToCatalog).id(
+                UUID.randomUUID().toString()
+            ).addTo(this)
             is CartFragmentUiState.NonEmpty ->
                 data.products.forEach {
                     CartProductEpoxyModel(
                         cartProduct = it,
-                        object : OnCartProductListener {
+                        listener = object : OnCartProductListener {
                             override fun onFavClickListener(productId: Int) {
                                 viewModel.updateFavoriteSet(productId)
                             }
@@ -54,7 +53,7 @@ class CartProductEpoxyController(
                                 viewModel.updateCartQuantity(productId, updatedQuantity)
                             }
                         }
-                    ).id(it.uiProduct.product.id).addTo(this)
+                    ).id(it.toString()).addTo(this)
                 }
 
         }

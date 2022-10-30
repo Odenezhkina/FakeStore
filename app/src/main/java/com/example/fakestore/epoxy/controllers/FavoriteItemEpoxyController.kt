@@ -3,6 +3,7 @@ package com.example.fakestore.epoxy.controllers
 import androidx.navigation.NavController
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
+import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.epoxy.model.EmptyListEpoxyModel
 import com.example.fakestore.epoxy.model.FavoriteItemEpoxyModel
 import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
@@ -35,7 +36,7 @@ class FavoriteItemEpoxyController(
                             )
                         }
 
-                    }).id(it.product.id).addTo(this)
+                    }).id(it.toString()).addTo(this)
                 }
             }
         }

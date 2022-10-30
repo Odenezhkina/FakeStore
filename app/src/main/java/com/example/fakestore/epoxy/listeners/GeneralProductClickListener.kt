@@ -1,4 +1,4 @@
-package com.example.fakestore.epoxy.controllers
+package com.example.fakestore.epoxy.listeners
 
 interface GeneralProductClickListener {
     fun onFavClickListener(productId: Int)

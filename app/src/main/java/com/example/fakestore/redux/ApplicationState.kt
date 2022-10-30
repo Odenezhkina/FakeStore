@@ -51,13 +51,9 @@ data class ApplicationState(
             return mapProductIdQuantity[productId] ?: -1
         }
 
-        fun countProductsInCart(): Int {
-            return mapProductIdQuantity.size
-        }
+        fun countProductsInCart(): Int = mapProductIdQuantity.size
 
-        fun getMap(): MutableMap<Int, Int> {
-            return mapProductIdQuantity.toMutableMap()
-        }
+        fun getMap(): MutableMap<Int, Int> = mapProductIdQuantity.toMutableMap()
     }
 }
 

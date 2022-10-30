@@ -6,7 +6,7 @@ import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.epoxy.controllers.GeneralProductClickListener
+import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle

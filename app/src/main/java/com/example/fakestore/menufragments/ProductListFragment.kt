@@ -1,7 +1,6 @@
 package com.example.fakestore.menufragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,7 +76,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 return@combine ProductListFragmentUiState.Loading
             }
 
-
             val uiFilters: Set<UiFilter> =
                 productFilterInfo.filterCategory.filters.map { filter ->
                     UiFilter(
@@ -86,10 +84,8 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                     )
                 }.toSet()
 
-            var filteredProducts = uiProducts
-
             return@combine ProductListFragmentUiState.Success(
-                products = filteredProducts,
+                products = uiProducts,
                 filters = uiFilters
             )
         }.distinctUntilChanged().asLiveData()
