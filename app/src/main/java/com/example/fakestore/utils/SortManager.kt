@@ -1,30 +1,25 @@
-package com.example.fakestore.managers
+package com.example.fakestore.utils
 
-import android.util.Log
+import com.example.fakestore.R
 import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.redux.ApplicationState
-import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_CHEAPEST_FIRST
-import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_MOST_EXPENSIVE_FIRST
-import com.example.fakestore.redux.ApplicationState.ProductFilterInfo.SortType.Companion.SORT_TYPE_MOST_POPULAR
 import java.math.BigDecimal
+import javax.inject.Inject
 
 
-class SortManager(
-    private val uiProducts: List<UiProduct>,
-    private val filtersInfo: ApplicationState.ProductFilterInfo
-) {
+class SortManager @Inject constructor() {
 
-    fun sort(): List<UiProduct> {
+    fun sort(
+        uiProducts: List<UiProduct>,
+        filtersInfo: ApplicationState.ProductFilterInfo
+    ): List<UiProduct> {
         var resList = uiProducts
 
         if (filtersInfo.filterCategory.selectedFilter != null) {
             resList = sortByCategory(filtersInfo.filterCategory.selectedFilter.title, resList)
         }
-
-        // todo why is active, remove is active
-        filtersInfo.sortType.sortType?.let {
+        filtersInfo.sortType.sortTypeId?.let {
             resList = sortByType(it, resList)
-            Log.d("TAGTAG", "type done")
         }
 
         if (filtersInfo.rangeSort.isSortActive) {
@@ -32,16 +27,15 @@ class SortManager(
                 resList = sortByCostRange(filtersInfo.rangeSort.fromCost, it, resList)
             }
         }
-        Log.d("TAGTAG", "Done")
 
         return resList
     }
 
     private fun sortByType(sortType: Int, resList: List<UiProduct>): List<UiProduct> {
         return when (sortType) {
-            SORT_TYPE_MOST_POPULAR -> sortByPopularity(resList)
-            SORT_TYPE_CHEAPEST_FIRST -> sortCheapestFirst(resList)
-            SORT_TYPE_MOST_EXPENSIVE_FIRST -> sortMostExpensiveFirst(resList)
+            R.id.most_popular -> sortByPopularity(resList)
+            R.id.cheapest -> sortCheapestFirst(resList)
+            R.id.most_expensive -> sortMostExpensiveFirst(resList)
             else -> emptyList()
         }
     }

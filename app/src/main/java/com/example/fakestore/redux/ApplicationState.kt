@@ -23,14 +23,8 @@ data class ApplicationState(
         )
 
         data class SortType(
-            val sortType: Int? = null
-        ) {
-            companion object {
-                const val SORT_TYPE_MOST_POPULAR = 1
-                const val SORT_TYPE_CHEAPEST_FIRST = 2
-                const val SORT_TYPE_MOST_EXPENSIVE_FIRST = 3
-            }
-        }
+            val sortTypeId: Int? = null
+        )
 
         data class RangeSort(
             val isSortActive: Boolean = false,

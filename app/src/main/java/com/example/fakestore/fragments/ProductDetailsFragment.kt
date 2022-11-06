@@ -9,11 +9,10 @@ import androidx.lifecycle.asLiveData
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
-import com.example.fakestore.managers.uimanager.MainUiManager
-import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
-import com.example.fakestore.managers.uimanager.MainUiManager.setBtnToCartStyle
-import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
-import com.example.fakestore.managers.uimanager.MainUiManager.setInCartStyle
+import com.example.fakestore.utils.uimanager.MainUiManager
+import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.utils.uimanager.MainUiManager.setBtnToCartStyle
+import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.model.ui.UiProduct
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView

@@ -4,7 +4,7 @@ package com.example.fakestore.epoxy.model
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FilterItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.utils.uimanager.MainUiManager
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.ui.UiFilter
 

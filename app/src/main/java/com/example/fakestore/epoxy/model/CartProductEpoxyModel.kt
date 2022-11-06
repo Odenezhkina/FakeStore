@@ -1,16 +1,13 @@
 package com.example.fakestore.epoxy.model
 
-import android.util.Log
-import android.view.View
 import androidx.core.view.isVisible
 import coil.load
-import com.airbnb.epoxy.EpoxyModel
 import com.example.fakestore.R
 import com.example.fakestore.databinding.CartItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
 import com.example.fakestore.epoxy.listeners.OnCartProductListener
-import com.example.fakestore.managers.uimanager.MainUiManager.formatToPrice
-import com.example.fakestore.managers.uimanager.MainUiManager.setFavoriteIcon
+import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
 import com.example.fakestore.model.ui.CartUiProduct
 
 class CartProductEpoxyModel(
@@ -19,10 +16,38 @@ class CartProductEpoxyModel(
 ) :
     ViewBindingKotlinModel<CartItemBinding>(R.layout.cart_item) {
 
-    override fun bind(view: View, previouslyBoundModel: EpoxyModel<*>) {
-        Log.d("TAGTAG", "hello it is me!!!!")
-        super.bind(view, previouslyBoundModel)
-    }
+//    companion object {
+//        private const val FAV_CHANGED_KEY = "FavStatusChanged"
+//        private const val QUANTITY_CHANGED_KEY = "QuantityChanged"
+//    }
+
+//
+//    override fun bind(view: View, payloads: MutableList<Any>) {
+//        Log.d("TAGTAG", "hello it is me!!!!")
+//        if (payloads.isEmpty()) {
+//            super.bind(view, payloads)
+//        } else {
+//            val myPayload = payloads.first() as Bundle
+//            if(myPayload.getBoolean(FAV_CHANGED_KEY)){
+//            }
+//        }
+//    }
+
+//    override fun preBind(view: View, previouslyBoundModel: EpoxyModel<*>?) {
+//        val bundle = Bundle()
+//        if (previouslyBoundModel is CartProductEpoxyModel) {
+//            previouslyBoundModel.cartProduct.run {
+//                if(quantityInCart != cartProduct.quantityInCart){
+//                    bundle.putBoolean(QUANTITY_CHANGED_KEY, true)
+//                }
+//                if (uiProduct.isInFavorites != cartProduct.uiProduct.isInFavorites){
+//                    bundle.putBoolean(FAV_CHANGED_KEY, true)
+//                }
+//            }
+//        }
+//        bind(view, mutableListOf(bundle))
+////        super.preBind(view, previouslyBoundModel)
+//    }
 
     override fun CartItemBinding.bind() {
         val id = cartProduct.uiProduct.product.id

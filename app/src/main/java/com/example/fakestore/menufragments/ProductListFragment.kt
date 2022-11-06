@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
+import com.example.fakestore.animators.ScaleInTopAnimator
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
 import com.example.fakestore.epoxy.decorators.SimpleVerticalDividerItemDecorator
@@ -17,6 +18,7 @@ import com.example.fakestore.model.mapper.ProductMapper
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
 import com.example.fakestore.states.ProductListFragmentUiState
+import com.example.fakestore.utils.SortManager
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +37,9 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
     @Inject
     lateinit var productMapper: ProductMapper
+
+    @Inject
+    lateinit var sorter: SortManager
 
 
     override fun onCreateView(
@@ -64,9 +69,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         val epoxyController =
             UiProductListFragmentController(viewModel, findNavController())
 
-        // todo fix shimmer
-
-
         combine(
             viewModel.uiProductReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo }
@@ -85,7 +87,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 }.toSet()
 
             return@combine ProductListFragmentUiState.Success(
-                products = uiProducts,
+                products = sorter.sort(uiProducts, productFilterInfo),
                 filters = uiFilters
             )
         }.distinctUntilChanged().asLiveData()
@@ -93,7 +95,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 epoxyController.setData(productListFragmentUiState)
             }
 
-        viewModel.refreshProducts()
+//        viewModel.refreshProducts()
 
         setUpRecycle(epoxyController)
     }
@@ -106,6 +108,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
     private fun setUpRecycle(epoxyController: UiProductListFragmentController) {
         with(binding) {
             productListLayout.rvProducts.run {
+                itemAnimator = ScaleInTopAnimator()
                 if(!isDirty){
                     addItemDecoration(
                         SimpleVerticalDividerItemDecorator(

@@ -6,7 +6,7 @@ import com.example.fakestore.R
 import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.epoxy.model.EmptyListEpoxyModel
 import com.example.fakestore.epoxy.model.FavoriteItemEpoxyModel
-import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.states.FavFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 

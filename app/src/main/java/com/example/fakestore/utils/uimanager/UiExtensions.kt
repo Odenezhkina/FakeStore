@@ -1,4 +1,4 @@
-package com.example.fakestore.managers.uimanager
+package com.example.fakestore.utils.uimanager
 
 import android.content.Context
 import androidx.core.content.ContextCompat

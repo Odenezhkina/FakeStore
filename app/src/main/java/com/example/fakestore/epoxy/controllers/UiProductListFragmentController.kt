@@ -1,13 +1,11 @@
 package com.example.fakestore.epoxy.controllers
 
 import androidx.navigation.NavController
-import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
-import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.epoxy.model.UiProductEpoxyModel
-import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.states.ProductListFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
@@ -26,12 +24,12 @@ class UiProductListFragmentController(
                 return
             }
             is ProductListFragmentUiState.Success -> {
-                val uiFilterModels = data.filters.map { uifilter ->
-                    UiFilterEpoxyModel(
-                        uiFilter = uifilter,
-                        onFilterClickListener = ::onFilterClickListener).id(uifilter.filter.title)
-                }
-                CarouselModel_().models(uiFilterModels).id("").addTo(this)
+//                val uiFilterModels = data.filters.map { uifilter ->
+//                    UiFilterEpoxyModel(
+//                        uiFilter = uifilter,
+//                        onFilterClickListener = ::onFilterClickListener).id(uifilter.filter.title)
+//                }
+//                CarouselModel_().models(uiFilterModels).id("").addTo(this)
 
                 data.products.forEach {
                     UiProductEpoxyModel(

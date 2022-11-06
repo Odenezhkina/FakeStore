@@ -33,27 +33,30 @@
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_most_popular"
-            android:textColor="@color/white"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/most_popular"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/most_popular"
             android:textSize="10sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_cheapest"
-            android:textColor="@color/white"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/cheapest"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cheapest"
             android:textSize="10sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_most_expensive"
-            android:textColor="@color/white"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/most_expensive"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/most_expensive"

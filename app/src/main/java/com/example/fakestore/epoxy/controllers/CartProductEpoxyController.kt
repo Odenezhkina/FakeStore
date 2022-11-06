@@ -6,7 +6,7 @@ import com.example.fakestore.R
 import com.example.fakestore.epoxy.listeners.OnCartProductListener
 import com.example.fakestore.epoxy.model.CartProductEpoxyModel
 import com.example.fakestore.epoxy.model.EmptyListEpoxyModel
-import com.example.fakestore.managers.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.states.CartFragmentUiState
 import com.example.fakestore.viewmodels.CartViewModel
 import java.util.*

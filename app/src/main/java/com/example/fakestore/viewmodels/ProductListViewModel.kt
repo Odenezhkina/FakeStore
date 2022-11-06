@@ -12,6 +12,7 @@ import com.example.fakestore.redux.reducer.UiProductReducer
 import com.example.fakestore.redux.updaters.CartUpdater
 import com.example.fakestore.redux.updaters.FavUpdater
 import com.example.fakestore.redux.updaters.FilterUpdater
+import com.example.fakestore.utils.SortManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -28,8 +29,13 @@ class ProductListViewModel
     private val favUpdater: FavUpdater,
     private val filterUpdater: FilterUpdater,
     private val cartUpdater: CartUpdater,
-    private val filterGenerator: FilterGenerator
+    private val filterGenerator: FilterGenerator,
+    private val sorter: SortManager // todo
 ) : ViewModel() {
+
+    init {
+        refreshProducts()
+    }
 
     fun refreshProducts() = viewModelScope.launch {
         val products: List<Product> = productRepository.fetchAllProducts()
@@ -46,7 +52,10 @@ class ProductListViewModel
                         filters = filters,
                         selectedFilter = applicationState.productFilterInfo.filterCategory.selectedFilter
                     ),
-                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(toCost = maxCost)
+                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(
+                        fromCost = 0.toBigDecimal(),
+                        toCost = maxCost
+                    )
                 )
             )
         }
@@ -58,15 +67,15 @@ class ProductListViewModel
         }
     }
 
-    fun updateSelectedFilter(filter: Filter) = viewModelScope.launch {
-        store.update { applicationState ->
-            return@update filterUpdater.updateSelectedCategory(applicationState, filter)
-        }
-    }
-
     fun updateCartProductsId(productId: Int) = viewModelScope.launch {
         store.update { applicationState ->
             return@update cartUpdater.update(applicationState, productId)
+        }
+    }
+
+    fun updateSelectedFilter(filter: Filter) = viewModelScope.launch {
+        store.update { applicationState ->
+            return@update filterUpdater.updateSelectedCategory(applicationState, filter)
         }
     }
 
