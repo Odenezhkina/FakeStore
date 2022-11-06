@@ -1,5 +1,6 @@
 package com.example.fakestore.redux.updaters
 
+import android.util.Log
 import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.redux.ApplicationState
 import java.math.BigDecimal
@@ -53,6 +54,7 @@ class FilterUpdater @Inject constructor() {
         } else {
             sortType
         }
+        Log.d("TAGTAG", "$javaClass : updating sort type ")
         return applicationState.copy(
             productFilterInfo = applicationState
                 .productFilterInfo

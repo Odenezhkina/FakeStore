@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.example.fakestore.R
@@ -45,7 +44,6 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
             // 2) update data
             // 3) get fresh data
 
-//           initObservers2()
             initObservers()
 //            setUpSortType(viewModel.store.stateFlow.value.productFilterInfo.sortType)
 //            setUpRangeSort(viewModel.store.stateFlow.value.productFilterInfo.rangeSort)
@@ -71,6 +69,8 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
             .asLiveData()
             .observe(viewLifecycleOwner) { productFilterInfo ->
 
+                productFilterInfo.toString()
+                Log.d("TAGTAG", "$javaClass : observing filter ")
                 setUpSortType(productFilterInfo.sortType)
                 setUpRangeSort(productFilterInfo.rangeSort)
                 setUpCategoryFiltering(productFilterInfo.filterCategory)

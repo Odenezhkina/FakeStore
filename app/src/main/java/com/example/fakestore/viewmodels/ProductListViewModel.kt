@@ -1,5 +1,6 @@
 package com.example.fakestore.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakestore.ProductRepository
@@ -37,7 +38,7 @@ class ProductListViewModel
         refreshProducts()
     }
 
-    fun refreshProducts() = viewModelScope.launch {
+    private fun refreshProducts() = viewModelScope.launch {
         val products: List<Product> = productRepository.fetchAllProducts()
         val filters: Set<Filter> = filterGenerator.generateFilters(products)
         store.update { applicationState ->
@@ -81,6 +82,7 @@ class ProductListViewModel
 
     fun updateSortType(sortType: Int) = viewModelScope.launch {
         store.update { applicationState ->
+            Log.d("TAGTAG", "$javaClass : updating sort type ")
             return@update filterUpdater.updateSortType(applicationState, sortType)
         }
     }

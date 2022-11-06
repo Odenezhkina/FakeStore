@@ -1,5 +1,6 @@
 package com.example.fakestore.epoxy.controllers
 
+import android.util.Log
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.epoxy.model.UiFilterEpoxyModel
 import com.example.fakestore.model.domain.Filter
@@ -20,6 +21,7 @@ class UiFilterItemController(private val viewModel: ProductListViewModel) :
     }
 
     private fun onFilterClickListener(filter: Filter) {
+        Log.d("TAGTAG", "$javaClass : updating filter ")
         viewModel.updateSelectedFilter(filter)
     }
 }
