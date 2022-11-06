@@ -15,7 +15,7 @@
             android:id="@+id/iv_image"
             style="@style/ShapeableImageView.Round"
             android:layout_width="100dp"
-            android:layout_height="110dp"
+            android:layout_height="120dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -75,54 +75,25 @@
             style="@style/OrangeRatingBar"
             android:rating="3.5"
             app:layout_constraintStart_toStartOf="@id/tv_headline"
-            app:layout_constraintTop_toBottomOf="@id/tv_price"
-            app:layout_constraintBottom_toTopOf="@id/btn_minus"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_delete"
-            style="@style/MaterialButton.ElevatedButton.Icon.Round"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:icon="@drawable/ic_outline_delete_24"
-            app:iconSize="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btn_delete"-->
+<!--            style="@style/MaterialButton.ElevatedButton.Icon.Round"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            app:icon="@drawable/ic_outline_delete_24"-->
+<!--            app:iconSize="24dp"-->
+<!--            android:visibility=""-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_minus"
-            style="@style/MaterialButton.ElevatedButton.Icon.Round"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:backgroundTint="@color/light_grey"
-            app:icon="@drawable/ic_round_remove_24"
-            app:iconSize="24dp"
-            app:iconTint="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_headline" />
-
-        <TextView
-            android:id="@+id/tv_quantity"
+        <include layout="@layout/item_cart_quantity_btn"
+            android:id="@+id/btn_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="1"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@id/btn_minus"
-            app:layout_constraintStart_toEndOf="@id/btn_minus"
-            app:layout_constraintTop_toTopOf="@id/btn_minus" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_plus"
-            style="@style/MaterialButton.ElevatedButton.Icon.Round"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:backgroundTint="@color/light_grey"
-            app:icon="@drawable/ic_round_add_24"
-            app:iconSize="24dp"
-            app:iconTint="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_quantity" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -69,7 +69,6 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
             .asLiveData()
             .observe(viewLifecycleOwner) { productFilterInfo ->
 
-                productFilterInfo.toString()
                 Log.d("TAGTAG", "$javaClass : observing filter ")
                 setUpSortType(productFilterInfo.sortType)
                 setUpRangeSort(productFilterInfo.rangeSort)

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_minus"
+        style="@style/MaterialButton.ElevatedButton.Icon.Round"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:backgroundTint="@color/light_grey"
+        app:icon="@drawable/ic_round_remove_24"
+        app:iconSize="24dp"
+        app:iconTint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="1"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_minus"
+        app:layout_constraintStart_toEndOf="@id/btn_minus"
+        app:layout_constraintTop_toTopOf="@id/btn_minus" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_plus"
+        style="@style/MaterialButton.ElevatedButton.Icon.Round"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:backgroundTint="@color/light_grey"
+        app:icon="@drawable/ic_round_add_24"
+        app:iconSize="24dp"
+        app:iconTint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_quantity" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

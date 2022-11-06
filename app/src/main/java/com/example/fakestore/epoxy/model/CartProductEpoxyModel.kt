@@ -65,17 +65,17 @@ class CartProductEpoxyModel(
             btnToFavorites.setOnClickListener {
                 listener?.onFavClickListener(id)
             }
-            btnDelete.setOnClickListener {
-                listener?.delOnClickListener(id)
-            }
+//            btnDelete.setOnClickListener {
+//                listener?.delOnClickListener(id)
+//            }
         }
         with(cartProduct) {
-            tvQuantity.text = quantityInCart.toString()
+            btnQuantity.tvQuantity.text = quantityInCart.toString()
             btnToFavorites.setFavoriteIcon(uiProduct.isInFavorites)
-            btnMinus.setOnClickListener {
+            btnQuantity.btnMinus.setOnClickListener {
                 listener?.quantityChangeListener(id, quantityInCart - 1)
             }
-            btnPlus.setOnClickListener {
+            btnQuantity.btnPlus.setOnClickListener {
                 listener?.quantityChangeListener(id, quantityInCart + 1)
             }
             root.setOnClickListener {
