@@ -7,8 +7,6 @@
     android:background="@color/white"
     tools:context=".fragments.ProductDetailsFragment">
 
-
-
     <!--    <com.google.android.material.button.MaterialButton-->
     <!--        android:id="@+id/btn_to_cart"-->
     <!--        style="@style/MaterialButton.ElevatedButton.Icon.Round"-->
@@ -83,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="0dp"
+        android:paddingBottom="70dp"
         android:background="@drawable/beige_rounded_rectangle"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -90,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingHorizontal="20dp"
-            android:paddingTop="50dp">
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/tv_headline"
@@ -144,7 +143,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="About"
-                android:gravity="end"
                 android:textSize="18sp"
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="5dp"
@@ -163,10 +161,30 @@ Stash your laptop (up to 15 inches) in the padded sleeve, your everydayYour perf
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_about" />
 
+            <TextView
+                android:id="@+id/tv_you_also"
+                style="@style/TextView_H2"
+                android:textColor="@color/dark_grey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/you_might_also_like"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"/>
 
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/rv_you_might_als_like"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_you_also"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 
     <LinearLayout
         android:layout_width="match_parent"

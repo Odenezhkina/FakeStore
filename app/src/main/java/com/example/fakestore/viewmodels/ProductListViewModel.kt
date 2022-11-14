@@ -9,6 +9,7 @@ import com.example.fakestore.model.domain.Product
 import com.example.fakestore.redux.ApplicationState
 import com.example.fakestore.redux.Store
 import com.example.fakestore.redux.generator.FilterGenerator
+import com.example.fakestore.redux.reducer.CartProductReducer
 import com.example.fakestore.redux.reducer.UiProductReducer
 import com.example.fakestore.redux.updaters.CartUpdater
 import com.example.fakestore.redux.updaters.FavUpdater
@@ -23,56 +24,65 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductListViewModel
 @Inject constructor(
-    // todo fix error
-    val store: Store<ApplicationState>,
+    store: Store<ApplicationState>,
     private val productRepository: ProductRepository,
     val uiProductReducer: UiProductReducer,
-    private val favUpdater: FavUpdater,
+    favUpdater: FavUpdater,
     private val filterUpdater: FilterUpdater,
     private val cartUpdater: CartUpdater,
     private val filterGenerator: FilterGenerator,
+    val uiProductDetailedReducer: CartProductReducer,
     private val sorter: SortManager // todo
-) : ViewModel() {
+) : BaseViewModel(
+    store  = store,
+    favUpdater = favUpdater
+
+) {
 
     init {
-        refreshProducts()
+        loadFilters()
     }
 
-    private fun refreshProducts() = viewModelScope.launch {
-        val products: List<Product> = productRepository.fetchAllProducts()
-        val filters: Set<Filter> = filterGenerator.generateFilters(products)
-        store.update { applicationState ->
-
-            val maxCost: BigDecimal = max(products.map { it.price })
-            return@update applicationState.copy(
-                products = products,
-                // updating productFilterInfo here too because we want to
-                // write filters too
-                productFilterInfo = ApplicationState.ProductFilterInfo(
-                    filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(
-                        filters = filters,
-                        selectedFilter = applicationState.productFilterInfo.filterCategory.selectedFilter
-                    ),
-                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(
-                        fromCost = 0.toBigDecimal(),
-                        toCost = maxCost
-                    )
-                )
-            )
-        }
+    private fun loadFilters() {
+        // todo
+//        val filters: Set<Filter> = filterGenerator.generateFilters()
     }
 
-    fun updateFavoriteSet(productId: Int) = viewModelScope.launch {
-        store.update { applicationState ->
-            return@update favUpdater.update(applicationState, productId)
-        }
-    }
+//    private fun refreshProducts() = viewModelScope.launch {
+//        val products: List<Product> = productRepository.fetchAllProducts()
+//        val filters: Set<Filter> = filterGenerator.generateFilters(products)
+//        store.update { applicationState ->
+//
+//            val maxCost: BigDecimal = max(products.map { it.price })
+//            return@update applicationState.copy(
+//                products = products,
+//                // updating productFilterInfo here too because we want to
+//                // write filters too
+//                productFilterInfo = ApplicationState.ProductFilterInfo(
+//                    filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(
+//                        filters = filters,
+//                        selectedFilter = applicationState.productFilterInfo.filterCategory.selectedFilter
+//                    ),
+//                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(
+//                        fromCost = 0.toBigDecimal(),
+//                        toCost = maxCost
+//                    )
+//                )
+//            )
+//        }
+//    }
 
-    fun updateCartProductsId(productId: Int) = viewModelScope.launch {
-        store.update { applicationState ->
-            return@update cartUpdater.update(applicationState, productId)
-        }
-    }
+//    fun updateFavoriteSet(productId: Int) = viewModelScope.launch {
+//        store.update { applicationState ->
+//            return@update favUpdater.update(applicationState, productId)
+//        }
+//    }
+//
+//    fun updateCartProductsId(productId: Int) = viewModelScope.launch {
+//        store.update { applicationState ->
+//            return@update cartUpdater.update(applicationState, productId)
+//        }
+//    }
 
     fun updateSelectedFilter(filter: Filter) = viewModelScope.launch {
         store.update { applicationState ->

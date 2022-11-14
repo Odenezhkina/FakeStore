@@ -26,9 +26,11 @@
     <string name="from">from</string>
     <string name="to">to</string>
     <string name="category">Category</string>
-    <string name="products">Products</string>
+    <string name="products">Catalog</string>
     <string name="filter_icon">filter icon</string>
     <string name="btn_buy_text_not_added">Add to cart</string>
     <string name="btn_buy_text_added">Added</string>
+    <string name="you_might_also_like">You might also like</string>
+    <string name="filters">Filters</string>
 
 </resources>
