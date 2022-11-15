@@ -5,7 +5,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.example.fakestore.ViewHelper.clear
+import com.example.fakestore.animators.ViewHelper.clear
 import kotlin.math.abs
 
 /*

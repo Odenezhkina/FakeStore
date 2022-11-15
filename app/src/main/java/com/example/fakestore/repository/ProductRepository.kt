@@ -1,4 +1,4 @@
-package com.example.fakestore
+package com.example.fakestore.repository
 
 import com.example.fakestore.model.domain.Product
 import com.example.fakestore.model.mapper.ProductMapper

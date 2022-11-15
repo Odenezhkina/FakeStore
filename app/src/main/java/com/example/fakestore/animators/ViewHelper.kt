@@ -1,4 +1,4 @@
-package com.example.fakestore
+package com.example.fakestore.animators
 
 import android.view.View
 

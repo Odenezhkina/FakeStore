@@ -64,8 +64,8 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                     val productCategory = selectedProduct.uiProduct.product.category
                     val listSuggestions = products.filter { it.uiProduct.product.category == productCategory }
 
-                    displayUiProduct(it)
-                    displayProductSuggestions(listSuggestions)
+//                    displayUiProduct(it)
+//                    displayProductSuggestions(listSuggestions)
 
                 }
 

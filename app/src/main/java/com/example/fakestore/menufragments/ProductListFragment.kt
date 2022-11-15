@@ -67,6 +67,8 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         }
 
         val viewModel: ProductListViewModel by activityViewModels()
+        viewModel.refreshProducts()
+//        viewModel.loadFilters()
         val epoxyController =
             UiProductListFragmentController(viewModel, findNavController())
 

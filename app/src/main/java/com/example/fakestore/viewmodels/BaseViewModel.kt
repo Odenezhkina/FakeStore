@@ -2,50 +2,40 @@ package com.example.fakestore.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fakestore.ProductRepository
-import com.example.fakestore.model.domain.Filter
 import com.example.fakestore.model.domain.Product
 import com.example.fakestore.redux.ApplicationState
 import com.example.fakestore.redux.Store
 import com.example.fakestore.redux.updaters.CartUpdater
 import com.example.fakestore.redux.updaters.FavUpdater
+import com.example.fakestore.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
-import java.util.*
+import javax.inject.Inject
 
-class BaseViewModel(
-    val store: Store<ApplicationState>,
-    private val favUpdater: FavUpdater,
-    private val cartUpdater: CartUpdater,
-    private val productRepository: ProductRepository
+abstract class BaseViewModel (
+//    val store: Store<ApplicationState>,
+//    private val favUpdater: FavUpdater,
+//    private val cartUpdater: CartUpdater,
+//    private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    init{
-        refreshProducts()
-    }
+    @Inject
+    lateinit var store: Store<ApplicationState>
 
-    private fun refreshProducts() = viewModelScope.launch {
+    @Inject
+    lateinit var favUpdater: FavUpdater
+
+    @Inject
+    lateinit var cartUpdater: CartUpdater
+
+    @Inject
+    lateinit var productRepository: ProductRepository
+
+    fun refreshProducts() = viewModelScope.launch {
         val products: List<Product> = productRepository.fetchAllProducts()
-        // // todo move to filter
-//        val filters: Set<Filter> = filterGenerator.generateFilters(products)
         store.update { applicationState ->
-            // todo move to filter
-//            val maxCost: BigDecimal = Collections.max(products.map { it.price })
             return@update applicationState.copy(
-                products = products,
-                // updating productFilterInfo here too because we want to
-                // write filters too
-                // todo move to filter
-//                productFilterInfo = ApplicationState.ProductFilterInfo(
-//                    filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(
-//                        filters = filters,
-//                        selectedFilter = applicationState.productFilterInfo.filterCategory.selectedFilter
-//                    ),
-//                    rangeSort = ApplicationState.ProductFilterInfo.RangeSort(
-//                        fromCost = 0.toBigDecimal(),
-//                        toCost = maxCost
-//                    )
-//                )
+                products = products
             )
         }
     }
