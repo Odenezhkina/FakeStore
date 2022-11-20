@@ -1,21 +1,22 @@
 package com.example.fakestore.epoxy.model
 
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
 import com.example.fakestore.epoxy.ViewBindingKotlinModel
-import com.example.fakestore.managers.uimanager.MainUiManager
+import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
+import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
+import com.example.fakestore.utils.uimanager.MainUiManager.setInCartStyle
 import com.example.fakestore.model.ui.UiProduct
 
 data class UiProductEpoxyModel(
     private val product: UiProduct?,
-    private val onFavoriteIconClicked: (Int) -> Unit,
-    private val onCardClickListener: (Int) -> Unit,
-    private val onCartClickListener: (Int) -> Unit
+    private val listener: GeneralProductClickListener? = null
 ) : ViewBindingKotlinModel<ProductItemBinding>(R.layout.product_item) {
+
 
     override fun ProductItemBinding.bind() {
         // product not null
@@ -27,9 +28,13 @@ data class UiProductEpoxyModel(
 
             tvHeadline.text = product.title
             tvCategory.text = product.category
-            tvPrice.text = MainUiManager.formatPrice(product.price)
-            btnToFavorites.setIconResource(MainUiManager.getResFavoriteIconId(isInFavorites))
+            tvPrice.text = product.price.formatToPrice()
+
+            btnToFavorites.setFavoriteIcon(isInFavorites)
+
             ratingBar.rating = product.rating.rate
+            tvCountOfReviews.text =
+                this@bind.root.context.getString(R.string.count_of_reviews, product.rating.count)
 
             pbLoadingImage.isVisible = true
             ivImage.load(data = product.image) {
@@ -38,27 +43,18 @@ data class UiProductEpoxyModel(
                 }
             }
 
-            val backgroundColorIconIds: Pair<Int, Int> = MainUiManager.getCartUi(isInCart)
-            btnToCart.setIconResource(backgroundColorIconIds.second)
-            btnToCart.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    this@bind.root.context.resources,
-                    backgroundColorIconIds.first,
-                    null
-                )
-            )
+            btnToCart.setInCartStyle(isInCart, root.context)
 
-            // listeners
             btnToFavorites.setOnClickListener {
-                onFavoriteIconClicked(product.id)
+                listener?.onFavClickListener(product.id)
             }
 
             btnToCart.setOnClickListener {
-                onCartClickListener(product.id)
+                listener?.onToCartListener(product.id)
             }
 
             cardview.setOnClickListener {
-                onCardClickListener(product.id)
+                listener?.onCardClickListener(product.id)
             }
 
         } ?: shimmerLayout.startShimmer()

@@ -23,7 +23,14 @@
         android:id="@+id/cartFragment"
         android:name="com.example.fakestore.menufragments.CartFragment"
         android:label="@string/nav_label_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.fakestore.menufragments.FavoriteFragment"
@@ -32,6 +39,9 @@
         <action
             android:id="@+id/action_favoriteFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"

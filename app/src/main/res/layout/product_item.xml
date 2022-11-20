@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/product_item_margin_bottom">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview"
@@ -22,8 +21,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_image"
                 style="@style/ShapeableImageView.Round"
-                android:layout_width="110dp"
-                android:layout_height="120dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -75,6 +74,22 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_headline" />
 
             <TextView
+                android:id="@+id/tv_count_of_reviews"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="2 reviews"
+                android:textColor="@color/dark_grey"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar"
+                app:layout_constraintEnd_toEndOf="@id/tv_headline"
+                app:layout_constraintStart_toEndOf="@id/ratingBar"
+                app:layout_constraintTop_toTopOf="@id/ratingBar" />
+
+
+            <TextView
                 android:id="@+id/tv_category"
                 style="@style/TextView_H3"
                 android:layout_width="0dp"
@@ -82,8 +97,8 @@
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:textColor="@color/dark_grey"
                 android:text="Men's clothes"
+                android:textColor="@color/dark_grey"
                 app:layout_constraintEnd_toEndOf="@id/tv_headline"
                 app:layout_constraintStart_toStartOf="@id/tv_headline"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +112,7 @@
                 android:maxLines="1"
                 android:gravity="end"
                 android:text="$1566.99"
-                app:layout_constraintTop_toTopOf="@id/btn_to_cart"
+                app:layout_constraintTop_toBottomOf="@id/tv_count_of_reviews"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/tv_headline"
                 app:layout_constraintStart_toStartOf="@id/tv_headline"/>
@@ -111,8 +126,9 @@
                 android:layout_height="36dp"
                 app:icon="@drawable/ic_baseline_add_shopping_cart_24"
                 app:iconSize="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_price"
                 app:layout_constraintEnd_toEndOf="@id/btn_to_favorites"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/tv_price" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

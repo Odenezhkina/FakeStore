@@ -1,7 +1,10 @@
-package com.example.fakestore.model.ui
+package com.example.fakestore.states
+
+import com.example.fakestore.model.ui.UiFilter
+import com.example.fakestore.model.ui.UiProduct
 
 sealed interface ProductListFragmentUiState {
-    // todo understand all of this...
+    // todo fix filters
     data class Success(
         val filters: Set<UiFilter>,
         val products: List<UiProduct>

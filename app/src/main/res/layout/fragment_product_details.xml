@@ -7,17 +7,18 @@
     android:background="@color/white"
     tools:context=".fragments.ProductDetailsFragment">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_to_cart"
-        android:layout_width="wrap_content"
-        android:contentDescription="@string/add_to_cart"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:tint="@color/white"
-        app:backgroundTint="@color/dark_blue"
-        style="@style/MaterialButton.ElevatedButton.Icon.Round"
-        android:src="@drawable/ic_baseline_add_shopping_cart_24" />
+    <!--    <com.google.android.material.button.MaterialButton-->
+    <!--        android:id="@+id/btn_to_cart"-->
+    <!--        style="@style/MaterialButton.ElevatedButton.Icon.Round"-->
+    <!--        android:backgroundTint="@color/dark_blue"-->
+    <!--        app:iconTint="@color/white"-->
+    <!--        tools:visibility="invisible"-->
+    <!--        app:icon="@drawable/ic_baseline_add_shopping_cart_24"-->
+    <!--        android:layout_width="52dp"-->
+    <!--        android:contentDescription="@string/add_to_cart"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom|end"-->
+    <!--        android:layout_margin="20dp" />-->
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -44,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 android:scaleType="fitCenter"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5" />
@@ -80,27 +80,16 @@
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
+        android:paddingBottom="70dp"
         android:background="@drawable/beige_rounded_rectangle"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="50dp">
-
-            <TextView
-                android:id="@+id/tv_price"
-                style="@style/TextView_H1"
-                android:textColor="@color/dark_grey"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="$1342"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:paddingHorizontal="@dimen/default_padding"
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/tv_headline"
@@ -111,31 +100,21 @@
                 android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tv_price"
-                app:layout_constraintTop_toBottomOf="@id/tv_price" />
-
-            <TextView
-                android:id="@+id/tv_category"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Men's clothing"
-                android:layout_marginVertical="10dp"
-                style="@style/TextView_H2"
-                android:textColor="@color/dark_grey"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_headline"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <RatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginVertical="20dp"
+                style="?ratingBarStyleSmall"
+                android:numStars="5"
                 android:rating="3.5"
                 android:progressTint="@color/orange"
                 android:saveEnabled="false"
-                app:layout_constraintStart_toStartOf="@id/tv_price"
-                app:layout_constraintTop_toBottomOf="@id/tv_category" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
 
             <TextView
                 android:id="@+id/tv_reviews"
@@ -143,26 +122,105 @@
                 android:layout_height="wrap_content"
                 android:text="24 reviews"
                 android:textColor="@color/dark_grey"
+                android:layout_marginStart="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_quantity"
                 app:layout_constraintStart_toEndOf="@id/ratingBar"
                 app:layout_constraintTop_toTopOf="@id/ratingBar" />
+
+            <include layout="@layout/item_cart_quantity_btn"
+                android:id="@+id/btn_quantity"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/ratingBar"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_about"
+                style="@style/TextView_H2"
+                android:textColor="@color/dark_grey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="About"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar"/>
 
             <TextView
                 android:id="@+id/tv_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everydayYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday
 Stash your laptop (up to 15 inches) in the padded sleeve, your everydayYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, y"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tv_price"
-                app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_about" />
 
+            <TextView
+                android:id="@+id/tv_you_also"
+                style="@style/TextView_H2"
+                android:textColor="@color/dark_grey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/you_might_also_like"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"/>
 
-
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/rv_you_might_als_like"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_you_also"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:background="@color/beige"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/tv_price"
+            style="@style/TextView_H1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="20dp"
+            android:text="$1342"
+            android:textColor="@color/dark_grey"
+            android:textSize="25sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_reviews"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_reviews" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_to_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_blue"
+            android:contentDescription="@string/add_to_cart"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/btn_buy_text_not_added"
+            android:textAllCaps="true"
+            android:textSize="14dp"
+            app:cornerRadius="10dp" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,13 +10,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
+import com.example.fakestore.animators.FadeInAnimator
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
-import com.example.fakestore.managers.SortManager
+import com.example.fakestore.epoxy.decorators.SimpleVerticalDividerItemDecorator
 import com.example.fakestore.model.mapper.ProductMapper
-import com.example.fakestore.model.ui.ProductListFragmentUiState
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
+import com.example.fakestore.states.ProductListFragmentUiState
+import com.example.fakestore.utils.SortManager
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +38,9 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
     @Inject
     lateinit var productMapper: ProductMapper
 
+    @Inject
+    lateinit var sorter: SortManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +56,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
         with(binding){
             val bottomSheetBehavior = BottomSheetBehavior.from(productListLayout.root).apply {
-                isFitToContents = false
+                isFitToContents = true //
                 isHideable = false //prevents the bottom sheet from completely hiding off the screen
                 setState(BottomSheetBehavior.STATE_EXPANDED) //initially state to fully expanded
             }
@@ -61,10 +66,9 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         }
 
         val viewModel: ProductListViewModel by activityViewModels()
+        viewModel.init()
         val epoxyController =
             UiProductListFragmentController(viewModel, findNavController())
-
-        // todo fix shimmer
 
         combine(
             viewModel.uiProductReducer.reduce(viewModel.store),
@@ -83,12 +87,8 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                     )
                 }.toSet()
 
-            // FILTERING
-            var filteredProducts = SortManager(uiProducts, productFilterInfo).sort()
-
-
             return@combine ProductListFragmentUiState.Success(
-                products = filteredProducts,
+                products = sorter.sort(uiProducts, productFilterInfo),
                 filters = uiFilters
             )
         }.distinctUntilChanged().asLiveData()
@@ -96,10 +96,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                 epoxyController.setData(productListFragmentUiState)
             }
 
-        viewModel.refreshProducts()
-        with(binding) {
-            productListLayout.rvProducts.setController(epoxyController)
-        }
+        setUpRecycle(epoxyController)
     }
 
     override fun onDestroyView() {
@@ -107,12 +104,31 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         _binding = null
     }
 
+    private fun setUpRecycle(epoxyController: UiProductListFragmentController) {
+        with(binding) {
+            productListLayout.rvProducts.run {
+                itemAnimator = FadeInAnimator()
+                if(!isDirty){
+                    addItemDecoration(
+                        SimpleVerticalDividerItemDecorator(
+                            MARGIN_BOTTOM_RECYCLER_VIEW_ITEM
+                        )
+                    )
+                }
+                setController(epoxyController)
+            }
+        }
+    }
+
     private fun toggleFilters(bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>) {
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED)
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
         } else {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
         }
     }
 
+    companion object {
+        const val MARGIN_BOTTOM_RECYCLER_VIEW_ITEM = 16
+    }
 }

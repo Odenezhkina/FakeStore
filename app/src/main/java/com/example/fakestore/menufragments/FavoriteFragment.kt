@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
@@ -13,6 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
 import com.example.fakestore.epoxy.controllers.FavoriteItemEpoxyController
+import com.example.fakestore.epoxy.decorators.SimpleGridDividerItemDecorator
+import com.example.fakestore.states.FavFragmentUiState
 import com.example.fakestore.viewmodels.ProductListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -35,19 +36,24 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             .observe(viewLifecycleOwner) { listUiProducts ->
 
                 val favProducts = listUiProducts.filter { it.isInFavorites }
-                epoxyController.setData(favProducts)
-                manageUi(favProducts.isEmpty(), epoxyController)
+
+                epoxyController.setData(
+                    if (favProducts.isEmpty()) FavFragmentUiState.Empty else FavFragmentUiState.NonEmpty(
+                        favProducts
+                    )
+                )
+
+                with(binding) {
+                    rvFavorite.run {
+                        if (!isDirty) {
+                            addItemDecoration(SimpleGridDividerItemDecorator(
+                                MARGIN_RECYCLER_VIEW_ITEM, 2))
+                        }
+                        layoutManager = GridLayoutManager(requireContext(), 2)
+                        setController(epoxyController)
+                    }
+                }
             }
-    }
-
-    private fun manageUi(isProductsEmpty: Boolean, epoxyController: FavoriteItemEpoxyController) {
-        with(binding) {
-            rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
-            rvFavorite.setController(epoxyController)
-
-            tvGoToCatalog.isVisible = isProductsEmpty
-            tvNoProductTitle.isVisible = isProductsEmpty
-        }
     }
 
     override fun onCreateView(
@@ -60,5 +66,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object{
+        private const val MARGIN_RECYCLER_VIEW_ITEM = 16
     }
 }

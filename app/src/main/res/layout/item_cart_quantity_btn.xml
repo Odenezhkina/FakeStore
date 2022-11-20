@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="44dp"
+    android:elevation="4dp"
+    app:singleSelection="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_minus"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:layout_width="42dp"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="-" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/tv_quantity"
+        android:layout_width="46dp"
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:enabled="false"
+        android:textSize="11sp"
+        android:checkable="false"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="12" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_plus"
+        android:layout_width="42dp"
+        android:textStyle="bold"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="+" />
+
+
+</com.google.android.material.button.MaterialButtonToggleGroup>

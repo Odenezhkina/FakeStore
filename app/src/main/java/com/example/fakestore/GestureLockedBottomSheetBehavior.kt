@@ -1,4 +1,4 @@
-package com.example.fakestore.menufragments
+package com.example.fakestore
 
 import android.content.Context
 import android.util.AttributeSet

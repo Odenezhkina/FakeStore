@@ -1,5 +1,7 @@
-package com.example.fakestore.redux
+package com.example.fakestore.hilt
 
+import com.example.fakestore.redux.ApplicationState
+import com.example.fakestore.redux.Store
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,10 +13,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApplicationStateModule {
 
-
     @Provides
     @Singleton
-    fun providesApplicationStateStore(): Store<ApplicationState>{
+    fun providesApplicationStateStore(): Store<ApplicationState> {
         return Store(ApplicationState())
     }
 }

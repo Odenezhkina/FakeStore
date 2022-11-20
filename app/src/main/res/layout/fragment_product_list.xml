@@ -13,7 +13,6 @@
         android:name="com.example.fakestore.fragments.ProductListFilterFragment"
         tools:layout="@layout/product_list_filters_layout" />
 
-
     <include
         android:id="@+id/product_list_layout"
         layout="@layout/product_list_layout"
@@ -22,7 +21,7 @@
         app:behavior_skipCollapsed="true"
         app:behavior_peekHeight="80dp"
         android:name="com.example.fakestore.fragments.ProductListMainFragment"
-        app:layout_behavior=".menufragments.GestureLockedBottomSheetBehavior"
+        app:layout_behavior=".GestureLockedBottomSheetBehavior"
         tools:layout="@layout/product_list_layout" />
 
 
