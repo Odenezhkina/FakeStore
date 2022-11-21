@@ -9,14 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.animators.FadeInAnimator
 import com.example.fakestore.databinding.FragmentProductListBinding
-import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
-import com.example.fakestore.epoxy.decorators.SimpleVerticalDividerItemDecorator
+import com.example.fakestore.epoxy.decorators.SimpleGridDividerItemDecorator
+import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.model.mapper.ProductMapper
 import com.example.fakestore.model.ui.UiFilter
 import com.example.fakestore.network.NetworkService
+import com.example.fakestore.recyclerview.UiProductAdapter
 import com.example.fakestore.states.ProductListFragmentUiState
 import com.example.fakestore.utils.SortManager
 import com.example.fakestore.viewmodels.ProductListViewModel
@@ -31,6 +33,9 @@ import javax.inject.Inject
 class ProductListFragment : Fragment(R.layout.product_list_layout) {
     private var _binding: FragmentProductListBinding? = null
     private val binding: FragmentProductListBinding by lazy { _binding!! }
+
+    private val viewModel: ProductListViewModel by activityViewModels()
+    private val uiProductAdapter = UiProductAdapter()
 
     @Inject
     lateinit var service: NetworkService
@@ -65,10 +70,10 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             }
         }
 
-        val viewModel: ProductListViewModel by activityViewModels()
         viewModel.init()
-        val epoxyController =
-            UiProductListFragmentController(viewModel, findNavController())
+
+//        val epoxyController =
+//            UiProductListFragmentController(viewModel, findNavController())
 
         combine(
             viewModel.uiProductReducer.reduce(viewModel.store),
@@ -93,10 +98,16 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             )
         }.distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { productListFragmentUiState ->
-                epoxyController.setData(productListFragmentUiState)
+//                epoxyController.setData(productListFragmentUiState)
+                when (productListFragmentUiState) {
+                    is ProductListFragmentUiState.Loading -> uiProductAdapter.submitList(null) // todo
+                    is ProductListFragmentUiState.Success -> uiProductAdapter.submitList(
+                        productListFragmentUiState.products
+                    )
+                }
             }
 
-        setUpRecycle(epoxyController)
+        setUpRecycleDemo()
     }
 
     override fun onDestroyView() {
@@ -104,18 +115,53 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         _binding = null
     }
 
-    private fun setUpRecycle(epoxyController: UiProductListFragmentController) {
+//    private fun setUpRecycle(epoxyController: UiProductListFragmentController) {
+//        with(binding) {
+//            productListLayout.rvProducts.run {
+//                itemAnimator = FadeInAnimator()
+//                if(!isDirty){
+//                    addItemDecoration(
+//                        SimpleVerticalDividerItemDecorator(
+//                            MARGIN_BOTTOM_RECYCLER_VIEW_ITEM
+//                        )
+//                    )
+//                }
+//                setController(epoxyController)
+//            }
+//        }
+//    }
+
+    private fun setUpRecycleDemo() {
         with(binding) {
             productListLayout.rvProducts.run {
+                layoutManager = GridLayoutManager(requireContext(), 2)
                 itemAnimator = FadeInAnimator()
-                if(!isDirty){
+                if (!isDirty) {
                     addItemDecoration(
-                        SimpleVerticalDividerItemDecorator(
-                            MARGIN_BOTTOM_RECYCLER_VIEW_ITEM
+                        SimpleGridDividerItemDecorator(
+                            MARGIN_BOTTOM_RECYCLER_VIEW_ITEM,
+                            2
                         )
                     )
                 }
-                setController(epoxyController)
+                uiProductAdapter.btnListener = object : GeneralProductClickListener {
+                    override fun onFavClickListener(productId: Int) {
+                        viewModel.updateFavoriteSet(productId)
+                    }
+
+                    override fun onToCartListener(productId: Int) {
+                        viewModel.updateCartProductsId(productId)
+                    }
+
+                    override fun onCardClickListener(productId: Int) {
+                        findNavController().navigate(R.id.action_productListFragment_to_productDetailsFragment)
+                    }
+
+                }
+                adapter = uiProductAdapter
+//                adapter = UiProductAdapter()
+
+//                setController(epoxyController)
             }
         }
     }

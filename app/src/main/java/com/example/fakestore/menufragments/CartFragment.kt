@@ -38,7 +38,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         epoxyController.setFilterDuplicates(true)
         binding.rvCart.setController(epoxyController)
 
-        viewModel.uiProductDetailedReducer.reduce(viewModel.store)
+        viewModel.cartProductReducer.reduce(viewModel.store)
             .distinctUntilChanged()
             .asLiveData()
             .observe(viewLifecycleOwner) { cartUiProductList ->

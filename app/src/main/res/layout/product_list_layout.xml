@@ -30,18 +30,30 @@
         app:layout_constraintBottom_toBottomOf="@id/tv_products_title"/>
 
 
-    <com.airbnb.epoxy.EpoxyRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_products"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_products_title"
         tools:itemCount="5"
         tools:listitem="@layout/product_item" />
+<!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
+<!--        android:id="@+id/rv_products"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_products_title"-->
+<!--        tools:itemCount="5"-->
+<!--        tools:listitem="@layout/product_item" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

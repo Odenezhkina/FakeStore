@@ -3,12 +3,15 @@ package com.example.fakestore.model.mapper
 import com.example.fakestore.model.domain.Product
 import com.example.fakestore.model.network.NetworkProduct
 import com.example.fakestore.model.network.NetworkRating
+import com.example.fakestore.utils.ProductInfoGenerator
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
 import javax.inject.Inject
 
-class ProductMapper @Inject constructor(){
+class ProductMapper @Inject constructor(
+    private val productInfoGenerator: ProductInfoGenerator
+) {
 
     fun buildFrom(networkProduct: NetworkProduct): Product {
         return Product(
@@ -18,7 +21,10 @@ class ProductMapper @Inject constructor(){
             networkProduct.image,
             BigDecimal(networkProduct.price).setScale(2, RoundingMode.HALF_UP),
             NetworkRating(networkProduct.rating.count, networkProduct.rating.rate),
-            networkProduct.title
+            networkProduct.title,
+            manufacturer = productInfoGenerator.generateManufacturer(),
+            discount = productInfoGenerator.generateDiscount(),
+            quantityOnWarehouse = productInfoGenerator.generateQuantity()
         )
     }
 

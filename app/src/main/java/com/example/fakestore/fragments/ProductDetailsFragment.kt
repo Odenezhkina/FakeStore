@@ -6,22 +6,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
-import com.example.fakestore.epoxy.controllers.FavoriteItemEpoxyController
 import com.example.fakestore.epoxy.decorators.SimpleHorizontalDividerItemDecorator
 import com.example.fakestore.menufragments.ProductListFragment
+import com.example.fakestore.model.ui.CartUiProduct
 import com.example.fakestore.model.ui.UiProduct
-import com.example.fakestore.states.FavFragmentUiState
 import com.example.fakestore.utils.uimanager.MainUiManager
 import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.utils.uimanager.MainUiManager.setBtnToCartStyle
 import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
-import com.example.fakestore.viewmodels.CartViewModel
-import com.example.fakestore.viewmodels.ProductListViewModel
+import com.example.fakestore.viewmodels.DetailedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -31,8 +28,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
-        private val viewModel: ProductListViewModel by viewModels()
-//    private val viewModel: CartViewModel by viewModels()
+    private val viewModel: DetailedViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,38 +50,16 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
     private fun observeUiProduct(productId: Int) {
-        viewModel.uiProductDetailedReducer
-            .reduce(viewModel.store)
-            .distinctUntilChanged()
-            .asLiveData()
-            .observe(viewLifecycleOwner){products ->
-                val selectedProduct = products.find { it.uiProduct.product.id == productId }
-                selectedProduct?.let {
-                    val productCategory = selectedProduct.uiProduct.product.category
-                    val listSuggestions = products.filter { it.uiProduct.product.category == productCategory }
-
-//                    displayUiProduct(it)
-//                    displayProductSuggestions(listSuggestions)
-
-                }
-
+        viewModel.cartProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
+            .observe(viewLifecycleOwner) { cartProducts ->
+                displayUiProduct(cartProducts.first { it.uiProduct.product.id == productId })
             }
-
-//        viewModel.uiProductReducer.reduce(viewModel.store)
-//            .distinctUntilChanged()
-//            .asLiveData()
-//            .observe(viewLifecycleOwner) { products ->
-//
-//                val selectedProduct = products.find { it.product.id == productId }
-//                selectedProduct?.let {
-//                    val productCategory = selectedProduct.product.category
-//                    val listSuggestions = products.filter { it.product.category == productCategory }
-//
-//                    displayUiProduct(it)
-//                    displayProductSuggestions(listSuggestions)
-//
-//                }
-//            }
+        viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
+            .observe(viewLifecycleOwner) { uiProducts ->
+                val selectedCategory: String? =
+                    uiProducts.find { it.product.id == productId }?.product?.category
+                selectedCategory?.let { displayProductSuggestions(uiProducts.filter { it.product.category == selectedCategory }) }
+            }
     }
 
     private fun displayProductSuggestions(listSuggestions: List<UiProduct>) {
@@ -96,17 +70,33 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 )
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                val controller = FavoriteItemEpoxyController(viewModel, findNavController())
-                controller.setData(FavFragmentUiState.NonEmpty(listSuggestions))
-                setController(controller)
+//                val controller = FavoriteItemEpoxyController(viewModel, findNavController())
+//                controller.setData(FavFragmentUiState.NonEmpty(listSuggestions))
+//                setController(controller)
             }
         }
     }
 
 
-    private fun displayUiProduct(uiProduct: UiProduct) {
+    private fun displayUiProduct(cartProduct: CartUiProduct) {
         with(binding) {
-            uiProduct.product.run {
+            btnQuantity.tvQuantity.text = cartProduct.quantityInCart.toString()
+            cartProduct.uiProduct.product.run {
+                btnQuantity.btnPlus.setOnClickListener {
+                    viewModel.updateCartQuantity(
+                        id,
+                        cartProduct.quantityInCart + 1
+                    )
+                }
+
+                btnQuantity.btnMinus.setOnClickListener {
+                    viewModel.updateCartQuantity(
+                        id,
+                        cartProduct.quantityInCart - 1
+                    )
+                }
+
+
                 tvHeadline.text = title
                 tvDescription.text = "$description $description $description $description"
                 ratingBar.rating = rating.rate
@@ -129,9 +119,10 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
 
-            btnToCart.setBtnToCartStyle(uiProduct.isInCart, root.context)
-
-            btnToFavorites.setFavoriteIcon(uiProduct.isInFavorites)
+            cartProduct.uiProduct.run {
+                btnToCart.setBtnToCartStyle(isInCart, root.context)
+                btnToFavorites.setFavoriteIcon(isInFavorites)
+            }
         }
     }
 
