@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/beige_rounded_rectangle"
-    android:padding="15dp"
+    android:padding="@dimen/default_padding"
     tools:context=".menufragments.ProductListFragment">
 
     <TextView
