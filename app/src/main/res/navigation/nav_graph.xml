@@ -47,5 +47,9 @@
         android:id="@+id/productDetailsFragment"
         android:name="com.example.fakestore.fragments.ProductDetailsFragment"
         android:label="@string/nav_label_details"
-        tools:layout="@layout/fragment_product_details" />
+        tools:layout="@layout/fragment_product_details" >
+        <action
+            android:id="@+id/action_productDetailsFragment_self"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
 </navigation>

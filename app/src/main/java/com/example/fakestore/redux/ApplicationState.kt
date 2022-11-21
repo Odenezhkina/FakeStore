@@ -42,7 +42,7 @@ data class ApplicationState(
         }
 
         fun getQuantity(productId: Int): Int {
-            return mapProductIdQuantity[productId] ?: -1
+            return mapProductIdQuantity[productId] ?: 1
         }
 
         fun countProductsInCart(): Int = mapProductIdQuantity.size

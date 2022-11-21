@@ -6,18 +6,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
 import com.example.fakestore.epoxy.decorators.SimpleHorizontalDividerItemDecorator
+import com.example.fakestore.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.menufragments.ProductListFragment
 import com.example.fakestore.model.ui.CartUiProduct
 import com.example.fakestore.model.ui.UiProduct
+import com.example.fakestore.recyclerview.UiProductAdapter
 import com.example.fakestore.utils.uimanager.MainUiManager
 import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
 import com.example.fakestore.utils.uimanager.MainUiManager.setBtnToCartStyle
 import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
+import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.viewmodels.DetailedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +33,8 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
     private val viewModel: DetailedViewModel by viewModels()
+
+    private val uiProductAdapter = UiProductAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,16 +56,19 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
     private fun observeUiProduct(productId: Int) {
-        viewModel.cartProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
-            .observe(viewLifecycleOwner) { cartProducts ->
-                displayUiProduct(cartProducts.first { it.uiProduct.product.id == productId })
-            }
+        // todo observe
+        val cartQuantity = viewModel.store.stateFlow.value.productCartInfo.getQuantity(productId)
+
         viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { uiProducts ->
-                val selectedCategory: String? =
-                    uiProducts.find { it.product.id == productId }?.product?.category
-                selectedCategory?.let { displayProductSuggestions(uiProducts.filter { it.product.category == selectedCategory }) }
+                val selectedProduct = uiProducts.first { it.product.id == productId }
+                val selectedCategory: String = selectedProduct.product.category
+                displayUiProduct(CartUiProduct(uiProduct = selectedProduct, cartQuantity))
+                val suggestions = uiProducts.filter { it.product.category == selectedCategory }
+                    .filter { it.product.id != productId }
+                displayProductSuggestions(suggestions)
             }
+
     }
 
     private fun displayProductSuggestions(listSuggestions: List<UiProduct>) {
@@ -70,6 +79,25 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 )
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+                uiProductAdapter.btnListener = object : GeneralProductClickListener {
+                    override fun onFavClickListener(productId: Int) {
+                        viewModel.updateFavoriteSet(productId)
+                    }
+
+                    override fun onToCartListener(productId: Int) {
+                        viewModel.updateCartProductsId(productId)
+                    }
+
+                    override fun onCardClickListener(productId: Int) {
+                        findNavController().navigateToProductDetailsFragment(
+                            productId,
+                            R.id.action_productDetailsFragment_self
+                        )
+                    }
+                }
+                uiProductAdapter.submitList(listSuggestions)
+                adapter = uiProductAdapter
 //                val controller = FavoriteItemEpoxyController(viewModel, findNavController())
 //                controller.setData(FavFragmentUiState.NonEmpty(listSuggestions))
 //                setController(controller)
@@ -95,7 +123,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                         cartProduct.quantityInCart - 1
                     )
                 }
-
 
                 tvHeadline.text = title
                 tvDescription.text = "$description $description $description $description"

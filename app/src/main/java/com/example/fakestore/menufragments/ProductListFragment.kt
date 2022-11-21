@@ -21,6 +21,7 @@ import com.example.fakestore.network.NetworkService
 import com.example.fakestore.recyclerview.UiProductAdapter
 import com.example.fakestore.states.ProductListFragmentUiState
 import com.example.fakestore.utils.SortManager
+import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.viewmodels.ProductListViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -154,7 +155,10 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
                     }
 
                     override fun onCardClickListener(productId: Int) {
-                        findNavController().navigate(R.id.action_productListFragment_to_productDetailsFragment)
+                        findNavController().navigateToProductDetailsFragment(
+                            productId,
+                            R.id.action_productListFragment_to_productDetailsFragment
+                        )
                     }
 
                 }
