@@ -11,7 +11,6 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.fakestore.R
 import com.example.fakestore.animators.FadeInAnimator
-import com.example.fakestore.animators.ScaleInTopAnimator
 import com.example.fakestore.databinding.FragmentProductListBinding
 import com.example.fakestore.epoxy.controllers.UiProductListFragmentController
 import com.example.fakestore.epoxy.decorators.SimpleVerticalDividerItemDecorator
@@ -67,8 +66,7 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         }
 
         val viewModel: ProductListViewModel by activityViewModels()
-        viewModel.refreshProducts()
-//        viewModel.loadFilters()
+        viewModel.init()
         val epoxyController =
             UiProductListFragmentController(viewModel, findNavController())
 

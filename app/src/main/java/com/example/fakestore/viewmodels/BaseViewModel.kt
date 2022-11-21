@@ -12,12 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class BaseViewModel (
-//    val store: Store<ApplicationState>,
-//    private val favUpdater: FavUpdater,
-//    private val cartUpdater: CartUpdater,
-//    private val productRepository: ProductRepository
-) : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     @Inject
     lateinit var store: Store<ApplicationState>

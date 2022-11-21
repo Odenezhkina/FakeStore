@@ -30,19 +30,18 @@ class ProductListViewModel
     val uiProductDetailedReducer: CartProductReducer,
     private val filterGenerator: FilterGenerator,
     private val sorter: SortManager // todo
-) : BaseViewModel(
-//    store = store,
-//    productRepository = productRepository,
-//    cartUpdater = cartUpdater,
-//    favUpdater = favUpdater
-) {
+) : BaseViewModel() {
 
     init {
 //        refreshProducts()
 //        loadFilters()
     }
+    fun init(){
+        refreshProducts()
+//        loadFilters()
+    }
 
-    fun loadFilters() =
+    private fun loadFilters() =
         viewModelScope.launch {
             store.update { applicationState ->
                 val filters: Set<Filter> =
