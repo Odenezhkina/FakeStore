@@ -1,7 +1,7 @@
 package com.example.fakestore.hilt
 
-import com.example.fakestore.redux.ApplicationState
-import com.example.fakestore.redux.Store
+import com.example.fakestore.presentation.ApplicationState
+import com.example.fakestore.presentation.Store
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

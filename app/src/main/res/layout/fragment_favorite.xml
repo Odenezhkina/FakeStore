@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/beige"
     android:padding="@dimen/default_padding"
-    tools:context=".menufragments.FavoriteFragment">
+    tools:context=".presentation.favorite.FavoriteFragment">
 
     <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/rv_favorite"

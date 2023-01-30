@@ -1,9 +1,9 @@
 package com.example.fakestore.hilt
 
-import com.example.fakestore.model.mapper.ProductMapper
-import com.example.fakestore.network.NetworkService
-import com.example.fakestore.repository.ProductRepository
-import com.example.fakestore.utils.ProductInfoGenerator
+import com.example.fakestore.data.mapper.ProductMapper
+import com.example.fakestore.data.api.NetworkService
+import com.example.fakestore.data.repository.ProductRepositoryImpl
+import com.example.fakestore.domain.ProductInfoGenerator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +19,8 @@ object ProductModule {
     fun providesProductRepository(
         networkService: NetworkService,
         productInfoGenerator: ProductInfoGenerator
-    ): ProductRepository {
-        return ProductRepository(networkService, ProductMapper(productInfoGenerator))
+    ): ProductRepositoryImpl {
+        return ProductRepositoryImpl(networkService, ProductMapper(productInfoGenerator))
     }
 
     @Provides
