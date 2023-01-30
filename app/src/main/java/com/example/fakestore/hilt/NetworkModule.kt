@@ -1,6 +1,6 @@
 package com.example.fakestore.hilt
 
-import com.example.fakestore.network.NetworkService
+import com.example.fakestore.data.api.NetworkService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

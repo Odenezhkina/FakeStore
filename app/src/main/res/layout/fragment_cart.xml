@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/default_padding"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".menufragments.CartFragment"
+    tools:context=".presentation.cart.CartFragment"
     android:background="@color/beige">
 
     <com.airbnb.epoxy.EpoxyRecyclerView

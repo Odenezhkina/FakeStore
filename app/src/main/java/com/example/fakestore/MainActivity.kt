@@ -7,8 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.airbnb.epoxy.Carousel
 import com.example.fakestore.databinding.ActivityMainBinding
-import com.example.fakestore.redux.ApplicationState
-import com.example.fakestore.redux.Store
+import com.example.fakestore.presentation.ApplicationState
+import com.example.fakestore.presentation.Store
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
