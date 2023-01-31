@@ -11,16 +11,15 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
-import com.example.fakestore.presentation.util.animation.FadeInAnimator
+import com.example.fakestore.data.api.NetworkService
 import com.example.fakestore.databinding.FragmentProductListBinding
+import com.example.fakestore.domain.sorting.SortManager
+import com.example.fakestore.presentation.model.UiFilter
+import com.example.fakestore.presentation.util.animation.FadeInAnimator
 import com.example.fakestore.presentation.util.epoxy.decorators.SimpleGridDividerItemDecorator
 import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
-import com.example.fakestore.data.mapper.ProductMapper
-import com.example.fakestore.presentation.model.UiFilter
-import com.example.fakestore.data.api.NetworkService
 import com.example.fakestore.presentation.util.recyclerview.UiProductAdapter
-import com.example.fakestore.domain.SortManager
-import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.presentation.util.ext.navigateToProductDetailsFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
@@ -30,6 +29,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductListFragment : Fragment(R.layout.product_list_layout) {
+
     private var _binding: FragmentProductListBinding? = null
     private val binding: FragmentProductListBinding by lazy { _binding!! }
 
@@ -38,9 +38,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
     @Inject
     lateinit var service: NetworkService
-
-    @Inject
-    lateinit var productMapper: ProductMapper
 
     @Inject
     lateinit var sorter: SortManager
@@ -71,9 +68,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
         viewModel.init()
 
-//        val epoxyController =
-//            UiProductListFragmentController(viewModel, findNavController())
-
         combine(
             viewModel.uiProductReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo }
@@ -97,7 +91,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
             )
         }.distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { productListFragmentUiState ->
-//                epoxyController.setData(productListFragmentUiState)
                 when (productListFragmentUiState) {
                     is ProductListFragmentUiState.Loading -> uiProductAdapter.submitList(null) // todo
                     is ProductListFragmentUiState.Success -> uiProductAdapter.submitList(
@@ -113,22 +106,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
         super.onDestroyView()
         _binding = null
     }
-
-//    private fun setUpRecycle(epoxyController: UiProductListFragmentController) {
-//        with(binding) {
-//            productListLayout.rvProducts.run {
-//                itemAnimator = FadeInAnimator()
-//                if(!isDirty){
-//                    addItemDecoration(
-//                        SimpleVerticalDividerItemDecorator(
-//                            MARGIN_BOTTOM_RECYCLER_VIEW_ITEM
-//                        )
-//                    )
-//                }
-//                setController(epoxyController)
-//            }
-//        }
-//    }
 
     private fun setUpRecycleDemo() {
         with(binding) {
@@ -161,9 +138,6 @@ class ProductListFragment : Fragment(R.layout.product_list_layout) {
 
                 }
                 adapter = uiProductAdapter
-//                adapter = UiProductAdapter()
-
-//                setController(epoxyController)
             }
         }
     }

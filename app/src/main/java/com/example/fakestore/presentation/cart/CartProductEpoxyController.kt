@@ -5,9 +5,9 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.presentation.util.EmptyListEpoxyModel
 import com.example.fakestore.presentation.util.epoxy.listeners.OnCartProductListener
-import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.presentation.util.ext.fromCartToCalogFragment
+import com.example.fakestore.presentation.util.ext.navigateToProductDetailsFragment
 import java.util.*
-import com.example.fakestore.presentation.util.ViewBindingKotlinModel
 
 class CartProductEpoxyController(
     private val viewModel: CartViewModel,
@@ -57,9 +57,7 @@ class CartProductEpoxyController(
         }
     }
 
-    private fun goToCatalog() {
-        navController.navigate(R.id.action_cartFragment_to_productListFragment)
-    }
+    private fun goToCatalog() = navController.fromCartToCalogFragment()
 
 }
 

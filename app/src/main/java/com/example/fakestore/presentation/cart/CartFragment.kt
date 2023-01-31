@@ -9,28 +9,30 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.epoxy.EpoxyTouchHelper
-import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentCartBinding
 import com.example.fakestore.presentation.util.epoxy.decorators.SimpleVerticalDividerItemDecorator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @AndroidEntryPoint
-class CartFragment : Fragment(R.layout.fragment_cart) {
+class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding: FragmentCartBinding by lazy { _binding!! }
+
+    private val viewModel: CartViewModel by viewModels()
+    private val epoxyController by lazy {
+        CartProductEpoxyController(viewModel, findNavController())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCartBinding.bind(view)
 
+        setupRecycler()
         initObservers()
     }
 
     private fun initObservers() {
-        val viewModel: CartViewModel by viewModels()
-
-        val epoxyController = CartProductEpoxyController(viewModel, findNavController())
         epoxyController.setFilterDuplicates(true)
         binding.rvCart.setController(epoxyController)
 
@@ -45,7 +47,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 }
                 epoxyController.setData(viewState)
             }
+    }
 
+    private fun setupRecycler() {
         with(binding) {
             rvCart.run {
                 if (!isDirty) {
@@ -61,15 +65,13 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                         LinearLayoutManager.VERTICAL,
                         false
                     )
-                setUpEpoxyItemTouchHelper(viewModel)
+                setupEpoxyItemTouchHelper(viewModel)
                 rvCart.setController(epoxyController)
             }
-
         }
-
     }
 
-    private fun setUpEpoxyItemTouchHelper(viewModel: CartViewModel) {
+    private fun setupEpoxyItemTouchHelper(viewModel: CartViewModel) {
         EpoxyTouchHelper
             .initSwiping(binding.rvCart)
             .right()

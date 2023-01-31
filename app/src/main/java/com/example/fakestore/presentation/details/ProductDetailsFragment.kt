@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentProductDetailsBinding
-import com.example.fakestore.presentation.util.epoxy.decorators.SimpleHorizontalDividerItemDecorator
-import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
+import com.example.fakestore.presentation.util.ext.formatToPrice
 import com.example.fakestore.presentation.catalog.ProductListFragment
 import com.example.fakestore.presentation.model.CartUiProduct
 import com.example.fakestore.presentation.model.UiProduct
+import com.example.fakestore.presentation.util.ext.KEY_PRODUCT_ID
+import com.example.fakestore.presentation.util.epoxy.decorators.SimpleHorizontalDividerItemDecorator
+import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
+import com.example.fakestore.presentation.util.ext.navigateToProductDetailsFragment
 import com.example.fakestore.presentation.util.recyclerview.UiProductAdapter
-import com.example.fakestore.utils.uimanager.MainUiManager
-import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
-import com.example.fakestore.utils.uimanager.MainUiManager.setBtnToCartStyle
-import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
-import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.presentation.util.ext.setBtnToCartStyle
+import com.example.fakestore.presentation.util.ext.setFavoriteIcon
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -33,7 +33,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private val binding: FragmentProductDetailsBinding by lazy { _binding!! }
 
     private val viewModel: DetailedViewModel by viewModels()
-
     private val uiProductAdapter = UiProductAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +40,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         _binding = FragmentProductDetailsBinding.bind(view)
 
         arguments?.let {
-            val productId: Int = it.getInt(MainUiManager.KEY_PRODUCT_ID, -1)
+            val productId: Int = it.getInt(KEY_PRODUCT_ID, -1)
             if (productId != -1) {
                 observeUiProduct(productId)
             }
@@ -136,7 +135,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
 
                 tvHeadline.text = title
-                tvDescription.text = "$description $description $description $description"
+                tvDescription.text = description
                 ratingBar.rating = rating.rate
                 tvReviews.text = getString(R.string.count_of_reviews, rating.count)
 

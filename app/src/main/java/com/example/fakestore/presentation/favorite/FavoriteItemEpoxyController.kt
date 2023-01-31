@@ -3,10 +3,10 @@ package com.example.fakestore.presentation.favorite
 import androidx.navigation.NavController
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
-import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
-import com.example.fakestore.presentation.util.EmptyListEpoxyModel
-import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
 import com.example.fakestore.presentation.catalog.ProductListViewModel
+import com.example.fakestore.presentation.util.EmptyListEpoxyModel
+import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
+import com.example.fakestore.presentation.util.ext.navigateToProductDetailsFragment
 
 class FavoriteItemEpoxyController(
     private val viewModel: ProductListViewModel, private val navController: NavController

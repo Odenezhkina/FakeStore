@@ -5,5 +5,4 @@ import com.example.fakestore.domain.model.Product
 interface ProductRepository {
 
     suspend fun fetchAllProducts(): List<Product>
-
 }

@@ -13,7 +13,7 @@ private val callback = object : ItemCallback<UiProduct>() {
     }
 
     override fun areContentsTheSame(oldItem: UiProduct, newItem: UiProduct): Boolean {
-        return oldItem == newItem // todo
+        return oldItem == newItem
     }
 }
 

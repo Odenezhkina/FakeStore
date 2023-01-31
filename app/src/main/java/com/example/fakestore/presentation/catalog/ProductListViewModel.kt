@@ -1,12 +1,12 @@
 package com.example.fakestore.presentation.catalog
 
 import androidx.lifecycle.viewModelScope
-import com.example.fakestore.domain.model.Filter
-import com.example.fakestore.presentation.ApplicationState
 import com.example.fakestore.domain.generator.FilterGenerator
+import com.example.fakestore.domain.model.Filter
 import com.example.fakestore.domain.reducer.UiProductReducer
+import com.example.fakestore.domain.sorting.SortManager
 import com.example.fakestore.domain.updaters.FilterUpdater
-import com.example.fakestore.domain.SortManager
+import com.example.fakestore.presentation.ApplicationState
 import com.example.fakestore.presentation.util.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -55,11 +55,12 @@ class ProductListViewModel
         }
     }
 
-    fun updateSortType(sortType: Int) = viewModelScope.launch {
-        store.update { applicationState ->
-            return@update filterUpdater.updateSortType(applicationState, sortType)
+    fun updateSortType(sortType: ApplicationState.ProductFilterInfo.SortType) =
+        viewModelScope.launch {
+            store.update { applicationState ->
+                return@update filterUpdater.updateSortType(applicationState, sortType)
+            }
         }
-    }
 
     fun updateRangeSort(newFromCost: BigDecimal, newToCost: BigDecimal) = viewModelScope.launch {
         store.update { applicationState ->

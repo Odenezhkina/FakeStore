@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.UiproductItemDemoBinding
+import com.example.fakestore.presentation.util.ext.formatToPrice
 import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.presentation.model.UiProduct
-import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
-import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
-import com.example.fakestore.utils.uimanager.MainUiManager.setInCartStyle
+import com.example.fakestore.presentation.util.ext.setFavoriteIcon
+import com.example.fakestore.presentation.util.ext.setInCartStyle
 
 class UiProductViewHolder(
     private val binding: UiproductItemDemoBinding,

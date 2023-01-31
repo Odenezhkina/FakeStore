@@ -5,12 +5,12 @@ import androidx.core.view.isVisible
 import coil.load
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductItemBinding
-import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
+import com.example.fakestore.presentation.util.ext.formatToPrice
 import com.example.fakestore.presentation.model.UiProduct
 import com.example.fakestore.presentation.util.ViewBindingKotlinModel
-import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
-import com.example.fakestore.utils.uimanager.MainUiManager.setFavoriteIcon
-import com.example.fakestore.utils.uimanager.MainUiManager.setInCartStyle
+import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
+import com.example.fakestore.presentation.util.ext.setFavoriteIcon
+import com.example.fakestore.presentation.util.ext.setInCartStyle
 
 data class UiProductEpoxyModel(
     private val product: UiProduct?,

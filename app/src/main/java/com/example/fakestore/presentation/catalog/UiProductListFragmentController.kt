@@ -5,7 +5,7 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.example.fakestore.R
 import com.example.fakestore.presentation.util.epoxy.listeners.GeneralProductClickListener
 import com.example.fakestore.presentation.details.UiProductEpoxyModel
-import com.example.fakestore.utils.uimanager.navigateToProductDetailsFragment
+import com.example.fakestore.presentation.util.ext.navigateToProductDetailsFragment
 import com.example.fakestore.domain.model.Filter
 import java.util.*
 

@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.databinding.FragmentFavoriteBinding
-import com.example.fakestore.presentation.util.epoxy.decorators.SimpleGridDividerItemDecorator
 import com.example.fakestore.presentation.catalog.ProductListViewModel
+import com.example.fakestore.presentation.util.epoxy.decorators.SimpleGridDividerItemDecorator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -21,14 +21,19 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding: FragmentFavoriteBinding by lazy { _binding!! }
 
+    private val viewModel: ProductListViewModel by activityViewModels()
+    private val epoxyController by lazy {
+        FavoriteItemEpoxyController(viewModel, findNavController())
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initRecycler()
         initObservers()
     }
 
     private fun initObservers() {
-        val viewModel: ProductListViewModel by activityViewModels()
-        val epoxyController = FavoriteItemEpoxyController(viewModel, findNavController())
 
         viewModel.uiProductReducer.reduce(viewModel.store).distinctUntilChanged().asLiveData()
             .observe(viewLifecycleOwner) { listUiProducts ->
@@ -46,7 +51,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                         if (!isDirty) {
                             addItemDecoration(
                                 SimpleGridDividerItemDecorator(
-                                MARGIN_RECYCLER_VIEW_ITEM, 2)
+                                    MARGIN_RECYCLER_VIEW_ITEM, 2
+                                )
                             )
                         }
                         layoutManager = GridLayoutManager(requireContext(), 2)
@@ -54,6 +60,22 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                     }
                 }
             }
+    }
+
+    private fun initRecycler() {
+        with(binding) {
+            rvFavorite.run {
+                if (!isDirty) {
+                    addItemDecoration(
+                        SimpleGridDividerItemDecorator(
+                            MARGIN_RECYCLER_VIEW_ITEM, 2
+                        )
+                    )
+                }
+                layoutManager = GridLayoutManager(requireContext(), 2)
+                setController(epoxyController)
+            }
+        }
     }
 
     override fun onCreateView(

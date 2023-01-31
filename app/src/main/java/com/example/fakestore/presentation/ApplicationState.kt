@@ -1,5 +1,7 @@
 package com.example.fakestore.presentation
 
+import androidx.annotation.IdRes
+import com.example.fakestore.R
 import com.example.fakestore.domain.model.Filter
 import com.example.fakestore.domain.model.Product
 import java.math.BigDecimal
@@ -14,7 +16,7 @@ data class ApplicationState(
     data class ProductFilterInfo(
         val filterCategory: FilterCategory = FilterCategory(),
         val rangeSort: RangeSort = RangeSort(),
-        val sortType: SortType = SortType()
+        val sortType: SortType = SortType.DEFAULT
     ) {
 
         data class FilterCategory(
@@ -22,9 +24,12 @@ data class ApplicationState(
             val selectedFilter: Filter? = null,
         )
 
-        data class SortType(
-            val sortTypeId: Int? = null
-        )
+        //        data class SortType(
+//            val sortTypeId: Int? = null
+//        )
+        enum class SortType {
+            BY_POPULARITY, CHEAPEST_FIRST, MOST_EXPENSIVE_FIRST, DEFAULT
+        }
 
         data class RangeSort(
             val isSortActive: Boolean = false,

@@ -1,8 +1,8 @@
-package com.example.fakestore.domain
+package com.example.fakestore.domain.sorting
 
-import com.example.fakestore.R
-import com.example.fakestore.presentation.model.UiProduct
 import com.example.fakestore.presentation.ApplicationState
+import com.example.fakestore.presentation.ApplicationState.ProductFilterInfo.SortType
+import com.example.fakestore.presentation.model.UiProduct
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -18,9 +18,8 @@ class SortManager @Inject constructor() {
         if (filtersInfo.filterCategory.selectedFilter != null) {
             resList = sortByCategory(filtersInfo.filterCategory.selectedFilter.title, resList)
         }
-        filtersInfo.sortType.sortTypeId?.let {
-            resList = sortByType(it, resList)
-        }
+
+        resList = sortByType(filtersInfo.sortType, resList)
 
         if (filtersInfo.rangeSort.isSortActive) {
             filtersInfo.rangeSort.toCost?.let {
@@ -31,12 +30,15 @@ class SortManager @Inject constructor() {
         return resList
     }
 
-    private fun sortByType(sortType: Int, resList: List<UiProduct>): List<UiProduct> {
+    private fun sortByType(
+        sortType: SortType,
+        resList: List<UiProduct>
+    ): List<UiProduct> {
         return when (sortType) {
-            R.id.most_popular -> sortByPopularity(resList)
-            R.id.cheapest -> sortCheapestFirst(resList)
-            R.id.most_expensive -> sortMostExpensiveFirst(resList)
-            else -> emptyList()
+            SortType.BY_POPULARITY -> sortByPopularity(resList)
+            SortType.CHEAPEST_FIRST -> sortCheapestFirst(resList)
+            SortType.MOST_EXPENSIVE_FIRST -> sortMostExpensiveFirst(resList)
+            SortType.DEFAULT -> resList
         }
     }
 

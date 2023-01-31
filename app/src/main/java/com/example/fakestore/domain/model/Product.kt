@@ -10,10 +10,7 @@ data class Product(
     val image: String,
     val price: BigDecimal,
     val rating: NetworkRating,
-    val title: String,
-    val manufacturer: String,
-    val quantityOnWarehouse: Int,
-    val discount: Int
+    val title: String
 )
 
 

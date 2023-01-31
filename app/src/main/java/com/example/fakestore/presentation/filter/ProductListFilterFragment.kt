@@ -1,7 +1,6 @@
 package com.example.fakestore.presentation.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -9,10 +8,10 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductListFiltersLayoutBinding
-import com.example.fakestore.presentation.model.UiFilter
-import com.example.fakestore.presentation.ApplicationState
-import com.example.fakestore.utils.uimanager.MainUiManager.formatToPrice
+import com.example.fakestore.presentation.util.ext.formatToPrice
+import com.example.fakestore.presentation.ApplicationState.ProductFilterInfo
 import com.example.fakestore.presentation.catalog.ProductListViewModel
+import com.example.fakestore.presentation.model.UiFilter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,8 +66,6 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
             .distinctUntilChanged()
             .asLiveData()
             .observe(viewLifecycleOwner) { productFilterInfo ->
-
-                Log.d("TAGTAG", "$javaClass : observing filter ")
                 setUpSortType(productFilterInfo.sortType)
                 setUpRangeSort(productFilterInfo.rangeSort)
                 setUpCategoryFiltering(productFilterInfo.filterCategory)
@@ -76,12 +73,11 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
             }
     }
 
-    private fun setUpCategoryFiltering(filterCategory: ApplicationState.ProductFilterInfo.FilterCategory) {
+    private fun setUpCategoryFiltering(filterCategory: ProductFilterInfo.FilterCategory) {
         filterCategory.run {
             val uifilters = filters.map { filter ->
                 UiFilter(
-                    filter = filter,
-                    isSelected = selectedFilter?.equals(
+                    filter = filter, isSelected = selectedFilter?.equals(
                         filter
                     ) == true
                 )
@@ -91,7 +87,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
 
     }
 
-    private fun setUpRangeSort(rangeSort: ApplicationState.ProductFilterInfo.RangeSort) {
+    private fun setUpRangeSort(rangeSort: ProductFilterInfo.RangeSort) {
         with(binding) {
             val toCost = rangeSort.toCost?.toFloat()
             val fromCost = rangeSort.fromCost.toFloat()
@@ -131,12 +127,26 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
         }
     }
 
-    private fun setUpSortType(sortType: ApplicationState.ProductFilterInfo.SortType) {
-        sortType.sortTypeId?.let {
-            binding.root.findViewById<MaterialButton>(sortType.sortTypeId).isChecked = true
+    private fun setUpSortType(sortType: ProductFilterInfo.SortType) {
+        val btnId = when (sortType) {
+            ProductFilterInfo.SortType.BY_POPULARITY -> R.id.most_popular
+            ProductFilterInfo.SortType.CHEAPEST_FIRST -> R.id.cheapest
+            ProductFilterInfo.SortType.MOST_EXPENSIVE_FIRST -> R.id.most_expensive
+            ProductFilterInfo.SortType.DEFAULT -> null
         }
-        binding.toggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-            viewModel.updateSortType(checkedId)
+        with(binding) {
+            btnId?.let {
+                root.findViewById<MaterialButton>(it).isChecked = true
+            }
+            toggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+                val updated = when (checkedId) {
+                    R.id.most_popular -> ProductFilterInfo.SortType.BY_POPULARITY
+                    R.id.most_expensive -> ProductFilterInfo.SortType.MOST_EXPENSIVE_FIRST
+                    R.id.cheapest -> ProductFilterInfo.SortType.CHEAPEST_FIRST
+                    else -> ProductFilterInfo.SortType.DEFAULT
+                }
+                viewModel.updateSortType(updated)
+            }
         }
     }
 

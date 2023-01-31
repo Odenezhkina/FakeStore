@@ -1,5 +1,6 @@
 package com.example.fakestore.domain.updaters
 
+import com.example.fakestore.presentation.util.ext.addIfContainsRemove
 import com.example.fakestore.presentation.ApplicationState
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class CartUpdater @Inject constructor() {
     ): ApplicationState {
         return applicationState.copy(
             productCartInfo = update(applicationState.productCartInfo.getMap(), productId)
-            )
+        )
 
     }
 
@@ -35,7 +36,7 @@ class CartUpdater @Inject constructor() {
         productId: Int,
         quantity: Int
     ): ApplicationState.ProductCartInfo {
-        var newList = mapProductIdQuantity.toMutableMap()
+        val newList = mapProductIdQuantity.toMutableMap()
         if (quantity > QUANTITY_LOWER_BOUND) {
             newList[productId] = quantity
         }
@@ -48,15 +49,12 @@ class CartUpdater @Inject constructor() {
     ): ApplicationState.ProductCartInfo {
         // if already in cart -> remove
         // not in cart yet -> add
-        if (mapProductIdQuantity.contains(productId)) {
-            mapProductIdQuantity.remove(productId)
-        } else {
-            mapProductIdQuantity.put(
+        return ApplicationState.ProductCartInfo(
+            mapProductIdQuantity.addIfContainsRemove(
                 productId,
                 QUANTITY_LOWER_BOUND
             )
-        }
-        return ApplicationState.ProductCartInfo(mapProductIdQuantity)
+        )
     }
 
     companion object {
