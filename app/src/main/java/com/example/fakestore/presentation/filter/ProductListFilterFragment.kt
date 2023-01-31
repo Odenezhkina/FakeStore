@@ -5,20 +5,17 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ProductListFiltersLayoutBinding
-import com.example.fakestore.presentation.util.ext.formatToPrice
 import com.example.fakestore.presentation.ApplicationState.ProductFilterInfo
 import com.example.fakestore.presentation.catalog.ProductListViewModel
 import com.example.fakestore.presentation.model.UiFilter
+import com.example.fakestore.presentation.util.ext.formatToPrice
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout) {
@@ -38,25 +35,7 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                 UiFilterItemController(viewModel)
             epoxyController?.let { filtersEpoxyCarousel.setController(it) }
 
-            // 1) get fresh data and set it to ui
-            // 2) update data
-            // 3) get fresh data
-
             initObservers()
-//            setUpSortType(viewModel.store.stateFlow.value.productFilterInfo.sortType)
-//            setUpRangeSort(viewModel.store.stateFlow.value.productFilterInfo.rangeSort)
-//            initObservers()
-        }
-    }
-    private fun initObservers2() {
-        lifecycleScope.launch {
-            viewModel.store.stateFlow
-                .map { it.productFilterInfo }
-                .distinctUntilChanged().last().run{
-                    setUpSortType(sortType)
-                    setUpRangeSort(rangeSort)
-                    setUpCategoryFiltering(filterCategory)
-                }
         }
     }
 
@@ -69,7 +48,6 @@ class ProductListFilterFragment : Fragment(R.layout.product_list_filters_layout)
                 setUpSortType(productFilterInfo.sortType)
                 setUpRangeSort(productFilterInfo.rangeSort)
                 setUpCategoryFiltering(productFilterInfo.filterCategory)
-
             }
     }
 

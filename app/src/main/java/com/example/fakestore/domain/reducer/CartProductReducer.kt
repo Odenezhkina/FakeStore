@@ -1,5 +1,6 @@
 package com.example.fakestore.domain.reducer
 
+import android.util.Log
 import com.example.fakestore.presentation.model.CartUiProduct
 import com.example.fakestore.presentation.model.UiProduct
 import com.example.fakestore.presentation.ApplicationState

@@ -25,7 +25,7 @@ class ProductListViewModel
 
     fun init(){
         refreshProducts()
-//        loadFilters()
+        loadFilters()
     }
 
     private fun loadFilters() =
@@ -33,7 +33,7 @@ class ProductListViewModel
             store.update { applicationState ->
                 val filters: Set<Filter> =
                     filterGenerator.generateFilters(applicationState.products)
-                val maxCost: BigDecimal = max(applicationState.products.map { it.price })
+//                val maxCost: BigDecimal = max(applicationState.products.map { it.price })
                 return@update applicationState.copy(
                     productFilterInfo = ApplicationState.ProductFilterInfo(
                         filterCategory = ApplicationState.ProductFilterInfo.FilterCategory(
@@ -42,7 +42,7 @@ class ProductListViewModel
                         ),
                         rangeSort = ApplicationState.ProductFilterInfo.RangeSort(
                             fromCost = 0.toBigDecimal(),
-                            toCost = maxCost
+                            toCost = 1.toBigDecimal() //todo
                         )
                     )
                 )

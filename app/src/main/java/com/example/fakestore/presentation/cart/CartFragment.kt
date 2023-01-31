@@ -2,7 +2,9 @@ package com.example.fakestore.presentation.cart
 
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -20,21 +22,27 @@ class CartFragment : Fragment() {
     private val binding: FragmentCartBinding by lazy { _binding!! }
 
     private val viewModel: CartViewModel by viewModels()
-    private val epoxyController by lazy {
-        CartProductEpoxyController(viewModel, findNavController())
+    private var epoxyController: CartProductEpoxyController? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentCartBinding.bind(view)
-
         setupRecycler()
         initObservers()
     }
 
     private fun initObservers() {
-        epoxyController.setFilterDuplicates(true)
-        binding.rvCart.setController(epoxyController)
+        epoxyController = CartProductEpoxyController(viewModel, findNavController())
+        epoxyController?.setFilterDuplicates(true)
+        epoxyController?.let { binding.rvCart.setController(it) }
 
         viewModel.cartProductReducer.reduce(viewModel.store)
             .distinctUntilChanged()
@@ -45,7 +53,7 @@ class CartFragment : Fragment() {
                 } else {
                     CartFragmentUiState.NonEmpty(cartUiProductList)
                 }
-                epoxyController.setData(viewState)
+                epoxyController?.setData(viewState)
             }
     }
 
@@ -66,7 +74,6 @@ class CartFragment : Fragment() {
                         false
                     )
                 setupEpoxyItemTouchHelper(viewModel)
-                rvCart.setController(epoxyController)
             }
         }
     }
