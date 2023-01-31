@@ -4,7 +4,7 @@
    
 # FakeStore
 **FakeStore** provides a store interface: it shows products, has an ability to save favorite products, adding products to the cart, and so on. 
-The project was made for the purpose of learning the Android SDK
+The project was made for the purpose of learning the Android SDK.
 
 ## Features
 - Displayng products
@@ -15,6 +15,13 @@ The project was made for the purpose of learning the Android SDK
 
 - [X] Single Activity
 - [X] Clean Architecture
+
+## Design
+<p align="center">
+<img src="https://github.com/Odenezhkina/FakeStore/blob/master/.github/images/FakeStoreScreens.png">
+ </p>
+<a href="https://www.figma.com/file/ch5C5A54mWIGXVvn5EKNwO/FakeStore?node-id=0%3A1&t=lrvYU6J8Ucgaf9GG-1">
+<img src="https://raw.githubusercontent.com/Odenezhkina/FakeStore/master/.github/images/figmaIcon.svg"></a>
 
 
 ## Technology stack
